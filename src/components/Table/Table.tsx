@@ -246,7 +246,9 @@ const Table = ({
             </IconButton>
           </Box>
           <Box display="flex" alignItems="center" gap="0.5rem">
-            {tableFilter?.map((filterItem) => filterItem)}
+            {tableFilter?.map((filterItem, index) => (
+              <Box key={index}>{filterItem}</Box>
+            ))}
           </Box>
         </Card>
         <MUITable>
