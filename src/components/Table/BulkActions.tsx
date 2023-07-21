@@ -1,0 +1,86 @@
+import { useRef } from 'react';
+
+import {
+  Box,
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Menu,
+  Typography
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
+import { useModal } from 'src/utils/hooks';
+
+const ButtonError = styled(Button)(
+  ({ theme }) => `
+     background: ${theme.colors.error.main};
+     color: ${theme.palette.error.contrastText};
+
+     &:hover {
+        background: ${theme.colors.error.dark};
+     }
+    `
+);
+
+const BulkActions = (): JSX.Element => {
+  const { toggle, visible } = useModal();
+  const moreRef = useRef<HTMLButtonElement | null>(null);
+
+  return (
+    <>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box display="flex" alignItems="center">
+          <Typography variant="h5" color="text.secondary">
+            Bulk actions:
+          </Typography>
+          <ButtonError
+            sx={{ ml: 1 }}
+            startIcon={<DeleteTwoToneIcon />}
+            variant="contained"
+          >
+            Delete
+          </ButtonError>
+        </Box>
+        <IconButton
+          color="primary"
+          onClick={toggle}
+          ref={moreRef}
+          sx={{ ml: 2, p: 1 }}
+        >
+          <MoreVertTwoToneIcon />
+        </IconButton>
+      </Box>
+
+      <Menu
+        keepMounted
+        anchorEl={moreRef.current}
+        open={visible}
+        onClose={toggle}
+        anchorOrigin={{
+          vertical: 'center',
+          horizontal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'center',
+          horizontal: 'center'
+        }}
+      >
+        <List sx={{ p: 1 }} component="nav">
+          <ListItem button>
+            <ListItemText primary="Bulk delete selected" />
+          </ListItem>
+          <ListItem button>
+            <ListItemText primary="Bulk edit selected" />
+          </ListItem>
+        </List>
+      </Menu>
+    </>
+  );
+};
+
+export default BulkActions;
