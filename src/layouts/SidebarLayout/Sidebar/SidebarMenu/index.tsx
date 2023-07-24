@@ -231,6 +231,17 @@ const SidebarMenu = (): JSX.Element => {
                   User Management
                 </Button>
               </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/management/currencies"
+                  startIcon={<SupervisedUserCircle />}
+                >
+                  Currency Management
+                </Button>
+              </ListItem>
             </List>
           </SubMenuWrapper>
         </List>
