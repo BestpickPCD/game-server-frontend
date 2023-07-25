@@ -4,13 +4,12 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Tooltip,
   Typography
 } from '@mui/material';
 import { format, parseISO } from 'date-fns';
 import { ReactNode } from 'react';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
-interface GameTableProps {
+interface CurrencyTableProps {
   tableHeader: TableHeader[];
   tableBody: (item: TableBody[]) => TableBody[];
   tableFilter: ({ status, dateFrom, dateTo }) => ReactNode[];
@@ -31,7 +30,7 @@ interface TableFilterProps {
   };
 }
 
-const GameTable = (): GameTableProps => {
+const CurrencyTable = (): CurrencyTableProps => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tableBody = (item: any): TableBody[] => [
     {
@@ -52,16 +51,6 @@ const GameTable = (): GameTableProps => {
     {
       align: 'inherit',
       children: (
-        <Tooltip title={item.link} placement="bottom">
-          <Typography variant="body1" fontWeight="bold" color="text.primary">
-            {item.link.slice(0, 30)}
-          </Typography>
-        </Tooltip>
-      )
-    },
-    {
-      align: 'inherit',
-      children: (
         <>
           <Typography
             variant="body1"
@@ -69,22 +58,7 @@ const GameTable = (): GameTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.type}
-          </Typography>
-        </>
-      )
-    },
-    {
-      align: 'right',
-      children: (
-        <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
-          >
-            {item.category_id}
+            {item.code}
           </Typography>
         </>
       )
@@ -115,16 +89,7 @@ const GameTable = (): GameTableProps => {
     },
     {
       align: 'inherit',
-      title: 'Link'
-    },
-    {
-      align: 'inherit',
-      title: 'Type'
-    },
-    {
-      align: 'right',
-      title: 'Category',
-      name: 'category_id'
+      title: 'code'
     },
     {
       align: 'right',
@@ -167,4 +132,4 @@ const GameTable = (): GameTableProps => {
   return { tableBody, tableHeader, tableFilter };
 };
 
-export default GameTable;
+export default CurrencyTable;

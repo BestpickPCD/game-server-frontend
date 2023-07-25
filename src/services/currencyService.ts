@@ -19,6 +19,11 @@ export const CurrencyService = createApi({
         body
       })
     }),
+    getCurrencyById: builder.mutation<unknown, string>({
+      query: (id) => ({
+        url: `/currency/${id}`
+      })
+    }),
     updateCurrency: builder.mutation<unknown, any>({
       query: ({ id, body }) => ({
         url: `/currency/${id}`,
@@ -38,6 +43,7 @@ export const CurrencyService = createApi({
 export const {
   useGetCurrenciesQuery,
   useCreateCurrencyMutation,
+  useGetCurrencyByIdMutation,
   useDeleteCurrencyMutation,
   useUpdateCurrencyMutation
 } = CurrencyService;

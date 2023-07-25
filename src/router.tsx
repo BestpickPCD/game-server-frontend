@@ -29,6 +29,9 @@ const GamesManagement = Loader(
 const UsersManagement = Loader(
   lazy(() => import('src/modules/managements/Users'))
 );
+const CurrencyManagement = Loader(
+  lazy(() => import('src/modules/managements/Currency'))
+);
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
 );
@@ -141,6 +144,10 @@ const routes: RouteObject[] = [
       {
         path: 'users',
         element: <PrivateRoute element={UsersManagement} />
+      },
+      {
+        path: 'currencies',
+        element: <PrivateRoute element={CurrencyManagement} />
       },
       {
         path: 'profile',

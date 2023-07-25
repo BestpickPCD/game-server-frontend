@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './slice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { GameService } from 'src/services/gameService';
+import { CurrencyService } from 'src/services/currencyService';
 import { UserService } from 'src/services/userService';
 import { CommonServices } from 'src/services/commonServices';
 
@@ -10,6 +11,7 @@ export const store = configureStore({
   reducer: {
     counter: counterReducer,
     [GameService.reducerPath]: GameService.reducer,
+    [CurrencyService.reducerPath]: CurrencyService.reducer,
     [UserService.reducerPath]: UserService.reducer,
     [AuthService.reducerPath]: AuthService.reducer,
     [CommonServices.reducerPath]: CommonServices.reducer
@@ -19,6 +21,7 @@ export const store = configureStore({
       GameService.middleware,
       UserService.middleware,
       AuthService.middleware,
+      CurrencyService.middleware,
       CommonServices.middleware
     )
 });
