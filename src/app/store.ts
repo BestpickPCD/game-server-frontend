@@ -6,6 +6,7 @@ import { GameService } from 'src/services/gameService';
 import { CurrencyService } from 'src/services/currencyService';
 import { UserService } from 'src/services/userService';
 import { CommonServices } from 'src/services/commonServices';
+import { AgentService } from 'src/services/agentService';
 
 export const store = configureStore({
   reducer: {
@@ -14,7 +15,8 @@ export const store = configureStore({
     [CurrencyService.reducerPath]: CurrencyService.reducer,
     [UserService.reducerPath]: UserService.reducer,
     [AuthService.reducerPath]: AuthService.reducer,
-    [CommonServices.reducerPath]: CommonServices.reducer
+    [CommonServices.reducerPath]: CommonServices.reducer,
+    [AgentService.reducerPath]: AgentService.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -22,7 +24,8 @@ export const store = configureStore({
       UserService.middleware,
       AuthService.middleware,
       CurrencyService.middleware,
-      CommonServices.middleware
+      CommonServices.middleware,
+      AgentService.middleware
     )
 });
 

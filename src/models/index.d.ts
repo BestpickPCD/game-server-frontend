@@ -44,3 +44,12 @@ export interface User {
   currencyName?: string;
   roleName?: string;
 }
+
+export interface Agent extends User {
+  parentAgentId: number | null;
+  level: number;
+  Agents: {
+    parentAgentId: number | null;
+    level: number;
+  };
+}
