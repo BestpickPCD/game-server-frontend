@@ -7,8 +7,8 @@ import { InfinityAgent } from 'src/components/MUIComponents/InfinitySelect';
 import Modals from 'src/components/Modals';
 import { Agent } from 'src/models';
 import FormRegister from 'src/modules/Auth/Register/FormRegister';
+import { useUpdateAgentMutation } from 'src/services/agentService';
 import { useCurrencyQuery, useRolesQuery } from 'src/services/commonServices';
-import { useUpdateUserMutation } from 'src/services/userService';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
 interface UserModals {
@@ -20,12 +20,11 @@ interface UserModals {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required('Last name is required!'),
-  email: yup.string().required('email is required!'),
-  roleId: yup.number().required('email is required!'),
-  currencyId: yup.number().required('email is required!'),
-  username: yup.string().required('email is required!'),
-  parentAgentId: yup.number().required('parentId is required!')
+  name: yup.string().required('Name is required!'),
+  roleId: yup.number().required('Role is required!'),
+  currencyId: yup.number().required('Currency is required!'),
+  username: yup.string().required('Username is required!'),
+  parentAgentId: yup.number().required('Parent Agent is required!')
 });
 
 const UserModal = ({
@@ -37,7 +36,8 @@ const UserModal = ({
 }: UserModals): JSX.Element => {
   const { notify, message } = useToast();
   const [isRegister, setIsRegister] = useState<boolean>(false);
-  const [updateUser, { isLoading: isLoadingUpdate }] = useUpdateUserMutation();
+  const [updateAgent, { isLoading: isLoadingUpdate }] =
+    useUpdateAgentMutation();
   const { data: rolesData } = useRolesQuery(
     {},
     { refetchOnMountOrArgChange: true, skip: !detail?.id }
@@ -57,7 +57,6 @@ const UserModal = ({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
-      email: '',
       roleId: 0,
       username: '',
       currencyId: 0,
@@ -66,11 +65,8 @@ const UserModal = ({
   });
   useEffect(() => {
     if (detail?.id) {
-      console.log(detail);
-
       setValue('name', detail.name);
       setValue('username', detail.username);
-      setValue('email', detail.email);
       setValue('roleId', detail.roleId);
       setValue('currencyId', detail.currencyId);
       setValue('parentAgentId', detail?.Agents.parentAgentId);
@@ -78,21 +74,22 @@ const UserModal = ({
       reset();
     }
   }, [detail]);
+
   const onSubmit = async (values: {
     name: string;
-    email: string;
     roleId: number;
     currencyId: number;
+    parentAgentId: number;
   }) => {
     try {
       if (detail?.id) {
-        await updateUser({
+        await updateAgent({
           id: detail.id,
           body: {
             name: values.name,
-            email: values.email,
             roleId: values.roleId,
-            currencyId: values.currencyId
+            currencyId: values.currencyId,
+            parentAgentId: values.parentAgentId
           }
         }).unwrap();
         notify({ message: message.UPDATED });
@@ -148,13 +145,6 @@ const UserModal = ({
               errors={errors}
               register={register}
             />
-            <TextField
-              label="Email"
-              name={'email'}
-              sx={{ my: 2 }}
-              errors={errors}
-              register={register}
-            />
             <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
               <Select
                 label="Role"
@@ -169,7 +159,11 @@ const UserModal = ({
                 options={currencyOptions}
               />
             </Box>
-            <InfinityAgent control={control} name="parentAgentId" />
+            <InfinityAgent
+              control={control}
+              name="parentAgentId"
+              parent={detail?.Agents}
+            />
           </div>
         </Box>
       ) : (

@@ -30,8 +30,29 @@ export const AgentService = createApi({
       query: ({ id }) => ({
         url: `/agents/${id}`
       })
+    }),
+    updateAgent: builder.mutation<
+      ResponseType<Agent>,
+      { id: number; body: any }
+    >({
+      query: ({ id, body }) => ({
+        url: `/agents/${id}`,
+        method: 'PUT',
+        body
+      })
+    }),
+    deleteAgent: builder.mutation<ResponseType<Agent>, { id: number }>({
+      query: ({ id }) => ({
+        url: `/agents/${id}`,
+        method: 'DELETE'
+      })
     })
   })
 });
 
-export const { useGetAgentsQuery, useGetAgentByIdMutation } = AgentService;
+export const {
+  useGetAgentsQuery,
+  useGetAgentByIdMutation,
+  useUpdateAgentMutation,
+  useDeleteAgentMutation
+} = AgentService;

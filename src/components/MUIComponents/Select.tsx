@@ -1,25 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   CircularProgress,
   FormControl,
+  InputAdornment,
   InputLabel,
+  ListSubheader,
   MenuItem,
   Select as MUISelect,
-  SelectChangeEvent,
   SelectProps,
   TextField
 } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { memo } from 'react';
 import { Controller } from 'react-hook-form';
-
 export interface MUISelectProps extends SelectProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control?: any;
   name: string;
   label: string;
   isFetching?: boolean;
-  options: { id: number; name: string; value: string }[];
+  options: { id: number | string; name: string; value: string | number }[];
+  onSearch?: (value: string) => void;
 }
 
 const Select = ({
@@ -28,21 +29,10 @@ const Select = ({
   label,
   options,
   isFetching,
+  onSearch,
   ...props
-}: MUISelectProps): JSX.Element => {
-  const selectRef = useRef<HTMLDivElement | null>(null);
-  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.stopPropagation();
-  };
-  useEffect(() => {
-    if (selectRef) {
-      selectRef?.current?.addEventListener('keypress', (e) => {
-        console.log('day');
-        e.preventDefault();
-      });
-    }
-  }, [selectRef]);
-  return control ? (
+}: MUISelectProps): JSX.Element =>
+  control ? (
     <Controller
       control={control}
       name={name}
@@ -53,22 +43,48 @@ const Select = ({
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label={label}
-            ref={selectRef}
             {...field}
             {...props}
           >
+            {onSearch && (
+              <ListSubheader>
+                <TextField
+                  size="small"
+                  autoFocus
+                  placeholder="Type to search..."
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                  onChange={(e) => onSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key !== 'Escape') {
+                      e.stopPropagation();
+                    }
+                  }}
+                />
+              </ListSubheader>
+            )}
             {options?.map((item) => (
               <MenuItem
                 key={item.id}
                 value={item.value}
                 onKeyDown={(e) => e.stopPropagation()}
-                disabled
               >
                 {item.name}
               </MenuItem>
             ))}
             {isFetching && (
-              <Box display="flex" justifyContent="center" marginTop="12px">
+              <Box
+                display="flex"
+                justifyContent="center"
+                marginTop="12px"
+                marginBottom="12px"
+              >
                 <CircularProgress size={32} disableShrink thickness={3} />
               </Box>
             )}
@@ -93,5 +109,4 @@ const Select = ({
       </MUISelect>
     </FormControl>
   );
-};
-export default Select;
+export default memo(Select);

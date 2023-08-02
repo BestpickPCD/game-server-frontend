@@ -1,0 +1,18 @@
+.infinity-select {
+  .MuiPaper-root {
+    &.MuiMenu-paper {
+      padding: 0;
+    }
+    .MuiList-root.MuiList-padding {
+      padding: 0 12px;
+    }
+    .MuiListSubheader-root {
+      padding-top: 14px;
+      margin-top: -1px;
+      background-color: #fff;
+      .MuiInputBase-root.MuiOutlinedInput-root {
+        background-color: #fff;
+      }
+    }
+  }
+}

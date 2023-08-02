@@ -7,6 +7,7 @@ import { CssBaseline } from '@mui/material';
 import ThemeProvider from './theme/ThemeProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import 'src/styles/index.scss';
 
 const App = (): JSX.Element => {
   const content = useRoutes(router);

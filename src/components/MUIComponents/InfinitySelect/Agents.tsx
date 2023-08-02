@@ -1,27 +1,41 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Autocomplete, TextField } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Select } from 'src/components/MUIComponents/';
+import { Agent } from 'src/models';
 import { useGetAgentsQuery } from 'src/services/agentService';
 import useDebounce from 'src/utils/hooks/useDebounce';
 
-const formatAgent = (data: any[]) =>
-  data.map((item) => ({
-    id: item.id,
-    label: item.username,
-    value: item.id
-  }));
-
-interface AgentInfinityProps {
-  control?: any;
-  name?: string;
+interface Options {
+  id: string | number;
+  name: string;
+  value: string | number;
 }
 
-const AgentInfinity = ({ control, name }: AgentInfinityProps): JSX.Element => {
+const formatAgents = (data: Agent[]): Options[] =>
+  data.map((item) => ({
+    id: item.id,
+    name: item.name,
+    value: item.id
+  }));
+const formatParent = (data): Options => ({
+  id: data.parentAgentId,
+  name: data.name,
+  value: data.parentAgentId
+});
+interface AgentInfinityProps {
+  control?: unknown;
+  name?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  parent?: any;
+}
+
+const AgentInfinity = ({
+  control,
+  name,
+  parent
+}: AgentInfinityProps): JSX.Element => {
+  const searchTermRef = useRef('');
   const [pagination, setPagination] = useState({
-    size: 3,
+    size: 20,
     page: 0,
     search: '',
     totalItems: 0,
@@ -29,15 +43,12 @@ const AgentInfinity = ({ control, name }: AgentInfinityProps): JSX.Element => {
   });
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
+  const [agent, setAgent] = useState<Options[]>([]);
 
   useEffect(() => {
-    setPagination({
-      ...pagination,
-      search: debouncedSearchTerm
-    });
+    setSearchTerm(debouncedSearchTerm);
+    setPagination((prev) => ({ ...prev, search: debouncedSearchTerm }));
   }, [debouncedSearchTerm]);
-
-  const [agent, setAgent] = useState<any[]>([]);
 
   const { data, isFetching } = useGetAgentsQuery(
     {
@@ -47,82 +58,122 @@ const AgentInfinity = ({ control, name }: AgentInfinityProps): JSX.Element => {
       id: 1
     },
     {
-      refetchOnMountOrArgChange: true
+      refetchOnMountOrArgChange: true,
+      skip:
+        !!pagination.totalItems &&
+        pagination.page * pagination.size > pagination.totalItems
     }
   );
 
-  function loadMoreItems(event: React.UIEvent<HTMLDivElement, UIEvent>) {
+  function loadMoreItems(event: React.UIEvent<HTMLDivElement>) {
     const element = event.target as HTMLDivElement;
     if (element.scrollHeight === element.scrollTop + element.clientHeight) {
       if ((pagination.page + 1) * pagination.size < pagination.totalItems) {
         return setPagination({
           page: pagination.page + 1,
-          size: 3,
+          size: 20,
           search: pagination.search,
           totalItems: pagination.totalItems,
           id: 1
         });
       }
-      return;
     }
   }
 
   useEffect(() => {
-    if (data?.data && data?.data.data.length > 0) {
-      if (pagination.page === 0) {
-        setPagination({
-          page: data.data.page,
-          size: data.data.size,
-          search: '',
-          totalItems: data.data.totalItems,
-          id: 1
-        });
-        setAgent([
-          ...formatAgent(data?.data.data as any[]),
-          ...formatAgent(data?.data.data as any[]),
-          ...formatAgent(data?.data.data as any[]),
-          ...formatAgent(data?.data.data as any[]),
-          ...formatAgent(data?.data.data as any[])
-        ]);
-      } else if (pagination.page > 0) {
-        setAgent((prev) => [...prev, ...formatAgent(data?.data.data as any[])]);
-      } else {
-        setAgent([]);
+    if (!searchTerm) {
+      if (data?.data && data?.data.data.length > 0) {
+        if (pagination.page === 0) {
+          setPagination({
+            page: data.data.page,
+            size: data.data.size,
+            search: '',
+            totalItems: data.data.totalItems,
+            id: 1
+          });
+          return setAgent([
+            formatParent(parent),
+            ...formatAgents(data?.data.data).filter(
+              (item) => Number(item.id) !== Number(formatParent(parent).id)
+            )
+          ]);
+        } else if (pagination.page > 0) {
+          if ((pagination.page + 1) * pagination.size < pagination.totalItems) {
+            return setAgent((prev) => [
+              ...prev,
+              ...formatAgents(data?.data.data).filter(
+                (item) => Number(item.id) !== Number(formatParent(parent).id)
+              )
+            ]);
+          }
+        } else {
+          return setAgent([]);
+        }
       }
     }
-  }, [data]);
+    if (searchTermRef.current === searchTerm) {
+      if (data?.data && data?.data.data.length > 0) {
+        if (pagination.page === 0) {
+          setPagination({
+            page: 0,
+            size: 20,
+            search: searchTerm,
+            totalItems: data.data.totalItems,
+            id: 1
+          });
+          return setAgent([...formatAgents(data?.data.data)]);
+        } else if (pagination.page > 0) {
+          setPagination({
+            page: data.data.page,
+            size: data.data.size,
+            search: searchTerm,
+            totalItems: data.data.totalItems,
+            id: 1
+          });
+          return setAgent((prev) => [
+            ...prev,
+            ...formatAgents(data?.data.data)
+          ]);
+        }
+        return setAgent([]);
+      }
+    }
 
-  function ListboxComponent(props) {
-    return (
-      <>
-        <ul {...props} onScroll={loadMoreItems}>
-          {isFetching && <div>Loading...</div>}
-          {props.children}
-        </ul>
-      </>
-    );
-  }
+    // Update the oldSearchTermRef with the current searchTerm
+  }, [data, searchTerm, parent]);
+
+  useEffect(() => {
+    if (searchTermRef.current !== searchTerm) {
+      setAgent([]);
+      setPagination((prev) => ({
+        ...prev,
+        page: 0,
+        totalItems: 0
+      }));
+    }
+    searchTermRef.current = searchTerm;
+  }, [searchTerm]);
 
   return (
-    <Autocomplete
+    <Select
+      onScroll={loadMoreItems}
+      name={name}
+      label={'Agents'}
       options={agent}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Agents"
-          onChange={(e: any) => setSearchTerm(e.target.value)}
-        />
-      )}
-      onKeyDown={(event: any) => {
-        if (event.key === 'Enter') {
-          // eslint-disable-next-line no-param-reassign
-          event.defaultMuiPrevented = true;
+      control={control}
+      MenuProps={{
+        className: 'infinity-select',
+        autoFocus: false,
+        PaperProps: {
+          onScroll: loadMoreItems
+        },
+        style: {
+          maxHeight: 500,
+          padding: 0
         }
       }}
-      ListboxComponent={ListboxComponent}
-      style={{
-        height: 100
-      }}
+      isFetching={isFetching}
+      onSearch={setSearchTerm}
     />
   );
 };

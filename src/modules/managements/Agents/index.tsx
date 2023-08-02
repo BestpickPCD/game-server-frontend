@@ -4,9 +4,9 @@ import { PaginationAndSort } from 'src/components/Table/tableType';
 import { Agent } from 'src/models';
 import {
   useGetAgentsQuery,
-  useGetAgentByIdMutation
+  useGetAgentByIdMutation,
+  useDeleteAgentMutation
 } from 'src/services/agentService';
-import { useDeleteUserMutation } from 'src/services/userService';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import UserModal from './AgentModal';
@@ -50,10 +50,11 @@ const AgentsManagement = (): JSX.Element => {
   });
 
   const [getAgentDetail] = useGetAgentByIdMutation();
-  const [deleteUser, { isLoading: isLoadingDelete }] = useDeleteUserMutation();
+  const [deleteAgent, { isLoading: isLoadingDelete }] =
+    useDeleteAgentMutation();
 
   const {
-    data: userData,
+    data: agentData,
     isFetching,
     refetch
   } = useGetAgentsQuery(
@@ -69,25 +70,25 @@ const AgentsManagement = (): JSX.Element => {
   );
 
   useEffect(() => {
-    if (userData) {
+    if (agentData) {
       setData(() =>
         onSortTable(
-          userData.data.data,
+          agentData.data.data,
           tableHeader[pagination.sortBy]?.name,
           pagination.sortDirection
         )
       );
     }
-  }, [userData, pagination.sortBy, pagination.sortDirection]);
+  }, [agentData, pagination.sortBy, pagination.sortDirection]);
 
   const onAdd = () => {
     show();
     setDetail(null);
   };
 
-  const onDelete = async (value: string) => {
+  const onDelete = async (id: string) => {
     try {
-      await deleteUser(value).unwrap();
+      await deleteAgent({ id: Number(id) }).unwrap();
       notify({ message: message.DELETED });
       refetch();
     } catch (error) {
@@ -110,7 +111,7 @@ const AgentsManagement = (): JSX.Element => {
       <TableComponent
         title={pageName}
         data={data}
-        totalItems={userData?.data.totalItems}
+        totalItems={agentData?.data.totalItems}
         tableHeader={tableHeader}
         tableBody={tableBody}
         headerTitle={pageName}
