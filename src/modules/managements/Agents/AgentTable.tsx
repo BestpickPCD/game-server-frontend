@@ -56,7 +56,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.email}
+            {item.agentParentName}
           </Typography>
         </>
       )
@@ -101,8 +101,8 @@ const UserTable = (): UserTableProps => {
     },
     {
       align: 'inherit',
-      title: 'Email',
-      name: 'email'
+      title: 'Parent Name',
+      name: 'agentParentName'
     },
     {
       align: 'right',

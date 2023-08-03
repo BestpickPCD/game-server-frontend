@@ -48,8 +48,10 @@ export interface User {
 export interface Agent extends User {
   parentAgentId: number | null;
   level: number;
+  agentParentName: string;
   Agents: {
     parentAgentId: number | null;
     level: number;
+    parentAgent: User;
   };
 }
