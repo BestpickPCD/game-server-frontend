@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Select } from 'src/components/MUIComponents/';
 import { Agent } from 'src/models';
 import { useGetAgentsQuery } from 'src/services/agentService';
@@ -11,7 +11,7 @@ interface Options {
 }
 
 const formatAgents = (data: Agent[]): Options[] =>
-  data.map((item) => ({
+  (data || []).map((item) => ({
     id: item.id,
     name: item.name,
     value: item.id
@@ -33,7 +33,6 @@ const AgentInfinity = ({
   name,
   parent
 }: AgentInfinityProps): JSX.Element => {
-  const searchTermRef = useRef('');
   const [pagination, setPagination] = useState({
     size: 20,
     page: 0,
@@ -58,10 +57,7 @@ const AgentInfinity = ({
       id: 1
     },
     {
-      refetchOnMountOrArgChange: true,
-      skip:
-        !!pagination.totalItems &&
-        pagination.page * pagination.size > pagination.totalItems
+      refetchOnMountOrArgChange: true
     }
   );
 
@@ -69,90 +65,39 @@ const AgentInfinity = ({
     const element = event.target as HTMLDivElement;
     if (element.scrollHeight === element.scrollTop + element.clientHeight) {
       if ((pagination.page + 1) * pagination.size < pagination.totalItems) {
-        return setPagination({
-          page: pagination.page + 1,
-          size: 20,
-          search: pagination.search,
-          totalItems: pagination.totalItems,
-          id: 1
-        });
+        return setPagination((prev) => ({
+          ...prev,
+          page: pagination.page + 1
+        }));
       }
     }
   }
 
   useEffect(() => {
-    if (!searchTerm) {
-      if (data?.data && data?.data.data.length > 0) {
-        if (pagination.page === 0) {
-          setPagination({
-            page: data.data.page,
-            size: data.data.size,
-            search: '',
-            totalItems: data.data.totalItems,
-            id: 1
-          });
-          return setAgent([
-            formatParent(parent),
-            ...formatAgents(data?.data.data).filter(
-              (item) => Number(item.id) !== Number(formatParent(parent).id)
-            )
-          ]);
-        } else if (pagination.page > 0) {
-          if ((pagination.page + 1) * pagination.size < pagination.totalItems) {
-            return setAgent((prev) => [
-              ...prev,
-              ...formatAgents(data?.data.data).filter(
-                (item) => Number(item.id) !== Number(formatParent(parent).id)
-              )
-            ]);
-          }
-        } else {
-          return setAgent([]);
-        }
-      }
-    }
-    if (searchTermRef.current === searchTerm) {
-      if (data?.data && data?.data.data.length > 0) {
-        if (pagination.page === 0) {
-          setPagination({
-            page: 0,
-            size: 20,
-            search: searchTerm,
-            totalItems: data.data.totalItems,
-            id: 1
-          });
-          return setAgent([...formatAgents(data?.data.data)]);
-        } else if (pagination.page > 0) {
-          setPagination({
-            page: data.data.page,
-            size: data.data.size,
-            search: searchTerm,
-            totalItems: data.data.totalItems,
-            id: 1
-          });
-          return setAgent((prev) => [
-            ...prev,
-            ...formatAgents(data?.data.data)
-          ]);
-        }
-        return setAgent([]);
-      }
-    }
-
-    // Update the oldSearchTermRef with the current searchTerm
-  }, [data, searchTerm, parent]);
+    setPagination({
+      search: debouncedSearchTerm || '',
+      id: 1,
+      totalItems: data?.data?.totalItems || 0,
+      page: data?.data?.page || 0,
+      size: data?.data?.size || 20
+    });
+    setAgent([]);
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
-    if (searchTermRef.current !== searchTerm) {
-      setAgent([]);
-      setPagination((prev) => ({
-        ...prev,
-        page: 0,
-        totalItems: 0
-      }));
+    if (parent) {
+      return setAgent((prev) => [
+        formatParent(parent),
+        ...prev.filter(
+          (item) => Number(item.id) !== Number(formatParent(parent).id)
+        ),
+        ...formatAgents(data?.data?.data).filter(
+          (item) => Number(item.id) !== Number(formatParent(parent).id)
+        )
+      ]);
     }
-    searchTermRef.current = searchTerm;
-  }, [searchTerm]);
+    return setAgent((prev) => [...prev, ...formatAgents(data?.data.data)]);
+  }, [data, parent]);
 
   return (
     <Select
