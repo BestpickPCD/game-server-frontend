@@ -64,7 +64,7 @@ const AgentInfinity = ({
   function loadMoreItems(event: React.UIEvent<HTMLDivElement>) {
     const element = event.target as HTMLDivElement;
     if (element.scrollHeight === element.scrollTop + element.clientHeight) {
-      if ((pagination.page + 1) * pagination.size < pagination.totalItems) {
+      if ((data.data.page + 1) * data.data.size < data.data.totalItems) {
         return setPagination((prev) => ({
           ...prev,
           page: pagination.page + 1
@@ -77,24 +77,21 @@ const AgentInfinity = ({
     setPagination({
       search: debouncedSearchTerm || '',
       id: 1,
-      totalItems: data?.data?.totalItems || 0,
-      page: data?.data?.page || 0,
-      size: data?.data?.size || 20
+      totalItems: 0,
+      page: 0,
+      size: 20
     });
     setAgent([]);
   }, [debouncedSearchTerm]);
 
   useEffect(() => {
     if (parent) {
-      return setAgent((prev) => [
-        formatParent(parent),
-        ...prev.filter(
+      return setAgent((prev) => {
+        const newArr = [...prev, ...formatAgents(data?.data?.data)].filter(
           (item) => Number(item.id) !== Number(formatParent(parent).id)
-        ),
-        ...formatAgents(data?.data?.data).filter(
-          (item) => Number(item.id) !== Number(formatParent(parent).id)
-        )
-      ]);
+        );
+        return [formatParent(parent), ...newArr];
+      });
     }
     return setAgent((prev) => [...prev, ...formatAgents(data?.data.data)]);
   }, [data, parent]);

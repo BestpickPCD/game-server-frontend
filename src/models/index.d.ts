@@ -55,3 +55,14 @@ export interface Agent extends User {
     parentAgent: User;
   };
 }
+
+export interface Transactions {
+  id: number;
+  amount: string | number;
+  receiver?: User | Agent | null;
+  sender?: User | Agent | null;
+  senderId?: number | string | null;
+  receiverId?: number | string | null;
+  senderName?: string;
+  receiverName?: string;
+}
