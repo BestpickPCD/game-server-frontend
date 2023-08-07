@@ -9,14 +9,15 @@ import {
 import { format, parseISO } from 'date-fns';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
 import { ReactNode } from 'react';
+import { Transactions } from 'src/models';
 
 interface UserTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
-  tableFilter: ({ status, dateFrom, dateTo }) => ReactNode[];
+  tableFilter: ({ type, dateFrom, dateTo }) => ReactNode[];
 }
 interface TableFilterProps {
-  status: {
+  type: {
     value: string;
     onChange: (value: string) => void;
   };
@@ -29,19 +30,26 @@ interface TableFilterProps {
     onChange: (value: string) => void;
   };
 }
+
+const transactionType = [
+  'win',
+  'bet',
+  'cancel',
+  'add',
+  'charge',
+  'adjust',
+  'promo_win',
+  'exceed_credit'
+];
+
 const UserTable = (): UserTableProps => {
-  const tableBody = (item): TableBody[] => [
+  const tableBody = (item: Transactions): TableBody[] => [
     {
       align: 'inherit',
       children: (
         <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
-          >
-            {item.name}
+          <Typography variant="body1" color="text.primary" noWrap>
+            {item.senderName}
           </Typography>
         </>
       )
@@ -50,13 +58,8 @@ const UserTable = (): UserTableProps => {
       align: 'inherit',
       children: (
         <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
-          >
-            {item.agentParentName}
+          <Typography variant="body1" color="text.primary" noWrap>
+            {item.receiverName}
           </Typography>
         </>
       )
@@ -65,13 +68,8 @@ const UserTable = (): UserTableProps => {
       align: 'right',
       children: (
         <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
-          >
-            {item.username}
+          <Typography variant="body1" color="text.primary" noWrap>
+            {item.amount}
           </Typography>
         </>
       )
@@ -80,12 +78,17 @@ const UserTable = (): UserTableProps => {
       align: 'right',
       children: (
         <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
-          >
+          <Typography variant="body1" color="text.primary" noWrap>
+            {`${item.type.slice(0, 1).toUpperCase()}${item.type.slice(1)}`}
+          </Typography>
+        </>
+      )
+    },
+    {
+      align: 'right',
+      children: (
+        <>
+          <Typography variant="body1" color="text.primary" noWrap>
             {item?.updatedAt &&
               format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
           </Typography>
@@ -96,18 +99,23 @@ const UserTable = (): UserTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'Name',
-      name: 'name'
+      title: 'Sender Name',
+      name: 'senderName'
     },
     {
       align: 'inherit',
-      title: 'Parent Name',
-      name: 'agentParentName'
+      title: 'Receiver Name',
+      name: 'receiverName'
     },
     {
       align: 'right',
-      title: 'Username',
-      name: 'username'
+      title: 'Amount',
+      name: 'amount'
+    },
+    {
+      align: 'right',
+      title: 'Type',
+      name: 'type'
     },
     {
       align: 'right',
@@ -119,30 +127,25 @@ const UserTable = (): UserTableProps => {
       title: 'Actions'
     }
   ];
-  const tableFilter = ({ status, dateFrom, dateTo }: TableFilterProps) => [
-    <DatePicker
-      label="From"
-      // value={dateFrom.value ?? null}
-      onChange={dateFrom.onChange}
-    />,
-    <DatePicker
-      label="To"
-      // value={dateTo.value ?? null}
-      onChange={dateTo.onChange}
-    />,
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="isActive">Status</InputLabel>
+  const tableFilter = ({ type, dateFrom, dateTo }: TableFilterProps) => [
+    <DatePicker label="From" onChange={dateFrom.onChange} />,
+    <DatePicker label="To" onChange={dateTo.onChange} />,
+    <FormControl sx={{ m: 1, minWidth: 140 }}>
+      <InputLabel id="Type">Type</InputLabel>
       <Select
-        labelId="isActive"
-        value={status.value}
-        label="Status"
-        onChange={(e) => status.onChange(e.target.value)}
+        labelId="Type"
+        value={type.value}
+        label="Type"
+        onChange={(e) => type.onChange(e.target.value)}
       >
         <MenuItem value="">
           <em>Default</em>
         </MenuItem>
-        <MenuItem value="active">Activated</MenuItem>
-        <MenuItem value="disable">Disabled</MenuItem>
+        {transactionType.map((item) => (
+          <MenuItem key={item} value={item}>
+            {`${item.slice(0, 1).toUpperCase()}${item.slice(1)}`}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   ];

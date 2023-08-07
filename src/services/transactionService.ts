@@ -29,8 +29,17 @@ export const TransactionService = createApi({
           data: { ...response.data, data: convertResponse }
         };
       }
+    }),
+    getTransactionById: builder.mutation<
+      ResponseType<Transactions>,
+      { id: number }
+    >({
+      query: ({ id }) => ({
+        url: `/transactions/${id}`
+      })
     })
   })
 });
 
-export const { useGetTransactionQuery } = TransactionService;
+export const { useGetTransactionQuery, useGetTransactionByIdMutation } =
+  TransactionService;

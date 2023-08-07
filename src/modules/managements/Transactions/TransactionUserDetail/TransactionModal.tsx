@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Select, TextField } from 'src/components/MUIComponents';
-import { InfinityAgent } from 'src/components/MUIComponents/InfinitySelect';
 import Modals from 'src/components/Modals';
 import { Agent } from 'src/models';
 import FormRegister from 'src/modules/Auth/Register/FormRegister';
@@ -159,11 +158,6 @@ const UserModal = ({
                 options={currencyOptions}
               />
             </Box>
-            <InfinityAgent
-              control={control}
-              name="parentAgentId"
-              parent={detail?.Agents}
-            />
           </div>
         </Box>
       ) : (

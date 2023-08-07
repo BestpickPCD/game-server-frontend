@@ -162,7 +162,11 @@ const UserModal = ({
             <InfinityAgent
               control={control}
               name="parentAgentId"
-              parent={detail?.Agents}
+              parent={{
+                id: detail?.Agents?.parentAgentId,
+                name: detail?.Agents?.name,
+                value: detail?.Agents?.parentAgentId
+              }}
             />
           </div>
         </Box>

@@ -1,3 +1,4 @@
+import { SelectProps } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Select } from 'src/components/MUIComponents/';
 import { Agent } from 'src/models';
@@ -16,22 +17,27 @@ const formatAgents = (data: Agent[]): Options[] =>
     name: item.name,
     value: item.id
   }));
-const formatParent = (data): Options => ({
-  id: data.parentAgentId,
+const formatParent = (data: Options): Options => ({
+  id: data.id,
   name: data.name,
-  value: data.parentAgentId
+  value: data.value
 });
-interface AgentInfinityProps {
+interface AgentInfinityProps extends SelectProps {
   control?: unknown;
   name?: string;
+  parent?: Options;
+  label?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  parent?: any;
+  errors?: any;
 }
 
 const AgentInfinity = ({
   control,
   name,
-  parent
+  parent,
+  label = 'Agents',
+  errors,
+  ...props
 }: AgentInfinityProps): JSX.Element => {
   const [pagination, setPagination] = useState({
     size: 20,
@@ -43,6 +49,11 @@ const AgentInfinity = ({
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
   const [agent, setAgent] = useState<Options[]>([]);
+  const [selected, setSelected] = useState<Options>({
+    id: '',
+    name: '',
+    value: ''
+  });
 
   useEffect(() => {
     setSearchTerm(debouncedSearchTerm);
@@ -82,25 +93,39 @@ const AgentInfinity = ({
       size: 20
     });
     setAgent([]);
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, parent]);
 
   useEffect(() => {
     if (parent) {
       return setAgent((prev) => {
         const newArr = [...prev, ...formatAgents(data?.data?.data)].filter(
-          (item) => Number(item.id) !== Number(formatParent(parent).id)
+          (item) => Number(item.id) !== 1
         );
-        return [formatParent(parent), ...newArr];
+        newArr.unshift(formatParent(parent));
+        return newArr;
       });
     }
     return setAgent((prev) => [...prev, ...formatAgents(data?.data.data)]);
   }, [data, parent]);
 
+  useEffect(() => {
+    if (selected.id) {
+      setAgent((prev: Options[]) => {
+        const newArr = prev.filter(
+          (item) => Number(item.id) !== Number(selected.id)
+        );
+        newArr.unshift(selected);
+        return newArr;
+      });
+    }
+  }, [selected, data]);
+  console.log(agent);
+
   return (
     <Select
       onScroll={loadMoreItems}
       name={name}
-      label={'Agents'}
+      label={label}
       options={agent}
       control={control}
       MenuProps={{
@@ -116,6 +141,10 @@ const AgentInfinity = ({
       }}
       isFetching={isFetching}
       onSearch={setSearchTerm}
+      searchTerm={searchTerm}
+      errors={errors}
+      setSelected={setSelected}
+      {...props}
     />
   );
 };

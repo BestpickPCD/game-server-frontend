@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import TableComponent from 'src/components/Table';
 import { PaginationAndSort } from 'src/components/Table/tableType';
-import { Transactions } from 'src/models';
+import { Agent } from 'src/models';
 import {
-  useGetTransactionByIdMutation,
-  useGetTransactionQuery
-} from 'src/services/transactionService';
+  useDeleteAgentMutation,
+  useGetAgentByIdMutation
+} from 'src/services/agentService';
+import { useGetTransactionQuery } from 'src/services/transactionService';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import UserModal from './TransactionModal';
@@ -17,7 +18,7 @@ interface TransactionPagination extends PaginationAndSort {
   dateTo: string;
 }
 
-const pageName = 'Transactions Management';
+const pageName = 'Agents Management';
 const AgentsManagement = (): JSX.Element => {
   const breadcrumbs = [
     {
@@ -33,8 +34,8 @@ const AgentsManagement = (): JSX.Element => {
   const { tableBody, tableHeader, tableFilter } = UserTable();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [data, setData] = useState<Transactions[]>([]);
-  const [detail, setDetail] = useState<Transactions>();
+  const [data, setData] = useState<Agent[]>([]);
+  const [detail, setDetail] = useState<Agent>();
   const [pagination, setPagination] = useState<TransactionPagination>({
     page: 0,
     size: 10,
@@ -48,7 +49,9 @@ const AgentsManagement = (): JSX.Element => {
     dateTo: ''
   });
 
-  const [getTransactionDetail] = useGetTransactionByIdMutation();
+  const [getAgentDetail] = useGetAgentByIdMutation();
+  const [deleteAgent, { isLoading: isLoadingDelete }] =
+    useDeleteAgentMutation();
 
   const {
     data: agentData,
@@ -83,11 +86,20 @@ const AgentsManagement = (): JSX.Element => {
     show();
     setDetail(null);
   };
+
+  const onDelete = async (id: string) => {
+    try {
+      await deleteAgent({ id: Number(id) }).unwrap();
+      notify({ message: message.DELETED });
+      refetch();
+    } catch (error) {
+      notify({ message: message.ERROR, type: 'error' });
+    }
+  };
+
   const onUpdate = async (value: string) => {
     try {
-      const response = await getTransactionDetail({
-        id: Number(value)
-      }).unwrap();
+      const response = await getAgentDetail({ id: Number(value) }).unwrap();
       show();
       setDetail(response.data);
     } catch (error) {
@@ -106,7 +118,8 @@ const AgentsManagement = (): JSX.Element => {
         headerTitle={pageName}
         breadcrumbs={breadcrumbs}
         onOpenModal={onAdd}
-        isLoading={isFetching}
+        isLoading={isFetching || isLoadingDelete}
+        onDelete={onDelete}
         onUpdate={onUpdate}
         pagination={pagination}
         onPagination={setPagination}
