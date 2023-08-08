@@ -119,7 +119,6 @@ const AgentInfinity = ({
       });
     }
   }, [selected, data]);
-  console.log(agent);
 
   return (
     <Select

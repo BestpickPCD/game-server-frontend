@@ -31,13 +31,17 @@ const schema = yup.object().shape({
     .typeError('Receiver is required!')
     .required('Receiver is required!'),
   senderId: yup.number(),
-  currencyId: yup.string().required('Currency is required!'),
+  currencyId: yup
+    .number()
+    .moreThan(0, 'Currency is required!')
+    .typeError('Currency is required!')
+    .required('Currency is required!'),
   amount: yup
     .number()
     .moreThan(0, 'Amount must be greater than 0')
     .typeError('Amount must be a number')
     .required('Amount is required!'),
-  token: yup.string().required('Currency is required!'),
+  token: yup.string(),
   note: yup.string(),
   type: yup.string().required('Type is required!')
   // status: yup.string().required('status')
@@ -57,6 +61,7 @@ const TransactionModal = ({
     setValue,
     reset,
     handleSubmit,
+    clearErrors,
     control,
     formState: { errors }
   } = useForm({
@@ -65,7 +70,7 @@ const TransactionModal = ({
       senderId: 0,
       receiverId: 0,
       amount: 0,
-      currencyId: '',
+      currencyId: 0,
       token: '',
       note: '',
       type: ''
@@ -80,7 +85,7 @@ const TransactionModal = ({
     setValue('senderId', Number(detail?.senderId));
     setValue('receiverId', Number(detail?.receiverId));
     setValue('amount', Number(detail?.amount));
-    setValue('currencyId', String(detail?.currencyId));
+    setValue('currencyId', Number(detail?.currencyId));
     setValue('token', detail?.token);
     setValue('note', detail?.note);
     setValue('type', detail?.type);
@@ -102,10 +107,15 @@ const TransactionModal = ({
     [currenciesData]
   );
 
+  const handleClose = () => {
+    onClose();
+    clearErrors();
+  };
+
   return (
     <Modals
       title={detail?.id ? `View` : 'Add Transaction'}
-      onClose={onClose}
+      onClose={handleClose}
       open={open}
       onOk={handleSubmit(onSubmit)}
       fullWidth
@@ -202,6 +212,9 @@ const TransactionModal = ({
             errors={errors}
             register={register}
             label="Note"
+            InputProps={{
+              readOnly: !!detail?.id
+            }}
           />
         </div>
       </Box>

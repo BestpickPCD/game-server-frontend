@@ -64,6 +64,7 @@ const Select = ({
             id="demo-simple-select"
             label={label}
             value={field?.value || ''}
+            error={!!errors?.[name]}
             {...field}
             {...props}
           >
@@ -96,7 +97,7 @@ const Select = ({
                 key={item.id}
                 value={item.value}
                 onKeyDown={(e) => e.stopPropagation()}
-                onClick={onSelected}
+                onClick={() => onSelected(item)}
               >
                 {item.name}
               </MenuItem>
