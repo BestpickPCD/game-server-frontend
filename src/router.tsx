@@ -38,6 +38,9 @@ const AgentsManagement = Loader(
 const TransactionsManagements = Loader(
   lazy(() => import('src/modules/managements/Transactions'))
 );
+const UserTransactionsManagements = Loader(
+  lazy(() => import('src/modules/managements/Transactions/UserTransaction'))
+);
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
 );
@@ -160,8 +163,17 @@ const routes: RouteObject[] = [
         element: <PrivateRoute element={AgentsManagement} />
       },
       {
-        path: 'transactions',
-        element: <PrivateRoute element={TransactionsManagements} />
+        path: 'transactions/',
+        children: [
+          {
+            path: '',
+            element: <PrivateRoute element={TransactionsManagements} />
+          },
+          {
+            path: ':slug',
+            element: <PrivateRoute element={UserTransactionsManagements} />
+          }
+        ]
       },
       {
         path: 'profile',

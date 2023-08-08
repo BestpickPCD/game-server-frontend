@@ -8,7 +8,7 @@ import {
 } from 'src/services/transactionService';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
-import UserModal from './TransactionModal';
+import TransactionModal from './TransactionModal';
 import UserTable from './TransactionTable';
 
 interface TransactionPagination extends PaginationAndSort {
@@ -18,7 +18,7 @@ interface TransactionPagination extends PaginationAndSort {
 }
 
 const pageName = 'Transactions Management';
-const AgentsManagement = (): JSX.Element => {
+const TransactionManagement = (): JSX.Element => {
   const breadcrumbs = [
     {
       link: '/dashboards',
@@ -51,7 +51,7 @@ const AgentsManagement = (): JSX.Element => {
   const [getTransactionDetail] = useGetTransactionByIdMutation();
 
   const {
-    data: agentData,
+    data: transactionData,
     isFetching,
     refetch
   } = useGetTransactionQuery(
@@ -68,16 +68,16 @@ const AgentsManagement = (): JSX.Element => {
   );
 
   useEffect(() => {
-    if (agentData) {
+    if (transactionData) {
       setData(() =>
         onSortTable(
-          agentData.data.data,
+          transactionData.data.data,
           tableHeader[pagination.sortBy]?.name,
           pagination.sortDirection
         )
       );
     }
-  }, [agentData, pagination.sortBy, pagination.sortDirection]);
+  }, [transactionData, pagination.sortBy, pagination.sortDirection]);
 
   const onAdd = () => {
     show();
@@ -100,7 +100,7 @@ const AgentsManagement = (): JSX.Element => {
       <TableComponent
         title={pageName}
         data={data}
-        totalItems={agentData?.data.totalItems}
+        totalItems={transactionData?.data.totalItems}
         tableHeader={tableHeader}
         tableBody={tableBody}
         headerTitle={pageName}
@@ -130,15 +130,14 @@ const AgentsManagement = (): JSX.Element => {
           }
         })}
       />
-      <UserModal
+      <TransactionModal
         open={visible}
         detail={detail}
         onClose={hide}
         refetch={refetch}
-        hide={hide}
       />
     </>
   );
 };
 
-export default AgentsManagement;
+export default TransactionManagement;

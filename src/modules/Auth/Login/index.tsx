@@ -63,7 +63,6 @@ const Login = (): JSX.Element => {
             token: response.data.tokens
           })
         );
-        localStorage.setItem('userId', JSON.stringify(response.data.userId));
       }
     } catch (error) {
       if ((error.data.message as ResponseMessage) === 'NOT_FOUND') {

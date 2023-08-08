@@ -3,6 +3,16 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQueryWithReAuth } from './baseQuery';
 import { Transactions, ResponseType, ResponsePagination } from 'src/models';
 
+interface PostBody {
+  receiverId: number;
+  type: string;
+  note: string;
+  token: string;
+  status: string;
+  amount: number;
+  currencyId: number;
+}
+
 export const TransactionService = createApi({
   reducerPath: 'TransactionService',
   baseQuery: baseQueryWithReAuth,
@@ -37,9 +47,19 @@ export const TransactionService = createApi({
       query: ({ id }) => ({
         url: `/transactions/${id}`
       })
+    }),
+    createTransaction: builder.mutation<ResponseType<string>, PostBody>({
+      query: (body) => ({
+        url: `/transaction`,
+        method: 'POST',
+        body
+      })
     })
   })
 });
 
-export const { useGetTransactionQuery, useGetTransactionByIdMutation } =
-  TransactionService;
+export const {
+  useGetTransactionQuery,
+  useGetTransactionByIdMutation,
+  useCreateTransactionMutation
+} = TransactionService;

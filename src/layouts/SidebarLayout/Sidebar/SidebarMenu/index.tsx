@@ -15,9 +15,12 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
+import SupportAgentRounded from '@mui/icons-material/SupportAgentRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TableChartTwoToneIcon from '@mui/icons-material/GamesTwoTone';
 import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle';
+import CurrencyExchange from '@mui/icons-material/AttachMoney';
+import TransferWithinAStationOutlined from '@mui/icons-material/CurrencyExchangeOutlined';
 import { useModal } from 'src/utils/hooks';
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -215,7 +218,7 @@ const SidebarMenu = (): JSX.Element => {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/management/agents"
-                  startIcon={<SupervisedUserCircle />}
+                  startIcon={<SupportAgentRounded />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
@@ -228,7 +231,7 @@ const SidebarMenu = (): JSX.Element => {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/management/currencies"
-                  startIcon={<SupervisedUserCircle />}
+                  startIcon={<CurrencyExchange />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
@@ -254,7 +257,7 @@ const SidebarMenu = (): JSX.Element => {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/management/transactions"
-                  startIcon={<TableChartTwoToneIcon />}
+                  startIcon={<TransferWithinAStationOutlined />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >

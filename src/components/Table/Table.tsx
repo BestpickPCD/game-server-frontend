@@ -215,7 +215,8 @@ const Table = ({
           sx={{
             padding: '1rem',
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            gap: '0.5rem'
           }}
         >
           <Box
@@ -360,6 +361,8 @@ const Table = ({
           page={pagination.page}
           rowsPerPage={pagination.size}
           rowsPerPageOptions={[5, 10, 25, 30]}
+          showLastButton
+          showFirstButton
         />
       </Box>
     </Card>

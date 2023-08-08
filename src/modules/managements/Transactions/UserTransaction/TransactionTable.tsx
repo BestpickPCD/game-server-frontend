@@ -130,7 +130,7 @@ const UserTable = (): UserTableProps => {
   const tableFilter = ({ type, dateFrom, dateTo }: TableFilterProps) => [
     <DatePicker label="From" onChange={dateFrom.onChange} />,
     <DatePicker label="To" onChange={dateTo.onChange} />,
-    <FormControl sx={{ m: 1, minWidth: 140 }}>
+    <FormControl sx={{ minWidth: 140 }}>
       <InputLabel id="Type">Type</InputLabel>
       <Select
         labelId="Type"

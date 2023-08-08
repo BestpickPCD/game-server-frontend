@@ -64,7 +64,7 @@ const Select = ({
             id="demo-simple-select"
             label={label}
             value={field?.value || ''}
-            error={!!errors?.[name]}
+            error={!!errors?.[name] && !field.value}
             {...field}
             {...props}
           >

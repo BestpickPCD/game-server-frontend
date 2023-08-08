@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import { memo, useEffect, useMemo } from 'react';
@@ -7,18 +6,24 @@ import { Select, TextField } from 'src/components/MUIComponents';
 import { InfinityAgent } from 'src/components/MUIComponents/InfinitySelect';
 import Modals from 'src/components/Modals';
 import { Transactions } from 'src/models';
-import { transactionTypes } from 'src/models/variables';
+import { transactionStatus, transactionTypes } from 'src/models/variables';
 import { useCurrencyQuery } from 'src/services/commonServices';
+import { useCreateTransactionMutation } from 'src/services/transactionService';
+import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
 interface ModalProps {
   open: boolean;
   detail: Transactions;
   onClose: () => void;
   refetch: () => void;
-  hide: () => void;
 }
 
 const typeOptions = transactionTypes.map((item) => ({
+  id: item,
+  value: item,
+  name: `${item.slice(0, 1).toUpperCase()}${item.slice(1)}`
+}));
+const statusOptions = transactionStatus.map((item) => ({
   id: item,
   value: item,
   name: `${item.slice(0, 1).toUpperCase()}${item.slice(1)}`
@@ -43,15 +48,27 @@ const schema = yup.object().shape({
     .required('Amount is required!'),
   token: yup.string(),
   note: yup.string(),
-  type: yup.string().required('Type is required!')
-  // status: yup.string().required('status')
+  type: yup.string().required('Type is required!'),
+  status: yup.string().required('Status is required!')
 });
+
+type CreateTransactionBody = {
+  receiverId: number;
+  type: string;
+  note: string;
+  token: string;
+  status: string;
+  amount: number;
+  currencyId: number;
+};
 
 const TransactionModal = ({
   open,
   detail,
-  onClose
+  onClose,
+  refetch
 }: ModalProps): JSX.Element => {
+  const { notify, message } = useToast();
   const { data: currenciesData } = useCurrencyQuery(
     {},
     { refetchOnMountOrArgChange: true }
@@ -73,10 +90,11 @@ const TransactionModal = ({
       currencyId: 0,
       token: '',
       note: '',
-      type: ''
-      // status: ''
+      type: '',
+      status: ''
     }
   });
+  const [createTransaction] = useCreateTransactionMutation();
 
   useEffect(() => {
     if (!detail?.id) {
@@ -89,12 +107,25 @@ const TransactionModal = ({
     setValue('token', detail?.token);
     setValue('note', detail?.note);
     setValue('type', detail?.type);
-    // setValue('status', detail?.status );
+    setValue('status', detail?.status);
   }, [detail]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (values: any) => {
-    console.log(values);
+  const onSubmit = async (values: CreateTransactionBody) => {
+    try {
+      const response = await createTransaction(values).unwrap();
+      if (response) {
+        notify({
+          message: message.CREATED
+        });
+        onClose();
+        refetch();
+      }
+    } catch (error) {
+      notify({
+        message: error.data.message,
+        type: 'error'
+      });
+    }
   };
 
   const currencyOptions = useMemo(
@@ -117,10 +148,10 @@ const TransactionModal = ({
       title={detail?.id ? `View` : 'Add Transaction'}
       onClose={handleClose}
       open={open}
-      onOk={handleSubmit(onSubmit)}
+      onOk={!detail?.id && handleSubmit(onSubmit)}
       fullWidth
     >
-      <Box component={'form'} id="form-users">
+      <Box component={'form'} id="form-transaction">
         <div className="block">
           <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
             {detail?.id && (
@@ -179,19 +210,14 @@ const TransactionModal = ({
               readOnly={!!detail?.id}
               errors={errors}
             />
-            {/* <Select
-              name="status"
+            <Select
               label="Status"
+              name="status"
               control={control}
-              options={[
-                {
-                  value: 'ok',
-                  id: 'ok',
-                  name: 'ok'
-                }
-              ]}
+              options={statusOptions}
               readOnly={!!detail?.id}
-            /> */}
+              errors={errors}
+            />
           </Box>
           <TextField
             multiline

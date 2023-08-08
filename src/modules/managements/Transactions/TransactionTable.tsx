@@ -2,17 +2,20 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
   FormControl,
   InputLabel,
+  Link,
   MenuItem,
   Select,
-  Typography
+  Typography,
+  styled
 } from '@mui/material';
 import { format, parseISO } from 'date-fns';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
 import { ReactNode } from 'react';
 import { Transactions } from 'src/models';
 import { transactionTypes } from 'src/models/variables';
-
-interface UserTableProps {
+import Label from 'src/components/MUIComponents/Label';
+import { useNavigate } from 'react-router';
+interface TransactionTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
   tableFilter: ({ type, dateFrom, dateTo }) => ReactNode[];
@@ -32,15 +35,55 @@ interface TableFilterProps {
   };
 }
 
-const UserTable = (): UserTableProps => {
+const getStatusLabel = (status: string): JSX.Element => {
+  const data = {
+    failed: {
+      text: 'Failed',
+      color: 'error'
+    },
+    success: {
+      text: 'Success',
+      color: 'success'
+    },
+    ok: {
+      text: 'Ok',
+      color: 'success'
+    },
+    pending: {
+      text: 'Pending',
+      color: 'primary'
+    },
+    cancelled: {
+      text: 'Cancel',
+      color: 'warning'
+    }
+  };
+  if (data[status]) {
+    console.log(data[status]);
+
+    const { text, color } = data[status];
+    return <Label color={color}>{text}</Label>;
+  }
+  return <Label>{status}</Label>;
+};
+
+const TransactionTable = (): TransactionTableProps => {
+  const navigate = useNavigate();
+
+  const onRedirect = (id: number | string) => {
+    navigate(`/management/transactions/${id}`);
+  };
   const tableBody = (item: Transactions): TableBody[] => [
     {
       align: 'inherit',
       children: (
         <>
-          <Typography variant="body1" color="text.primary" noWrap>
+          <CustomLink
+            onClick={() => onRedirect(item.senderId)}
+            color="text.primary"
+          >
             {item.senderName}
-          </Typography>
+          </CustomLink>
         </>
       )
     },
@@ -48,9 +91,12 @@ const UserTable = (): UserTableProps => {
       align: 'inherit',
       children: (
         <>
-          <Typography variant="body1" color="text.primary" noWrap>
+          <CustomLink
+            onClick={() => onRedirect(item.receiverId)}
+            color="text.primary"
+          >
             {item.receiverName}
-          </Typography>
+          </CustomLink>
         </>
       )
     },
@@ -70,6 +116,16 @@ const UserTable = (): UserTableProps => {
         <>
           <Typography variant="body1" color="text.primary" noWrap>
             {`${item.type.slice(0, 1).toUpperCase()}${item.type.slice(1)}`}
+          </Typography>
+        </>
+      )
+    },
+    {
+      align: 'right',
+      children: (
+        <>
+          <Typography variant="body1" color="text.primary" noWrap>
+            {getStatusLabel(item.status)}
           </Typography>
         </>
       )
@@ -109,6 +165,11 @@ const UserTable = (): UserTableProps => {
     },
     {
       align: 'right',
+      title: 'Status',
+      name: 'status'
+    },
+    {
+      align: 'right',
       title: 'Updated At',
       name: 'updatedAt'
     },
@@ -120,7 +181,7 @@ const UserTable = (): UserTableProps => {
   const tableFilter = ({ type, dateFrom, dateTo }: TableFilterProps) => [
     <DatePicker label="From" onChange={dateFrom.onChange} />,
     <DatePicker label="To" onChange={dateTo.onChange} />,
-    <FormControl sx={{ m: 1, minWidth: 140 }}>
+    <FormControl sx={{ maxWidth: 140, width: 140 }}>
       <InputLabel id="Type">Type</InputLabel>
       <Select
         labelId="Type"
@@ -143,4 +204,11 @@ const UserTable = (): UserTableProps => {
   return { tableBody, tableHeader, tableFilter };
 };
 
-export default UserTable;
+export default TransactionTable;
+
+const CustomLink = styled(Link)(
+  ({ theme }) => `
+  color: ${theme.colors.info.dark};
+  cursor: pointer;
+`
+);

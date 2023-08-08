@@ -8,3 +8,5 @@ export const transactionTypes = [
   'promo_win',
   'win'
 ];
+
+export const transactionStatus = ['success', 'pending', 'cancelled', 'failed'];

@@ -36,8 +36,10 @@ const CurrencyModal = ({
   hide
 }: CurrencyModalProps): JSX.Element => {
   const { notify, message } = useToast();
-  const [createCurrency, { isLoading: isLoadingCreate }] = useCreateCurrencyMutation();
-  const [updateCurrency, { isLoading: isLoadingUpdate }] = useUpdateCurrencyMutation();
+  const [createCurrency, { isLoading: isLoadingCreate }] =
+    useCreateCurrencyMutation();
+  const [updateCurrency, { isLoading: isLoadingUpdate }] =
+    useUpdateCurrencyMutation();
   const {
     register,
     setValue,
@@ -61,12 +63,12 @@ const CurrencyModal = ({
     }
   }, [detail]);
 
-  const onSubmit = async (values: FormData) => { 
-    try { 
+  const onSubmit = async (values: FormData) => {
+    try {
       if (detail?.id) {
         await updateCurrency({ id: detail.id, body: values }).unwrap();
-      } else { 
-        await createCurrency(values).unwrap(); 
+      } else {
+        await createCurrency(values).unwrap();
       }
       notify({ message: detail?.id ? message.UPDATED : message.CREATED });
       refetch();
