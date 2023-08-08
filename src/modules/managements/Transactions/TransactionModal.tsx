@@ -71,7 +71,7 @@ const TransactionModal = ({
   const { notify, message } = useToast();
   const { data: currenciesData } = useCurrencyQuery(
     {},
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true, skip: !open }
   );
   const {
     register,
