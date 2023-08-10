@@ -97,6 +97,34 @@ const ToolTipDelete = ({
             </LoadingButtonCustom>
           </Container>
         </Container>
+        <Container>
+          <Typography variant="h5" sx={{ marginTop: '4px', width: '100%' }}>
+            Are you sure want to delete?
+          </Typography>
+          <Container
+            sx={{
+              display: 'flex',
+              gap: '12px',
+              padding: '12px 0 8px'
+            }}
+          >
+            <Button variant="outlined" onClick={hide}>
+              No
+            </Button>
+            <LoadingButtonCustom
+              onClick={() => onDelete(item.id)}
+              loading={isLoading}
+              loadingPosition="start"
+              startIcon={<SendIcon />}
+              variant="contained"
+              sx={{
+                width: '80px'
+              }}
+            >
+              Yes
+            </LoadingButtonCustom>
+          </Container>
+        </Container>
       </>
     }
     arrow
