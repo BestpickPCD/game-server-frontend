@@ -169,6 +169,23 @@ const UserModal = ({
                 options={currencyOptions}
               />
             </Box>
+            {false && (
+              <Box display={'flex'} gap="1rem">
+                <Select
+                  label="Role"
+                  name="roleId"
+                  control={control}
+                  options={roleOptions}
+                  sx={{ my: 2 }}
+                />
+                <Select
+                  label="Currency"
+                  name="currencyId"
+                  control={control}
+                  options={currencyOptions}
+                />
+              </Box>
+            )}
           </div>
         </Box>
       ) : (
