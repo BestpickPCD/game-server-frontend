@@ -164,6 +164,8 @@ const TransactionModal = ({
                   name: detail.sender?.name,
                   value: detail.senderId
                 }}
+                readOnly={!!detail?.id}
+                errors={errors}
               />
             )}
             <InfinityAgent

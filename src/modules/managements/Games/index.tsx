@@ -125,13 +125,16 @@ const GamesManagements = (): JSX.Element => {
             onChange: (value) =>
               setPagination({
                 ...pagination,
-                dateFrom: formatToISOString(value)
+                dateFrom: formatToISOString(value, 'from')
               })
           },
           dateTo: {
             value: pagination.dateTo,
             onChange: (value) =>
-              setPagination({ ...pagination, dateTo: formatToISOString(value) })
+              setPagination({
+                ...pagination,
+                dateTo: formatToISOString(value, 'to')
+              })
           }
         })}
       />

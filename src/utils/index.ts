@@ -26,5 +26,14 @@ export const onSortTable = (
     return 0;
   });
 
-export const formatToISOString = (date: Date): string =>
-  moment(date).utc().toISOString();
+export const formatToISOString = (
+  date: Date,
+  option: 'from' | 'to'
+): string => {
+  if (option === 'from') {
+    const startOfDayUtc = moment(date).startOf('day').utc();
+    return startOfDayUtc.toISOString();
+  }
+  const endOfDayUtc = moment(date).endOf('day').utc();
+  return endOfDayUtc.toISOString();
+};

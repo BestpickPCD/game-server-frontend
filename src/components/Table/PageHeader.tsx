@@ -8,8 +8,8 @@ import { memo } from 'react';
 interface PageHeaderProps {
   headerTitle: string;
   headerSubtitle: string;
-  onOpenModal: () => void;
   breadcrumbs: BreadcrumbsType[];
+  onOpenModal?: () => void;
 }
 const PageHeader = ({
   headerTitle,
@@ -29,16 +29,18 @@ const PageHeader = ({
         </Box>
       )}
     </Grid>
-    <Grid item>
-      <Button
-        sx={{ mt: { xs: 2, md: 0 } }}
-        variant="contained"
-        startIcon={<AddTwoToneIcon fontSize="small" />}
-        onClick={onOpenModal}
-      >
-        Create
-      </Button>
-    </Grid>
+    {onOpenModal && (
+      <Grid item>
+        <Button
+          sx={{ mt: { xs: 2, md: 0 } }}
+          variant="contained"
+          startIcon={<AddTwoToneIcon fontSize="small" />}
+          onClick={onOpenModal}
+        >
+          Create
+        </Button>
+      </Grid>
+    )}
   </Grid>
 );
 

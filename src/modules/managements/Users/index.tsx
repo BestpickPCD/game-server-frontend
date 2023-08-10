@@ -46,6 +46,7 @@ const UsersManagement = (): JSX.Element => {
     dateFrom: '',
     dateTo: ''
   });
+  console.log('render');
 
   const [getUserDetail] = useGetUserByIdMutation();
   const [deleteUser, { isLoading: isLoadingDelete }] = useDeleteUserMutation();
@@ -130,13 +131,16 @@ const UsersManagement = (): JSX.Element => {
             onChange: (value) =>
               setPagination({
                 ...pagination,
-                dateFrom: formatToISOString(value)
+                dateFrom: formatToISOString(value, 'from')
               })
           },
           dateTo: {
             value: pagination.dateTo,
             onChange: (value) =>
-              setPagination({ ...pagination, dateTo: formatToISOString(value) })
+              setPagination({
+                ...pagination,
+                dateTo: formatToISOString(value, 'to')
+              })
           }
         })}
       />
