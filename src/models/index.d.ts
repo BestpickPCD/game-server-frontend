@@ -28,19 +28,17 @@ export interface ResponseType<T> {
 }
 export interface User {
   id: number;
-  createdAt: string;
-  currency: {
-    code: string;
-  };
-  email: string;
   name: string;
-  role: {
-    name: string;
-  };
-  roleId: number;
-  currencyId: number;
-  updatedAt: string;
+  email: string;
   username: string;
+  type?: string;
+  roleId: number;
+  currencyId?: number;
+  updatedAt: string;
+  createdAt: string;
+
   currencyName?: string;
   roleName?: string;
+  currency: { code: string };
+  role: { name: string };
 }

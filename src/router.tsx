@@ -29,6 +29,9 @@ const GamesManagement = Loader(
 const UsersManagement = Loader(
   lazy(() => import('src/modules/managements/Users'))
 );
+const UsersManagement_new = Loader(
+  lazy(() => import('src/modules/david/page/AgentUsers'))
+);
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
 );
@@ -139,8 +142,12 @@ const routes: RouteObject[] = [
         element: <PrivateRoute element={GamesManagement} />
       },
       {
-        path: 'users',
+        path: 'usersx',
         element: <PrivateRoute element={UsersManagement} />
+      },
+      {
+        path: 'users',
+        element: <PrivateRoute element={UsersManagement_new} />
       },
       {
         path: 'profile',
