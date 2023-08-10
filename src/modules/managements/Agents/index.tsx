@@ -9,7 +9,7 @@ import {
 } from 'src/services/agentService';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
-import UserModal from './AgentModal';
+import AgentModal from './AgentModal';
 import UserTable from './AgentTable';
 
 interface UsersPagination extends PaginationAndSort {
@@ -142,7 +142,7 @@ const AgentsManagement = (): JSX.Element => {
           }
         })}
       />
-      <UserModal
+      <AgentModal
         open={visible}
         detail={detail}
         onClose={hide}

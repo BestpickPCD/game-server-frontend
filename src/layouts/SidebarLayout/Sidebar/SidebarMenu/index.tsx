@@ -243,6 +243,19 @@ const SidebarMenu = (): JSX.Element => {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
+                  to="/management/vendors"
+                  startIcon={<CurrencyExchange />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  Vendor Management
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
                   to="/management/games"
                   startIcon={<TableChartTwoToneIcon />}
                   fullWidth

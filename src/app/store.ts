@@ -8,6 +8,7 @@ import { UserService } from 'src/services/userService';
 import { CommonServices } from 'src/services/commonServices';
 import { AgentService } from 'src/services/agentService';
 import { TransactionService } from 'src/services/transactionService';
+import { VendorService } from 'src/services/vendorService';
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ export const store = configureStore({
     [AuthService.reducerPath]: AuthService.reducer,
     [CommonServices.reducerPath]: CommonServices.reducer,
     [AgentService.reducerPath]: AgentService.reducer,
-    [TransactionService.reducerPath]: TransactionService.reducer
+    [TransactionService.reducerPath]: TransactionService.reducer,
+    [VendorService.reducerPath]: VendorService.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -28,7 +30,8 @@ export const store = configureStore({
       CurrencyService.middleware,
       CommonServices.middleware,
       AgentService.middleware,
-      TransactionService.middleware
+      TransactionService.middleware,
+      VendorService.middleware
     )
 });
 
