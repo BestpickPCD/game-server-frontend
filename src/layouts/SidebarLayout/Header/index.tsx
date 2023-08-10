@@ -1,23 +1,21 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import {
   Box,
-  alpha,
-  Stack,
-  lighten,
-  Divider,
   IconButton,
   Tooltip,
+  alpha,
+  lighten,
   styled,
   useTheme
 } from '@mui/material';
-import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import { SidebarContext } from 'src/contexts/SidebarContext';
-import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 
+import { User } from 'src/models';
 import HeaderButtons from './Buttons';
 import HeaderUserbox from './Userbox';
-import HeaderMenu from './Menu';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -41,6 +39,25 @@ const HeaderWrapper = styled(Box)(
 const Header = (): JSX.Element => {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
+  const [user, setUser] = useState<User>({
+    id: 0,
+    email: '',
+    name: '',
+    username: '',
+    type: ''
+  });
+
+  useEffect(() => {
+    const parseUser = JSON.parse(localStorage.getItem('user') || '{}');
+    if (parseUser) {
+      setUser({
+        ...parseUser,
+        type: `${parseUser.type
+          .slice(0, 1)
+          .toUpperCase()}${parseUser.type.slice(1)}`
+      });
+    }
+  }, []);
 
   return (
     <HeaderWrapper
@@ -62,17 +79,14 @@ const Header = (): JSX.Element => {
               )}`
       }}
     >
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
+      <Box
+        display="flex"
         alignItems="center"
-        spacing={2}
+        justifyContent="flex-end"
+        width="100%"
       >
-        <HeaderMenu />
-      </Stack>
-      <Box display="flex" alignItems="center">
         <HeaderButtons />
-        <HeaderUserbox />
+        <HeaderUserbox user={user} />
         <Box
           component="span"
           sx={{

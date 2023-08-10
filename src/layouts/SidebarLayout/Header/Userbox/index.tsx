@@ -22,6 +22,7 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import { User } from 'src/models';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -57,13 +58,11 @@ const UserBoxDescription = styled(Typography)(
         color: ${lighten(theme.palette.secondary.main, 0.5)}
 `
 );
-
-const HeaderUserbox = (): JSX.Element => {
-  const user = {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg',
-    jobtitle: 'Project Manager'
-  };
+interface UserBoxProps {
+  user: User;
+}
+const avatar = '/static/images/avatars/1.jpg';
+const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
   const navigate = useNavigate();
   const ref = useRef<HTMLButtonElement>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
@@ -83,13 +82,11 @@ const HeaderUserbox = (): JSX.Element => {
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+        <Avatar variant="rounded" alt={user.name} src={avatar} />
         <Hidden mdDown>
           <UserBoxText>
             <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-              {user.jobtitle}
-            </UserBoxDescription>
+            <UserBoxDescription variant="body2">{user.type}</UserBoxDescription>
           </UserBoxText>
         </Hidden>
         <Hidden smDown>
@@ -110,21 +107,29 @@ const HeaderUserbox = (): JSX.Element => {
         }}
       >
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
-          <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+          <Avatar variant="rounded" alt={user.name} src={avatar} />
           <UserBoxText>
             <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-              {user.jobtitle}
-            </UserBoxDescription>
+            <UserBoxDescription variant="body2">{user.type}</UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
         <List sx={{ p: 1 }} component="nav">
-          <ListItem button to="/management/profile/details" component={NavLink}>
+          <ListItem
+            button
+            to="/management/profile/details"
+            component={NavLink}
+            onClick={handleClose}
+          >
             <AccountBoxTwoToneIcon fontSize="small" />
             <ListItemText primary="My Profile" />
           </ListItem>
-          <ListItem button to="/dashboards/messenger" component={NavLink}>
+          <ListItem
+            button
+            to="/dashboards/messenger"
+            component={NavLink}
+            onClick={handleClose}
+          >
             <InboxTwoToneIcon fontSize="small" />
             <ListItemText primary="Messenger" />
           </ListItem>
@@ -132,6 +137,7 @@ const HeaderUserbox = (): JSX.Element => {
             button
             to="/management/profile/settings"
             component={NavLink}
+            onClick={handleClose}
           >
             <AccountTreeTwoToneIcon fontSize="small" />
             <ListItemText primary="Account Settings" />
