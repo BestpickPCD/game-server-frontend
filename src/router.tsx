@@ -32,6 +32,18 @@ const UsersManagement = Loader(
 const UsersManagement_new = Loader(
   lazy(() => import('src/modules/david/page/AgentUsers'))
 );
+const CurrencyManagement = Loader(
+  lazy(() => import('src/modules/managements/Currency'))
+);
+const AgentsManagement = Loader(
+  lazy(() => import('src/modules/managements/Agents'))
+);
+const TransactionsManagements = Loader(
+  lazy(() => import('src/modules/managements/Transactions'))
+);
+const UserTransactionsManagements = Loader(
+  lazy(() => import('src/modules/managements/Transactions/UserTransaction'))
+);
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
 );
@@ -148,6 +160,27 @@ const routes: RouteObject[] = [
       {
         path: 'users',
         element: <PrivateRoute element={UsersManagement_new} />
+      },
+      {
+        path: 'currencies',
+        element: <PrivateRoute element={CurrencyManagement} />
+      },
+      {
+        path: 'agents',
+        element: <PrivateRoute element={AgentsManagement} />
+      },
+      {
+        path: 'transactions/',
+        children: [
+          {
+            path: '',
+            element: <PrivateRoute element={TransactionsManagements} />
+          },
+          {
+            path: ':slug',
+            element: <PrivateRoute element={UserTransactionsManagements} />
+          }
+        ]
       },
       {
         path: 'profile',

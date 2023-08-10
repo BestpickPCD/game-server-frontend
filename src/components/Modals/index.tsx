@@ -2,12 +2,12 @@
 import SaveIcon from '@mui/icons-material/Save';
 import { LoadingButton } from '@mui/lab';
 import { Button, Container, Divider } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import List from '@mui/material/List';
 import { ReactNode } from 'react';
 
-interface ModalProps {
+interface ModalProps extends DialogProps {
   title: string;
   open: boolean;
   children: ReactNode;
@@ -23,10 +23,11 @@ function Modals({
   open,
   isLoading = false,
   onClose,
-  onOk
+  onOk,
+  ...props
 }: ModalProps): JSX.Element {
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog onClose={onClose} open={open} {...props}>
       {title && <DialogTitle variant="h4">{title}</DialogTitle>}
       {title && <Divider />}
       <List sx={{ pt: 0 }}>{children}</List>

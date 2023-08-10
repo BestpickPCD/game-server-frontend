@@ -42,3 +42,40 @@ export interface User {
   currency: { code: string };
   role: { name: string };
 }
+
+export interface Agent extends User {
+  parentAgentId: number | null;
+  level: number;
+  agentParentName: string;
+  Agents: {
+    parentAgentId: number | null;
+    level: number;
+    parentAgent: User;
+    name: string;
+  };
+}
+type transactionType =
+  | 'win'
+  | 'bet'
+  | 'cancel'
+  | 'add'
+  | 'charge'
+  | 'adjust'
+  | 'promo_win'
+  | 'exceed_credit';
+export interface Transactions {
+  id: number;
+  amount: string | number;
+  receiver?: User | Agent | null;
+  sender?: User | Agent | null;
+  senderId?: number | string | null;
+  receiverId?: number | string | null;
+  senderName?: string;
+  receiverName?: string;
+  type: transactionType;
+  currencyId: number;
+  status: string;
+  updatedAt: string;
+  note?: string;
+  token: string;
+}

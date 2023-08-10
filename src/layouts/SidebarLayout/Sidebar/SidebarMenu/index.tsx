@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 
 import {
+  Accordion,
+  AccordionSummary,
   Box,
   Button,
   List,
@@ -13,13 +15,17 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
+import SupportAgentRounded from '@mui/icons-material/SupportAgentRounded';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TableChartTwoToneIcon from '@mui/icons-material/GamesTwoTone';
 import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle';
-
+import CurrencyExchange from '@mui/icons-material/AttachMoney';
+import TransferWithinAStationOutlined from '@mui/icons-material/CurrencyExchangeOutlined';
+import { useModal } from 'src/utils/hooks';
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
   .MuiList-root {
-    padding: ${theme.spacing(1)};
+    padding: 16px 0 0 2px;
 
     & > .MuiList-root {
       padding: 0 ${theme.spacing(0)} ${theme.spacing(1)};
@@ -29,7 +35,6 @@ const MenuWrapper = styled(Box)(
     .MuiListSubheader-root {
       text-transform: uppercase;
       font-weight: bold;
-      font-size: ${theme.typography.pxToRem(12)};
       color: ${theme.colors.alpha.trueWhite[50]};
       padding: ${theme.spacing(0, 2.5)};
       line-height: 1.4;
@@ -160,7 +165,7 @@ const SubMenuWrapper = styled(Box)(
 
 const SidebarMenu = (): JSX.Element => {
   const { closeSidebar } = useContext(SidebarContext);
-
+  const { toggle, visible } = useModal();
   return (
     <>
       <MenuWrapper>
@@ -185,58 +190,117 @@ const SidebarMenu = (): JSX.Element => {
                   Dashboards
                 </Button>
               </ListItem>
-              {/* <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
-                >
-                  Messenger
-                </Button>
-              </ListItem> */}
             </List>
           </SubMenuWrapper>
         </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Managements
-            </ListSubheader>
-          }
-        >
+        <CustomAccordion expanded={!visible}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={toggle}>
+            Managements
+          </AccordionSummary>
           <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/management/games"
-                  startIcon={<TableChartTwoToneIcon />}
-                >
-                  Game Management
-                </Button>
-              </ListItem>
-              <ListItem component="div">
+            <CustomList>
+              <ListItem>
                 <Button
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/management/users"
                   startIcon={<SupervisedUserCircle />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
                 >
                   User Management
                 </Button>
               </ListItem>
-            </List>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/management/agents"
+                  startIcon={<SupportAgentRounded />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  Agents Management
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/management/currencies"
+                  startIcon={<CurrencyExchange />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  Currencies Management
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/management/games"
+                  startIcon={<TableChartTwoToneIcon />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  Games Management
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/management/transactions"
+                  startIcon={<TransferWithinAStationOutlined />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  Transactions Management
+                </Button>
+              </ListItem>
+            </CustomList>
           </SubMenuWrapper>
-        </List>
+        </CustomAccordion>
       </MenuWrapper>
     </>
   );
 };
 
 export default SidebarMenu;
+
+const CustomAccordion = styled(Accordion)(
+  ({ theme }) => `
+  background: transparent;
+  .MuiAccordionSummary-root{
+    height: 32px;
+    max-height: 32px !important;
+    min-height: 32px !important;
+    color: ${theme.colors.alpha.trueWhite[50]};
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0 24.5px !important;
+    line-height: 1.4;
+  }
+  .Mui-expanded{
+    margin: 0
+  }
+  .MuiSvgIcon-root{
+    color: rgba(255, 255, 255, 0.7)
+  }
+ 
+`
+);
+const CustomList = styled(List)(
+  () => `
+.MuiButton-root {
+color: rgba(255, 255, 255, 0.7)
+}
+`
+);

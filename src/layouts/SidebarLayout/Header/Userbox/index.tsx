@@ -78,7 +78,7 @@ const HeaderUserbox = (): JSX.Element => {
 
   const handleSignOut = (): void => {
     navigate('/');
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('tokens');
   };
   return (
     <>
