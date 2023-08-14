@@ -23,7 +23,6 @@ function createData(
 }
 
 export default function Vendors(): JSX.Element {
-  
   // const [page, setPage] = React.useState(2);
   // const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
