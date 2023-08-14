@@ -58,9 +58,9 @@ export default function Vendors(): JSX.Element {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-              <Button variant="outlined" size="small" sx={{width:'200px'}}>
-                <Link to={`${row.name}`}>{row.name}</Link>
-              </Button>
+                <Button variant="outlined" size="small" sx={{ width: '200px' }}>
+                  <Link to={`${row.name}`}>{row.name}</Link>
+                </Button>
               </TableCell>
               <TableCell align="left">{row.url}</TableCell>
               <TableCell align="center">{row.gamesTotal}</TableCell>

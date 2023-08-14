@@ -65,7 +65,7 @@ const UsersManagement = (): JSX.Element => {
     { refetchOnMountOrArgChange: true }
   );
 
-  useEffect(() => { 
+  useEffect(() => {
     if (userData) {
       setData(() =>
         onSortTable(
@@ -106,7 +106,7 @@ const UsersManagement = (): JSX.Element => {
   return (
     <>
       <TableComponent
-        title="User Management" 
+        title="User Management"
         data={data}
         totalItems={userData?.data.totalItems}
         tableHeader={tableHeader}
