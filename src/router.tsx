@@ -29,9 +29,9 @@ const GamesManagement = Loader(
 const UsersManagement = Loader(
   lazy(() => import('src/modules/managements/Users'))
 );
-const UsersManagement_new = Loader(
-  lazy(() => import('src/modules/david/page/AgentUsers'))
-);
+// const UsersManagement_new = Loader(
+//   lazy(() => import('src/modules/david/page/AgentUsers'))
+// );
 const CurrencyManagement = Loader(
   lazy(() => import('src/modules/managements/Currency'))
 );
@@ -159,13 +159,13 @@ const routes: RouteObject[] = [
       //   path: 'games',
       //   element: <PrivateRoute element={GamesManagement} />
       // },
-      {
-        path: 'usersx',
-        element: <PrivateRoute element={UsersManagement} />
-      },
+      // {
+      //   path: 'usersx',
+      //   element: <PrivateRoute element={UsersManagement_new} />
+      // },
       {
         path: 'users',
-        element: <PrivateRoute element={UsersManagement_new} />
+        element: <PrivateRoute element={UsersManagement} />
       },
       {
         path: 'currencies',
