@@ -12,13 +12,14 @@ export const VendorService = createApi({
         url: '/game-vendors'
       })
     }),
-    getVendorById: builder.query<ResponseType<any>, any>({
+    getVendorGameListsById: builder.query<ResponseType<any>, any>({
       query: (params) => ({
-        url: '/game-vendors',
+        url: '/game-list',
         params
       })
     })
   })
 });
 
-export const { useGetVendorsQuery, useGetVendorByIdQuery } = VendorService;
+export const { useGetVendorsQuery, useGetVendorGameListsByIdQuery } =
+  VendorService;

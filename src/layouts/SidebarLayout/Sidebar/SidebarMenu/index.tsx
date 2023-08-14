@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
-
+import ExtensionIcon from '@mui/icons-material/Extension';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import SupportAgentRounded from '@mui/icons-material/SupportAgentRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -244,14 +244,14 @@ const SidebarMenu = (): JSX.Element => {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/management/vendors"
-                  startIcon={<CurrencyExchange />}
+                  startIcon={<ExtensionIcon />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
                   Vendor Management
                 </Button>
               </ListItem>
-              <ListItem>
+              {/* <ListItem>
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -263,7 +263,7 @@ const SidebarMenu = (): JSX.Element => {
                 >
                   Games Management
                 </Button>
-              </ListItem>
+              </ListItem> */}
               <ListItem>
                 <Button
                   disableRipple
