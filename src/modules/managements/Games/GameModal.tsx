@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import Modals from 'src/components/Modals';
 import UploadFile from 'src/components/UploadFile';
 import {
-  useCreateCurrencyMutation,
-  useUpdateCurrencyMutation
-} from 'src/services/currencyService';
+  useCreateGameMutation,
+  useUpdateGameMutation
+} from 'src/services/gameService';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
 
@@ -47,10 +47,8 @@ const GameModal = ({
 }: GameModalProps): JSX.Element => {
   const { notify, message } = useToast();
   const [uploadFile, setUploadFile] = useState([]);
-  const [createGame, { isLoading: isLoadingCreate }] =
-    useCreateCurrencyMutation();
-  const [updateGame, { isLoading: isLoadingUpdate }] =
-    useUpdateCurrencyMutation();
+  const [createGame, { isLoading: isLoadingCreate }] = useCreateGameMutation();
+  const [updateGame, { isLoading: isLoadingUpdate }] = useUpdateGameMutation();
   const {
     register,
     setValue,
