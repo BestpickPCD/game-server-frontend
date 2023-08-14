@@ -3,7 +3,6 @@
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableComponent from 'src/components/Table';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -24,7 +23,7 @@ function createData(
 }
 
 export default function Vendors(): JSX.Element {
-  const abc = useRef();
+  
   // const [page, setPage] = React.useState(2);
   // const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -41,13 +40,7 @@ export default function Vendors(): JSX.Element {
   //     setRowsPerPage(parseInt(event.target.value, 10));
   //     setPage(0);
   // };
-
-  const { data } = useGetVendorsQuery(
-    { vendors },
-    {
-      refetchOnMountOrArgChange: true
-    }
-  );
+  const { data } = useGetVendorsQuery({});
 
   return (
     <TableContainer component={Paper} sx={{ margin: 4 }}>
