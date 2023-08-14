@@ -14,7 +14,7 @@ export const VendorService = createApi({
     }),
     getVendorById: builder.query<ResponseType<any>, any>({
       query: (params) => ({
-        url: '/game-vendors',
+        url: '/game-list',
         params
       })
     })

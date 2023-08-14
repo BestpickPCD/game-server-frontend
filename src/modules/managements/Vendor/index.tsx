@@ -3,11 +3,14 @@
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
+import TableComponent from 'src/components/Table';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useGetVendorsQuery } from 'src/services/vendorService';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 // import { TablePagination } from '@mui/material';
 
 function createData(
@@ -29,7 +32,7 @@ const rows = [
 ];
 
 export default function Vendors(): JSX.Element {
-  // const [page, setPage] = React.useState(2);
+  const [vendors, setVendors] = useState([]);
   // const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   // const handleChangePage = (
@@ -45,45 +48,41 @@ export default function Vendors(): JSX.Element {
   //     setRowsPerPage(parseInt(event.target.value, 10));
   //     setPage(0);
   // };
-  const { data } = useGetVendorsQuery({});
+
+  const { data } = useGetVendorsQuery(
+    { vendors },
+    {
+      refetchOnMountOrArgChange: true
+    }
+  );
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(data as any[])?.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.id}
-              </TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+    <>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Vendors</TableCell>
+              <TableCell align="center">URL</TableCell>
+              <TableCell align="center">Total Games</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {/* <TablePagination
-        component="div"
-        count={100}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {(data as any[])?.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell align="left">
+                  <Link to={row.name}>{row.name}</Link>
+                </TableCell>
+                <TableCell align="left">{row.url}</TableCell>
+                <TableCell align="center">{row.gamesTotal}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
