@@ -48,7 +48,7 @@ const Header = (): JSX.Element => {
   });
 
   useEffect(() => {
-    const parseUser = JSON.parse(localStorage.getItem('user') || '{}');
+    const parseUser = JSON.parse(localStorage.getItem('user'));
     if (parseUser) {
       setUser({
         ...parseUser,

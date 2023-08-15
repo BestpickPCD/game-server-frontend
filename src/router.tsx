@@ -155,11 +155,11 @@ const routes: RouteObject[] = [
       },
       {
         path: 'usersx',
-        element: <PrivateRoute element={UsersManagement} />
+        element: <PrivateRoute element={UsersManagement_new} />
       },
       {
         path: 'users',
-        element: <PrivateRoute element={UsersManagement_new} />
+        element: <PrivateRoute element={UsersManagement} />
       },
       {
         path: 'currencies',

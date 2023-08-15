@@ -43,6 +43,7 @@ const TableHeader = function (data = null): JSX.Element {
 
 const TableList = function (): JSX.Element {
   const data = david.get('table');
+
   if (!data) {
     return (
       <>

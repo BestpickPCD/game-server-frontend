@@ -17,13 +17,14 @@ interface TableProps<D, P> {
   isLoading?: boolean;
   breadcrumbs?: Breadcrumbs[];
   pagination?: P;
-  tableBody?: (item: TableBody[]) => TableBody[];
-  onOpenModal?: () => void;
-  onDelete?: (value: string | number) => void;
-  onUpdate?: (value: string | number) => void;
-  onPagination?: (value) => void;
   tableFilter?: ReactNode[];
+  extraOptions?: ReactNode[];
   totalItems?: number;
+  onPagination?: (value) => void;
+  onUpdate?: (value: string | number) => void;
+  onDelete?: (value: string | number) => void;
+  onOpenModal?: () => void;
+  tableBody?: (item: TableBody[]) => TableBody[];
 }
 
 const TableComponent = ({
@@ -42,6 +43,7 @@ const TableComponent = ({
   pagination,
   tableFilter,
   totalItems,
+  extraOptions,
   onOpenModal,
   tableBody,
   onDelete,
@@ -82,6 +84,7 @@ TableProps<any, PaginationAndSort>): JSX.Element => (
               onPagination={onPagination}
               pagination={pagination}
               tableFilter={tableFilter}
+              extraOptions={extraOptions}
             />
           </Card>
         </Grid>
