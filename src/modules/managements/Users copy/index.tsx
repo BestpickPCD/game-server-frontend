@@ -46,7 +46,6 @@ const UsersManagement = (): JSX.Element => {
     dateFrom: '',
     dateTo: ''
   });
-  console.log('render');
 
   const [getUserDetail] = useGetUserByIdMutation();
   const [deleteUser, { isLoading: isLoadingDelete }] = useDeleteUserMutation();
@@ -108,7 +107,8 @@ const UsersManagement = (): JSX.Element => {
     <>
       <TableComponent
         title="User Management"
-        data={data}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data={data as any}
         totalItems={userData?.data.totalItems}
         tableHeader={tableHeader}
         tableBody={tableBody}

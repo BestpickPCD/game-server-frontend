@@ -29,9 +29,9 @@ const GamesManagement = Loader(
 const UsersManagement = Loader(
   lazy(() => import('src/modules/managements/Users'))
 );
-const UsersManagement_new = Loader(
-  lazy(() => import('src/modules/david/page/AgentUsers'))
-);
+// const UsersManagement_new = Loader(
+//   lazy(() => import('src/modules/david/page/AgentUsers'))
+// );
 const CurrencyManagement = Loader(
   lazy(() => import('src/modules/managements/Currency'))
 );
@@ -40,6 +40,12 @@ const AgentsManagement = Loader(
 );
 const TransactionsManagements = Loader(
   lazy(() => import('src/modules/managements/Transactions'))
+);
+const VendorsManagements = Loader(
+  lazy(() => import('src/modules/managements/Vendor'))
+);
+const VendorsDetails = Loader(
+  lazy(() => import('src/modules/managements/Vendor/details'))
 );
 const UserTransactionsManagements = Loader(
   lazy(() => import('src/modules/managements/Transactions/UserTransaction'))
@@ -149,14 +155,14 @@ const routes: RouteObject[] = [
         path: '',
         element: <Navigate to="games" replace />
       },
-      {
-        path: 'games',
-        element: <PrivateRoute element={GamesManagement} />
-      },
-      {
-        path: 'usersx',
-        element: <PrivateRoute element={UsersManagement_new} />
-      },
+      // {
+      //   path: 'games',
+      //   element: <PrivateRoute element={GamesManagement} />
+      // },
+      // {
+      //   path: 'usersx',
+      //   element: <PrivateRoute element={UsersManagement_new} />
+      // },
       {
         path: 'users',
         element: <PrivateRoute element={UsersManagement} />
@@ -179,6 +185,19 @@ const routes: RouteObject[] = [
           {
             path: ':slug',
             element: <PrivateRoute element={UserTransactionsManagements} />
+          }
+        ]
+      },
+      {
+        path: 'vendors',
+        children: [
+          {
+            path: '',
+            element: <PrivateRoute element={VendorsManagements} />
+          },
+          {
+            path: ':slug',
+            element: <PrivateRoute element={VendorsDetails} />
           }
         ]
       },

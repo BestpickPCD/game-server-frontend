@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modals from 'src/components/Modals';
 import UploadFile from 'src/components/UploadFile';
-import {
-  useCreateGameMutation,
-  useUpdateGameMutation
-} from 'src/services/gameService';
+import // useCreateGameMutation,
+// useUpdateGameMutation
+'src/services/gameService';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
 
@@ -47,8 +46,8 @@ const GameModal = ({
 }: GameModalProps): JSX.Element => {
   const { notify, message } = useToast();
   const [uploadFile, setUploadFile] = useState([]);
-  const [createGame, { isLoading: isLoadingCreate }] = useCreateGameMutation();
-  const [updateGame, { isLoading: isLoadingUpdate }] = useUpdateGameMutation();
+  // const [createGame, { isLoading: isLoadingCreate }] = useCreateGameMutation();
+  // const [updateGame, { isLoading: isLoadingUpdate }] = useUpdateGameMutation();
   const {
     register,
     setValue,
@@ -88,9 +87,9 @@ const GameModal = ({
       form.append('category_id', String(categoryId));
       form.append('image', uploadFile[0]);
       if (detail?.id) {
-        await updateGame({ id: detail.id, body: form }).unwrap();
+        // await updateGame({ id: detail.id, body: form }).unwrap();
       } else {
-        await createGame(form).unwrap();
+        // await createGame(form).unwrap();
       }
       notify({ message: detail?._id ? message.UPDATED : message.CREATED });
       refetch();
@@ -107,7 +106,7 @@ const GameModal = ({
       onClose={onClose}
       open={open}
       onOk={handleSubmit(onSubmit)}
-      isLoading={isLoadingCreate || isLoadingUpdate}
+      // isLoading={isLoadingCreate || isLoadingUpdate}
     >
       <Box component="form" noValidate autoComplete="off" id="form-games">
         <TextField

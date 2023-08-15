@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, TextField } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Modals from 'src/components/Modals';
+import UploadFile from 'src/components/UploadFile';
 import {
   useCreateCurrencyMutation,
   useUpdateCurrencyMutation
@@ -12,9 +13,16 @@ import * as yup from 'yup';
 
 const schema = yup.object().shape({
   name: yup.string().required('Name is required!'),
-  code: yup.string().required('Code is required!')
+  link: yup.string().required('Link is required!'),
+  type: yup.string().required('Type is required!'),
+  categoryId: yup
+    .number()
+    .nullable()
+    .positive('Category must be positive')
+    .min(1)
+    .required('Category is required!')
 });
-interface CurrencyModalProps {
+interface GameModalProps {
   open: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   detail: any;
@@ -25,20 +33,23 @@ interface CurrencyModalProps {
 
 type FormData = {
   name: string;
-  code: string;
+  link: string;
+  type: string;
+  categoryId: number;
 };
 
-const CurrencyModal = ({
+const GameModal = ({
   open,
   detail,
   onClose,
   refetch,
   hide
-}: CurrencyModalProps): JSX.Element => {
+}: GameModalProps): JSX.Element => {
   const { notify, message } = useToast();
-  const [createCurrency, { isLoading: isLoadingCreate }] =
+  const [uploadFile, setUploadFile] = useState([]);
+  const [createGame, { isLoading: isLoadingCreate }] =
     useCreateCurrencyMutation();
-  const [updateCurrency, { isLoading: isLoadingUpdate }] =
+  const [updateGame, { isLoading: isLoadingUpdate }] =
     useUpdateCurrencyMutation();
   const {
     register,
@@ -50,27 +61,40 @@ const CurrencyModal = ({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
-      code: ''
+      link: '',
+      type: '',
+      categoryId: null
     }
   });
 
   useEffect(() => {
     if (detail?.id) {
-      setValue('code', detail.code);
+      setValue('link', detail.link);
+      setValue('categoryId', detail.category_id);
       setValue('name', detail.name);
+      setValue('type', detail.type);
+      setUploadFile(detail.image);
     } else {
       reset();
+      setUploadFile([]);
     }
   }, [detail]);
 
   const onSubmit = async (values: FormData) => {
     try {
+      const { name, link, type, categoryId } = values;
+      const form = new FormData();
+      form.append('name', name);
+      form.append('link', link);
+      form.append('type', type);
+      form.append('category_id', String(categoryId));
+      form.append('image', uploadFile[0]);
       if (detail?.id) {
-        await updateCurrency({ id: detail.id, body: values }).unwrap();
+        await updateGame({ id: detail.id, body: form }).unwrap();
       } else {
-        await createCurrency(values).unwrap();
+        await createGame(form).unwrap();
       }
-      notify({ message: detail?.id ? message.UPDATED : message.CREATED });
+      notify({ message: detail?._id ? message.UPDATED : message.CREATED });
       refetch();
       hide();
       reset();
@@ -81,16 +105,16 @@ const CurrencyModal = ({
 
   return (
     <Modals
-      title={detail?.id ? `Edit ${detail.name}` : 'Add new Currency'}
+      title={detail?._id ? `Edit ${detail.name}` : 'Add new Game'}
       onClose={onClose}
       open={open}
       onOk={handleSubmit(onSubmit)}
       isLoading={isLoadingCreate || isLoadingUpdate}
     >
-      <Box component="form" noValidate autoComplete="off" id="form-Currencies">
+      <Box component="form" noValidate autoComplete="off" id="form-games">
         <TextField
           fullWidth
-          label="Currency Name"
+          label="Game Name"
           sx={{ my: 2 }}
           required
           error={!!errors['name']}
@@ -100,17 +124,39 @@ const CurrencyModal = ({
         />
         <TextField
           fullWidth
-          label="code"
+          label="Link"
           sx={{ my: 2 }}
           required
-          error={!!errors['code']}
-          helperText={errors['code'] ? errors['code'].message : ''}
+          error={!!errors['link']}
+          helperText={errors['link'] ? errors['link'].message : ''}
           autoComplete="off"
-          {...register('code')}
+          {...register('link')}
         />
+        <TextField
+          fullWidth
+          label="Type"
+          sx={{ my: 2 }}
+          required
+          error={!!errors['type']}
+          helperText={errors['type'] ? errors['type'].message : ''}
+          autoComplete="off"
+          {...register('type')}
+        />
+        <TextField
+          fullWidth
+          label="Category"
+          type="number"
+          sx={{ my: 2 }}
+          required
+          error={!!errors['categoryId']}
+          helperText={errors['categoryId'] ? errors['categoryId'].message : ''}
+          autoComplete="off"
+          {...register('categoryId')}
+        />
+        <UploadFile uploadFile={uploadFile} onSetUploadFile={setUploadFile} />
       </Box>
     </Modals>
   );
 };
 
-export default CurrencyModal;
+export default GameModal;

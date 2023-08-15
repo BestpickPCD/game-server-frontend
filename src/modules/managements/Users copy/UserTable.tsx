@@ -1,6 +1,5 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,7 +9,6 @@ import {
 import { format, parseISO } from 'date-fns';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
 import { ReactNode } from 'react';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 
 interface UserTableProps {
   tableHeader: TableHeader[];
@@ -43,7 +41,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.user.name}
+            {item.name}
           </Typography>
         </>
       )
@@ -58,7 +56,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.user.email}
+            {item.email}
           </Typography>
         </>
       )
@@ -73,7 +71,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.user.username}
+            {item.username}
           </Typography>
         </>
       )
@@ -88,19 +86,9 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item?.user.updatedAt &&
-              format(parseISO(item?.user.updatedAt), 'dd/MM/yyyy HH:mm')}
+            {item?.updatedAt &&
+              format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
           </Typography>
-        </>
-      )
-    },
-    {
-      align: 'center',
-      children: (
-        <>
-          <Button variant="outlined" startIcon={<PaidOutlinedIcon />}>
-            Payment
-          </Button>
         </>
       )
     }
@@ -125,11 +113,6 @@ const UserTable = (): UserTableProps => {
       align: 'right',
       title: 'Updated At',
       name: 'updatedAt'
-    },
-    {
-      align: 'center',
-      title: 'Management',
-      name: 'management'
     },
     {
       align: 'right',
