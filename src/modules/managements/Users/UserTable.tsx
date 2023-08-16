@@ -9,13 +9,18 @@ import {
 } from '@mui/material';
 import { format, parseISO } from 'date-fns';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import { useModal } from 'src/utils/hooks';
+import { User } from 'src/models';
 
 interface UserTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
   tableFilter: ({ status, dateFrom, dateTo }) => ReactNode[];
+  visible: boolean;
+  toggle: () => void;
+  user: User;
 }
 interface TableFilterProps {
   status: {
@@ -32,6 +37,14 @@ interface TableFilterProps {
   };
 }
 const UserTable = (): UserTableProps => {
+  const { visible, toggle } = useModal();
+  const [user, setUser] = useState<User>();
+
+  const onClickButton = (user) => {
+    setUser(user);
+    toggle();
+  };
+
   const tableBody = (item): TableBody[] => [
     {
       align: 'inherit',
@@ -98,7 +111,11 @@ const UserTable = (): UserTableProps => {
       align: 'center',
       children: (
         <>
-          <Button variant="outlined" startIcon={<PaidOutlinedIcon />}>
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            onClick={() => onClickButton(item)}
+          >
             Payment
           </Button>
         </>
@@ -164,7 +181,7 @@ const UserTable = (): UserTableProps => {
     </FormControl>
   ];
 
-  return { tableBody, tableHeader, tableFilter };
+  return { tableBody, tableHeader, tableFilter, visible, toggle, user };
 };
 
 export default UserTable;

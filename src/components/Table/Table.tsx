@@ -50,6 +50,7 @@ interface TableProps<P> {
   isLoading: boolean;
   pagination: P;
   tableFilter?: ReactNode[];
+  extraOptions?: ReactNode[];
   tableBody: (item: unknown) => TableBodyType[];
   onDelete?: (value: number | string) => void;
   onUpdate?: (value: number | string) => void;
@@ -157,6 +158,7 @@ const Table = ({
   pagination,
   totalItems = 0,
   tableFilter,
+  extraOptions,
   tableBody,
   onDelete,
   onUpdate,
@@ -345,8 +347,13 @@ const Table = ({
                     </TableCell>
                   ))}
                   <TableCell align="right" key={uuid()}>
+                    {extraOptions?.map((child) => (
+                      <Tooltip title="" arrow>
+                        {child as React.ReactElement}
+                      </Tooltip>
+                    ))}
                     {onUpdate && (
-                      <Tooltip title="Edit" arrow>
+                      <Tooltip title="View / Edit" arrow>
                         <IconButton
                           sx={{
                             '&:hover': {

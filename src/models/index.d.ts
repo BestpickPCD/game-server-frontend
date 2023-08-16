@@ -28,19 +28,22 @@ export interface ResponseType<T> {
 }
 export interface User {
   id: number;
-  name: string;
   email: string;
+  name: string;
   username: string;
-  type?: string;
-  roleId: number;
+  createdAt?: string;
+  currency?: {
+    code: string;
+  };
+  role?: {
+    name: string;
+  };
+  roleId?: number;
   currencyId?: number;
-  updatedAt: string;
-  createdAt: string;
-
+  updatedAt?: string;
   currencyName?: string;
   roleName?: string;
-  currency: { code: string };
-  role: { name: string };
+  type?: string;
 }
 
 export interface Agent extends User {

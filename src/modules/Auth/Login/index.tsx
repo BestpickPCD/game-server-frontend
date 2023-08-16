@@ -57,12 +57,14 @@ const Login = (): JSX.Element => {
         reset();
         notify({ message: 'Login Successfully' });
         navigate('/dashboards');
+        const { tokens, ...rest } = response.data;
         localStorage.setItem(
           'tokens',
           JSON.stringify({
-            token: response.data.tokens
+            token: tokens
           })
         );
+        localStorage.setItem('user', JSON.stringify(rest));
       }
     } catch (error) {
       if ((error.data.message as ResponseMessage) === 'NOT_FOUND') {
