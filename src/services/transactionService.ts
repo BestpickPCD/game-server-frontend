@@ -4,13 +4,13 @@ import { baseQueryWithReAuth } from './baseQuery';
 import { Transactions, ResponseType, ResponsePagination } from 'src/models';
 
 interface PostBody {
-  receiverId: number;
-  type: string;
-  note: string;
-  token: string;
-  status: string;
-  amount: number;
-  currencyId: number;
+  receiverId?: number;
+  type?: string;
+  note?: string;
+  token?: string;
+  status?: string;
+  amount?: number;
+  currencyId?: number;
 }
 
 export const TransactionService = createApi({

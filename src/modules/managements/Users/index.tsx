@@ -11,11 +11,22 @@ import UserTable from './UserTable';
 import { PaginationAndSort } from 'src/components/Table/tableType';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { User } from 'src/models';
+import {
+  Box,
+  Button,
+  Dialog,
+  Grid,
+  TextField,
+  Typography
+} from '@mui/material';
+import { useCreateTransactionMutation } from 'src/services/transactionService';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
   dateFrom: string;
   dateTo: string;
+  isSubmit?: boolean;
+  setIsSubmit?: () => void;
 }
 const UsersManagement = (): JSX.Element => {
   const breadcrumbs = [
@@ -29,7 +40,21 @@ const UsersManagement = (): JSX.Element => {
   ];
   const { visible, hide, show } = useModal();
   const { notify, message } = useToast();
-  const { tableBody, tableHeader, tableFilter } = UserTable();
+  const {
+    tableBody,
+    tableHeader,
+    tableFilter,
+    visible: visibleTransaction,
+    toggle: toggleTransaction,
+    user
+  } = UserTable();
+  const [formData, setFormData] = useState({
+    receiverId: 0,
+    amount: 0,
+    type: 'add',
+    note: '',
+    status: 'pending'
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any[]>([]);
@@ -46,10 +71,10 @@ const UsersManagement = (): JSX.Element => {
     dateFrom: '',
     dateTo: ''
   });
-  console.log('render');
 
   const [getUserDetail] = useGetUserByIdMutation();
   const [deleteUser, { isLoading: isLoadingDelete }] = useDeleteUserMutation();
+  const [createTransaction] = useCreateTransactionMutation();
 
   const {
     data: userData,
@@ -78,6 +103,11 @@ const UsersManagement = (): JSX.Element => {
     }
   }, [userData, pagination.sortBy, pagination.sortDirection]);
 
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, receiverId: user?.id }));
+    setFormData((prev) => ({ ...prev, status: 'success' }));
+  }, [user]);
+
   const onAdd = () => {
     show();
     setDetail(null);
@@ -102,6 +132,21 @@ const UsersManagement = (): JSX.Element => {
     } catch (error) {
       notify({ message: message.ERROR, type: 'error' });
     }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await createTransaction(formData).unwrap();
+      if (response) {
+        toggleTransaction();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onInput = (value, inputName) => {
+    setFormData((prev) => ({ ...prev, [`${inputName}`]: value }));
   };
 
   return (
@@ -150,6 +195,32 @@ const UsersManagement = (): JSX.Element => {
         refetch={refetch}
         hide={hide}
       />
+      <Dialog open={visibleTransaction} onClose={toggleTransaction}>
+        <Box component="form" padding={2}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography gutterBottom variant="h5" component="div">
+                Add transaction to User
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                label="Insert the amount here"
+                variant="outlined"
+                fullWidth
+                onInput={(event) =>
+                  onInput((event.target as HTMLInputElement).value, 'amount')
+                }
+              />
+            </Grid>
+            <Grid item xs={4} sx={{ padding: 1 }}>
+              <Button onClick={handleSubmit} size="large" variant="contained">
+                + Add
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Dialog>
     </>
   );
 };

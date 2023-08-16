@@ -10,35 +10,8 @@ import Paper from '@mui/material/Paper';
 import { useGetVendorsQuery } from 'src/services/vendorService';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
-// import { TablePagination } from '@mui/material';
-
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
 
 export default function Vendors(): JSX.Element {
-  // const [page, setPage] = React.useState(2);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  // const handleChangePage = (
-  //     event: React.MouseEvent<HTMLButtonElement> | null,
-  //     newPage: number,
-  // ) => {
-  //     setPage(newPage);
-  // };
-
-  // const handleChangeRowsPerPage = (
-  //     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  // ) => {
-  //     setRowsPerPage(parseInt(event.target.value, 10));
-  //     setPage(0);
-  // };
   const { data } = useGetVendorsQuery({});
 
   return (
@@ -58,7 +31,12 @@ export default function Vendors(): JSX.Element {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                <Button variant="outlined" size="small" sx={{ width: '200px' }}>
+                <Button
+                  disabled={!row.canSee}
+                  variant="contained"
+                  size="small"
+                  sx={{ width: '200px' }}
+                >
                   <Link to={`${row.name}`}>{row.name}</Link>
                 </Button>
               </TableCell>
