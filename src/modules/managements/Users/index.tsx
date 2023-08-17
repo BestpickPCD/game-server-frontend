@@ -11,13 +11,7 @@ import UserTable from './UserTable';
 import { PaginationAndSort } from 'src/components/Table/tableType';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { User } from 'src/models';
-import {
-  Box,
-  Dialog,
-  Grid,
-  TextField,
-  Typography
-} from '@mui/material';
+import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
 import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { LoadingButton } from '@mui/lab';
 
@@ -48,7 +42,7 @@ const UsersManagement = (): JSX.Element => {
     toggle: toggleTransaction,
     user
   } = UserTable();
-  
+
   const [formData, setFormData] = useState({
     receiverId: 0,
     amount: 0,
@@ -75,7 +69,8 @@ const UsersManagement = (): JSX.Element => {
 
   const [getUserDetail] = useGetUserByIdMutation();
   const [deleteUser, { isLoading: isLoadingDelete }] = useDeleteUserMutation();
-  const [createTransaction, { isLoading: isLoadingCreate }] = useCreateTransactionMutation();
+  const [createTransaction, { isLoading: isLoadingCreate }] =
+    useCreateTransactionMutation();
 
   const {
     data: userData,
@@ -188,7 +183,7 @@ const UsersManagement = (): JSX.Element => {
               })
           }
         })}
-      /> 
+      />
       <UserModal
         open={visible}
         detail={detail}
@@ -215,7 +210,12 @@ const UsersManagement = (): JSX.Element => {
               />
             </Grid>
             <Grid item xs={4} sx={{ padding: 1 }}>
-              <LoadingButton loading={ isLoadingCreate } onClick={handleSubmit} size="large" variant="contained">
+              <LoadingButton
+                loading={isLoadingCreate}
+                onClick={handleSubmit}
+                size="large"
+                variant="contained"
+              >
                 + Add
               </LoadingButton>
             </Grid>

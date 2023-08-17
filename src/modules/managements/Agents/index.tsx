@@ -21,8 +21,6 @@ interface UsersPagination extends PaginationAndSort {
   dateTo: string;
 }
 
-
-
 const pageName = 'Agents Management';
 const AgentsManagement = (): JSX.Element => {
   const breadcrumbs = [
@@ -36,13 +34,13 @@ const AgentsManagement = (): JSX.Element => {
   ];
   const { visible, hide, show } = useModal();
   const { notify, message } = useToast();
-  const { 
-    tableBody, 
-    tableHeader, 
+  const {
+    tableBody,
+    tableHeader,
     tableFilter,
     visible: visibleTransaction,
     toggle: toggleTransaction,
-    user 
+    user
   } = UserTable();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,13 +56,14 @@ const AgentsManagement = (): JSX.Element => {
     sortDirection: 'asc',
     status: '',
     dateFrom: '',
-    dateTo: '',
+    dateTo: ''
   });
 
   const [getAgentDetail] = useGetAgentByIdMutation();
   const [deleteAgent, { isLoading: isLoadingDelete }] =
     useDeleteAgentMutation();
-    const [createTransaction, { isLoading: isLoadingCreate }] = useCreateTransactionMutation()
+  const [createTransaction, { isLoading: isLoadingCreate }] =
+    useCreateTransactionMutation();
   const {
     data: agentData,
     isFetching,
@@ -211,7 +210,12 @@ const AgentsManagement = (): JSX.Element => {
               />
             </Grid>
             <Grid item xs={4} sx={{ padding: 1 }}>
-              <LoadingButton loading={ isLoadingCreate } onClick={handleSubmit} size="large" variant="contained">
+              <LoadingButton
+                loading={isLoadingCreate}
+                onClick={handleSubmit}
+                size="large"
+                variant="contained"
+              >
                 + Add
               </LoadingButton>
             </Grid>

@@ -38,10 +38,9 @@ interface TableFilterProps {
 }
 
 const UserTable = (): UserTableProps => {
-  
   const { visible, toggle } = useModal();
-  const [ user, setUser ] = useState<User>()
-  
+  const [user, setUser] = useState<User>();
+
   const onClickButton = (user) => {
     setUser(user);
     toggle();
@@ -112,13 +111,13 @@ const UserTable = (): UserTableProps => {
       align: 'center',
       children: (
         <>
-        <Button
-          variant="outlined"
-          startIcon={<PaidOutlinedIcon />}
-          onClick={() => onClickButton(item)}
-        >
-          Payment
-        </Button>
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            onClick={() => onClickButton(item)}
+          >
+            Payment
+          </Button>
         </>
       )
     }
