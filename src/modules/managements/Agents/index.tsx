@@ -11,12 +11,17 @@ import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import AgentModal from './AgentModal';
 import UserTable from './AgentTable';
+import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
+import { useCreateTransactionMutation } from 'src/services/transactionService';
+import { LoadingButton } from '@mui/lab';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
   dateFrom: string;
   dateTo: string;
 }
+
+
 
 const pageName = 'Agents Management';
 const AgentsManagement = (): JSX.Element => {
@@ -31,7 +36,14 @@ const AgentsManagement = (): JSX.Element => {
   ];
   const { visible, hide, show } = useModal();
   const { notify, message } = useToast();
-  const { tableBody, tableHeader, tableFilter } = UserTable();
+  const { 
+    tableBody, 
+    tableHeader, 
+    tableFilter,
+    visible: visibleTransaction,
+    toggle: toggleTransaction,
+    user 
+  } = UserTable();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<Agent[]>([]);
@@ -46,13 +58,13 @@ const AgentsManagement = (): JSX.Element => {
     sortDirection: 'asc',
     status: '',
     dateFrom: '',
-    dateTo: ''
+    dateTo: '',
   });
 
   const [getAgentDetail] = useGetAgentByIdMutation();
   const [deleteAgent, { isLoading: isLoadingDelete }] =
     useDeleteAgentMutation();
-
+    const [createTransaction, { isLoading: isLoadingCreate }] = useCreateTransactionMutation()
   const {
     data: agentData,
     isFetching,
@@ -69,6 +81,19 @@ const AgentsManagement = (): JSX.Element => {
     { refetchOnMountOrArgChange: true }
   );
 
+  const [formData, setFormData] = useState({
+    receiverId: 0,
+    amount: 0,
+    type: 'add',
+    note: '',
+    status: 'pending'
+  });
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, receiverId: user?.id }));
+    setFormData((prev) => ({ ...prev, status: 'success' }));
+  }, [user]);
+
   useEffect(() => {
     if (agentData) {
       setData(() =>
@@ -79,7 +104,7 @@ const AgentsManagement = (): JSX.Element => {
         )
       );
     }
-  }, [agentData, pagination.sortBy, pagination.sortDirection]);
+  }, [agentData, pagination]);
 
   const onAdd = () => {
     show();
@@ -104,6 +129,21 @@ const AgentsManagement = (): JSX.Element => {
     } catch (error) {
       notify({ message: message.ERROR, type: 'error' });
     }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await createTransaction(formData).unwrap();
+      if (response) {
+        toggleTransaction();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onInput = (value, inputName) => {
+    setFormData((prev) => ({ ...prev, [`${inputName}`]: value }));
   };
 
   return (
@@ -152,6 +192,32 @@ const AgentsManagement = (): JSX.Element => {
         refetch={refetch}
         hide={hide}
       />
+      <Dialog open={visibleTransaction} onClose={toggleTransaction}>
+        <Box component="form" padding={2}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography gutterBottom variant="h5" component="div">
+                Add transaction
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                label="Insert the amount here"
+                variant="outlined"
+                fullWidth
+                onInput={(event) =>
+                  onInput((event.target as HTMLInputElement).value, 'amount')
+                }
+              />
+            </Grid>
+            <Grid item xs={4} sx={{ padding: 1 }}>
+              <LoadingButton loading={ isLoadingCreate } onClick={handleSubmit} size="large" variant="contained">
+                + Add
+              </LoadingButton>
+            </Grid>
+          </Grid>
+        </Box>
+      </Dialog>
     </>
   );
 };

@@ -13,13 +13,13 @@ import { formatToISOString, onSortTable } from 'src/utils';
 import { User } from 'src/models';
 import {
   Box,
-  Button,
   Dialog,
   Grid,
   TextField,
   Typography
 } from '@mui/material';
 import { useCreateTransactionMutation } from 'src/services/transactionService';
+import { LoadingButton } from '@mui/lab';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
@@ -48,6 +48,7 @@ const UsersManagement = (): JSX.Element => {
     toggle: toggleTransaction,
     user
   } = UserTable();
+  
   const [formData, setFormData] = useState({
     receiverId: 0,
     amount: 0,
@@ -74,7 +75,7 @@ const UsersManagement = (): JSX.Element => {
 
   const [getUserDetail] = useGetUserByIdMutation();
   const [deleteUser, { isLoading: isLoadingDelete }] = useDeleteUserMutation();
-  const [createTransaction] = useCreateTransactionMutation();
+  const [createTransaction, { isLoading: isLoadingCreate }] = useCreateTransactionMutation();
 
   const {
     data: userData,
@@ -187,7 +188,7 @@ const UsersManagement = (): JSX.Element => {
               })
           }
         })}
-      />
+      /> 
       <UserModal
         open={visible}
         detail={detail}
@@ -200,7 +201,7 @@ const UsersManagement = (): JSX.Element => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography gutterBottom variant="h5" component="div">
-                Add transaction to User
+                Add transaction
               </Typography>
             </Grid>
             <Grid item xs={8}>
@@ -214,9 +215,9 @@ const UsersManagement = (): JSX.Element => {
               />
             </Grid>
             <Grid item xs={4} sx={{ padding: 1 }}>
-              <Button onClick={handleSubmit} size="large" variant="contained">
+              <LoadingButton loading={ isLoadingCreate } onClick={handleSubmit} size="large" variant="contained">
                 + Add
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </Box>
