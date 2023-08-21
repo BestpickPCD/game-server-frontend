@@ -78,12 +78,9 @@ const TransactionTable = (): TransactionTableProps => {
       align: 'inherit',
       children: (
         <>
-          <CustomLink
-            onClick={() => onRedirect(item.senderId)}
-            color="text.primary"
-          >
+          <Typography variant="body1" color="text.primary" noWrap>
             {item.senderName}
-          </CustomLink>
+          </Typography>
         </>
       )
     },

@@ -1,5 +1,6 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -8,12 +9,18 @@ import {
 } from '@mui/material';
 import { format, parseISO } from 'date-fns';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import { User } from 'src/models';
+import { useModal } from 'src/utils/hooks';
 
 interface UserTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
   tableFilter: ({ status, dateFrom, dateTo }) => ReactNode[];
+  visible: boolean;
+  toggle: () => void;
+  user: User;
 }
 interface TableFilterProps {
   status: {
@@ -29,7 +36,15 @@ interface TableFilterProps {
     onChange: (value: string) => void;
   };
 }
+
 const UserTable = (): UserTableProps => {
+  const { visible, toggle } = useModal();
+  const [user, setUser] = useState<User>();
+
+  const onClickButton = (user) => {
+    setUser(user);
+    toggle();
+  };
   const tableBody = (item): TableBody[] => [
     {
       align: 'inherit',
@@ -91,6 +106,20 @@ const UserTable = (): UserTableProps => {
           </Typography>
         </>
       )
+    },
+    {
+      align: 'center',
+      children: (
+        <>
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            onClick={() => onClickButton(item)}
+          >
+            Payment
+          </Button>
+        </>
+      )
     }
   ];
   const tableHeader: TableHeader[] = [
@@ -113,6 +142,11 @@ const UserTable = (): UserTableProps => {
       align: 'right',
       title: 'Updated At',
       name: 'updatedAt'
+    },
+    {
+      align: 'center',
+      title: 'Management',
+      name: 'management'
     },
     {
       align: 'right',
@@ -147,7 +181,7 @@ const UserTable = (): UserTableProps => {
     </FormControl>
   ];
 
-  return { tableBody, tableHeader, tableFilter };
+  return { tableBody, tableHeader, tableFilter, user, toggle, visible };
 };
 
 export default UserTable;
