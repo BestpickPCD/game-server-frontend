@@ -48,6 +48,14 @@ export const TransactionService = createApi({
         url: `/transactions/${id}`
       })
     }),
+    getUserTransactionById: builder.query<
+      ResponseType<ResponsePagination<Transactions[]>>,
+      any
+    >({
+      query: ({ id }) => ({
+        url: `/transaction-details/${id}`
+      })
+    }),
     createTransaction: builder.mutation<ResponseType<string>, PostBody>({
       query: (body) => ({
         url: `/transaction`,
@@ -61,5 +69,6 @@ export const TransactionService = createApi({
 export const {
   useGetTransactionQuery,
   useGetTransactionByIdMutation,
-  useCreateTransactionMutation
+  useCreateTransactionMutation,
+  useGetUserTransactionByIdQuery
 } = TransactionService;
