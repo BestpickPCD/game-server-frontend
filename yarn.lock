@@ -1872,7 +1872,7 @@
   resolved "https://registry.npmjs.org/@mui/types/-/types-7.2.4.tgz"
   integrity sha512-LBcwa8rN84bKF+f5sDyku42w1NTxaPgPyYKODsh01U1fVstTClbUoSA96oyRBnSNyEiAVjKm6Gwx9vjR+xyqHA==
 
-"@mui/utils@^5.13.6", "@mui/utils@^5.13.7", "@mui/utils@^5.14.3", "@mui/utils@^5.6.0", "@mui/utils@^5.8.0":
+"@mui/utils@^5.13.6", "@mui/utils@^5.13.7", "@mui/utils@^5.14.5", "@mui/utils@^5.6.0", "@mui/utils@^5.8.0":
   version "5.14.5"
   resolved "https://registry.npmjs.org/@mui/utils/-/utils-5.14.5.tgz"
   integrity sha512-6Hzw63VR9C5xYv+CbjndoRLU6Gntal8rJ5W+GUzkyHrGWIyYPWZPa6AevnyGioySNETATe1H9oXS8f/7qgIHJA==
@@ -1883,13 +1883,13 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid@^6.11.1":
-  version "6.11.1"
-  resolved "https://registry.npmjs.org/@mui/x-data-grid/-/x-data-grid-6.11.1.tgz"
-  integrity sha512-qFyuf6R/JOG46Y62scwH0C7s+xVqfRFU/gv4rUWS9m+EYsabAXTx/g+Mq2t+ZGdaaGZlrpKDavr2PwitbpTMaw==
+"@mui/x-data-grid@^6.11.2":
+  version "6.11.2"
+  resolved "https://registry.npmjs.org/@mui/x-data-grid/-/x-data-grid-6.11.2.tgz"
+  integrity sha512-84IgDwjgQ2eqTJvoj0BxN2KIgQdwTf7pnR0dYxbpcIkB+LMsOxSv502UJkvWWkjm16D4vKcj4QMSLsWhc21BHg==
   dependencies:
     "@babel/runtime" "^7.22.6"
-    "@mui/utils" "^5.14.3"
+    "@mui/utils" "^5.14.5"
     clsx "^2.0.0"
     prop-types "^15.8.1"
     reselect "^4.1.8"
