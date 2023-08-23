@@ -27,7 +27,14 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import { ChangeEvent, ReactNode, memo, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  ReactNode,
+  memo,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 import { useModal } from 'src/utils/hooks';
 import BulkActions from './BulkActions';
 import {
@@ -174,6 +181,7 @@ const Table = ({
   };
 
   const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
+
   useEffect(() => {
     onPagination({
       ...pagination,
@@ -203,6 +211,13 @@ const Table = ({
     } as PaginationAndSort;
     onPagination(newPagination);
   };
+
+  const TableHeaderMemo = useMemo(() => {
+    if (!onDelete && !onUpdate) {
+      tableHeader.pop();
+    }
+    return tableHeader;
+  }, [onDelete, onUpdate]);
 
   return (
     <Card>
@@ -265,7 +280,7 @@ const Table = ({
                   onChange={onSelectedAllRows}
                 />
               </TableCell>
-              {tableHeader.map((headerItem, index) => (
+              {TableHeaderMemo.map((headerItem, index) => (
                 <TableCell
                   key={uuid()}
                   {...headerItem.tableProps}
@@ -318,41 +333,43 @@ const Table = ({
                       )}
                     </TableCell>
                   ))}
-                  <TableCell align="right" key={uuid()}>
-                    {extraOptions?.map((child) => (
-                      <Tooltip title="" arrow>
-                        {child as React.ReactElement}
-                      </Tooltip>
-                    ))}
-                    {onUpdate && (
-                      <Tooltip title="View / Edit" arrow>
-                        <IconButton
-                          sx={{
-                            '&:hover': {
-                              background: theme.colors.primary.lighter
-                            },
-                            color: theme.palette.primary.main
-                          }}
-                          color="inherit"
-                          size="small"
-                          onClick={() => onUpdate(item.id)}
-                        >
-                          <EditTwoToneIcon fontSize="small" />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-                    {onDelete &&
-                      ToolTipDelete({
-                        item,
-                        rowId,
-                        visible,
-                        theme,
-                        isLoading,
-                        handleShow,
-                        onDelete,
-                        hide
-                      })}
-                  </TableCell>
+                  {(onUpdate || onDelete) && (
+                    <TableCell align="right" key={uuid()}>
+                      {extraOptions?.map((child) => (
+                        <Tooltip title="" arrow>
+                          {child as React.ReactElement}
+                        </Tooltip>
+                      ))}
+                      {onUpdate && (
+                        <Tooltip title="View / Edit" arrow>
+                          <IconButton
+                            sx={{
+                              '&:hover': {
+                                background: theme.colors.primary.lighter
+                              },
+                              color: theme.palette.primary.main
+                            }}
+                            color="inherit"
+                            size="small"
+                            onClick={() => onUpdate(item.id)}
+                          >
+                            <EditTwoToneIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {onDelete &&
+                        ToolTipDelete({
+                          item,
+                          rowId,
+                          visible,
+                          theme,
+                          isLoading,
+                          handleShow,
+                          onDelete,
+                          hide
+                        })}
+                    </TableCell>
+                  )}
                 </TableRow>
               );
             })}

@@ -1,6 +1,6 @@
 import { AuthService } from 'src/services/authService';
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './slice';
+import commonSlice from './commonSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { GameService } from 'src/services/gameService';
 import { CurrencyService } from 'src/services/currencyService';
@@ -12,7 +12,7 @@ import { VendorService } from 'src/services/vendorService';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    common: commonSlice,
     [GameService.reducerPath]: GameService.reducer,
     [CurrencyService.reducerPath]: CurrencyService.reducer,
     [UserService.reducerPath]: UserService.reducer,
