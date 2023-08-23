@@ -1,11 +1,47 @@
 import { Box, alpha, lighten, useTheme } from '@mui/material';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import Header from './Header';
 import Sidebar from './Sidebar';
+import { usePermissionsQuery } from 'src/services/commonServices';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getPermissions } from 'src/app/commonSlice';
 
+const dispatchPermissionByRoute = (permissions, dispatch) => {
+  if (location.pathname.split('/')) {
+    const route = location.pathname.split('/')[2];
+    if (route) {
+      const permissionInRoute = permissions[route];
+      if (permissionInRoute) {
+        dispatch(getPermissions(permissionInRoute));
+      }
+    }
+  }
+};
 const SidebarLayout = (): JSX.Element => {
+  const dispatch = useDispatch();
   const theme = useTheme();
+  const location = useLocation();
+  const { data } = usePermissionsQuery(
+    {},
+    {
+      skip: !!localStorage.getItem('permissions')
+    }
+  );
+
+  useEffect(() => {
+    const permissions = localStorage.getItem('permissions');
+    if (!permissions) {
+      if (data?.data) {
+        const response = { ...data.data };
+        localStorage.setItem('permissions', JSON.stringify({ ...response }));
+        return dispatchPermissionByRoute({ ...response }, dispatch);
+      }
+    } else {
+      return dispatchPermissionByRoute(JSON.parse(permissions), dispatch);
+    }
+  }, [data, location]);
 
   return (
     <>

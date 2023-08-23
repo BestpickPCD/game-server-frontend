@@ -1,19 +1,22 @@
+import { LoadingButton } from '@mui/lab';
+import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/app/store';
 import TableComponent from 'src/components/Table';
 import { PaginationAndSort } from 'src/components/Table/tableType';
 import { Agent } from 'src/models';
 import {
-  useGetAgentsQuery,
+  useDeleteAgentMutation,
   useGetAgentByIdMutation,
-  useDeleteAgentMutation
+  useGetAgentsQuery
 } from 'src/services/agentService';
+import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import AgentModal from './AgentModal';
 import UserTable from './AgentTable';
-import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
-import { useCreateTransactionMutation } from 'src/services/transactionService';
-import { LoadingButton } from '@mui/lab';
+import { FormattedMessage } from 'react-intl';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
@@ -21,7 +24,10 @@ interface UsersPagination extends PaginationAndSort {
   dateTo: string;
 }
 
-const pageName = 'Agents Management';
+const pageName = 'title.agent-management';
+const checkPermission = (permissionArray: string[], permission: string) =>
+  permissionArray?.includes(permission);
+
 const AgentsManagement = (): JSX.Element => {
   const breadcrumbs = [
     {
@@ -58,12 +64,13 @@ const AgentsManagement = (): JSX.Element => {
     dateFrom: '',
     dateTo: ''
   });
+  const { permissions } = useSelector((state: RootState) => state.common);
 
   const [getAgentDetail] = useGetAgentByIdMutation();
   const [deleteAgent, { isLoading: isLoadingDelete }] =
     useDeleteAgentMutation();
   const [createTransaction, { isLoading: isLoadingCreate }] =
-    useCreateTransactionMutation();
+    useCreateTransactionMutation({});
   const {
     data: agentData,
     isFetching,
@@ -77,7 +84,10 @@ const AgentsManagement = (): JSX.Element => {
       dateFrom: pagination.dateFrom,
       dateTo: pagination.dateTo
     },
-    { refetchOnMountOrArgChange: true }
+    {
+      refetchOnMountOrArgChange: true,
+      skip: !checkPermission(permissions, 'get')
+    }
   );
 
   const [formData, setFormData] = useState({
@@ -89,7 +99,7 @@ const AgentsManagement = (): JSX.Element => {
   });
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, receiverId: user?.id }));
+    (prev) => ({ ...prev, receiverId: user?.id });
     setFormData((prev) => ({ ...prev, status: 'success' }));
   }, [user]);
 
@@ -155,10 +165,10 @@ const AgentsManagement = (): JSX.Element => {
         tableBody={tableBody}
         headerTitle={pageName}
         breadcrumbs={breadcrumbs}
-        onOpenModal={onAdd}
+        onOpenModal={checkPermission(permissions, 'create') && onAdd}
         isLoading={isFetching || isLoadingDelete}
-        onDelete={onDelete}
-        onUpdate={onUpdate}
+        onDelete={checkPermission(permissions, 'delete') && onDelete}
+        onUpdate={checkPermission(permissions, 'update') && onUpdate}
         pagination={pagination}
         onPagination={setPagination}
         tableFilter={tableFilter({
@@ -196,10 +206,17 @@ const AgentsManagement = (): JSX.Element => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography gutterBottom variant="h5" component="div">
-                Add transaction
+                <FormattedMessage id="title.add-transaction" />
               </Typography>
             </Grid>
-            <Grid item xs={8}>
+            <Box
+              justifyContent="center"
+              display="flex"
+              width={'100%'}
+              paddingLeft="18px"
+              gap="12px"
+              marginTop="8px"
+            >
               <TextField
                 label="Insert the amount here"
                 variant="outlined"
@@ -208,17 +225,19 @@ const AgentsManagement = (): JSX.Element => {
                   onInput((event.target as HTMLInputElement).value, 'amount')
                 }
               />
-            </Grid>
-            <Grid item xs={4} sx={{ padding: 1 }}>
               <LoadingButton
                 loading={isLoadingCreate}
                 onClick={handleSubmit}
                 size="large"
                 variant="contained"
+                sx={{ width: 120 }}
               >
-                + Add
+                <Box>
+                  <span>+ &nbsp;</span>
+                  <span>Add</span>
+                </Box>
               </LoadingButton>
-            </Grid>
+            </Box>
           </Grid>
         </Box>
       </Dialog>

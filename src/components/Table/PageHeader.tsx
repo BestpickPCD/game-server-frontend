@@ -4,6 +4,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import Breadcrumbs from '../Breadcrumbs';
 import { Breadcrumbs as BreadcrumbsType } from '../Breadcrumbs/type';
 import { memo } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 interface PageHeaderProps {
   headerTitle: string;
@@ -20,7 +21,7 @@ const PageHeader = ({
   <Grid container justifyContent="space-between" alignItems="center">
     <Grid item>
       <Typography variant="h3" component="h3" gutterBottom>
-        {headerTitle}
+        <FormattedMessage id="title.add-transaction" />
       </Typography>
       <Typography variant="subtitle2">{headerSubtitle}</Typography>
       {breadcrumbs && (

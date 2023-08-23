@@ -1,6 +1,7 @@
 import { Card, Container, Grid } from '@mui/material';
 import { ReactNode, memo } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Breadcrumbs } from '../Breadcrumbs/type';
@@ -50,48 +51,51 @@ const TableComponent = ({
   onUpdate,
   onPagination
 }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-TableProps<any, PaginationAndSort>): JSX.Element => (
-  <>
-    <Helmet>
-      <title>{title}</title>
-    </Helmet>
-    <PageTitleWrapper>
-      <PageHeader
-        headerTitle={headerTitle}
-        headerSubtitle={headerSubtitle}
-        onOpenModal={onOpenModal}
-        breadcrumbs={breadcrumbs}
-      />
-    </PageTitleWrapper>
-    <Container maxWidth="lg">
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="stretch"
-        spacing={3}
-      >
-        <Grid item xs={12}>
-          <Card>
-            <Table
-              data={data}
-              totalItems={totalItems}
-              tableHeader={tableHeader}
-              tableBody={tableBody}
-              isLoading={isLoading}
-              onDelete={onDelete}
-              onUpdate={onUpdate}
-              onPagination={onPagination}
-              pagination={pagination}
-              tableFilter={tableFilter}
-              extraOptions={extraOptions}
-            />
-          </Card>
+TableProps<any, PaginationAndSort>): JSX.Element => {
+  const intl = useIntl();
+  return (
+    <>
+      <Helmet>
+        <title>{intl.formatMessage({ id: title })}</title>
+      </Helmet>
+      <PageTitleWrapper>
+        <PageHeader
+          headerTitle={headerTitle}
+          headerSubtitle={headerSubtitle}
+          onOpenModal={onOpenModal}
+          breadcrumbs={breadcrumbs}
+        />
+      </PageTitleWrapper>
+      <Container maxWidth="lg">
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="stretch"
+          spacing={3}
+        >
+          <Grid item xs={12}>
+            <Card>
+              <Table
+                data={data}
+                totalItems={totalItems}
+                tableHeader={tableHeader}
+                tableBody={tableBody}
+                isLoading={isLoading}
+                onDelete={onDelete}
+                onUpdate={onUpdate}
+                onPagination={onPagination}
+                pagination={pagination}
+                tableFilter={tableFilter}
+                extraOptions={extraOptions}
+              />
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
-    <Footer />
-  </>
-);
+      </Container>
+      <Footer />
+    </>
+  );
+};
 
 export default memo(TableComponent);
