@@ -79,7 +79,7 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item.senderName}
+            {item.senderUser}
           </Typography>
         </>
       )
@@ -92,7 +92,7 @@ const TransactionTable = (): TransactionTableProps => {
             onClick={() => onRedirect(item.receiverId)}
             color="text.primary"
           >
-            {item.receiverName}
+            {item.receiverUser}
           </CustomLink>
         </>
       )

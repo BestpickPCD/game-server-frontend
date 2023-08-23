@@ -86,7 +86,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.username}
+            {item.balance}
           </Typography>
         </>
       )
@@ -135,8 +135,8 @@ const UserTable = (): UserTableProps => {
     },
     {
       align: 'right',
-      title: 'Username',
-      name: 'username'
+      title: 'Balance',
+      name: 'balance'
     },
     {
       align: 'right',

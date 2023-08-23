@@ -73,8 +73,8 @@ export interface Transactions {
   sender?: User | Agent | null;
   senderId?: number | string | null;
   receiverId?: number | string | null;
-  senderName?: string;
-  receiverName?: string;
+  senderUser?: string;
+  receiverUser?: string;
   type: transactionType;
   currencyId: number;
   status: string;

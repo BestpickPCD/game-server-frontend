@@ -99,7 +99,7 @@ const AgentsManagement = (): JSX.Element => {
   });
 
   useEffect(() => {
-    (prev) => ({ ...prev, receiverId: user?.id });
+    formData.receiverId = user?.id;
     setFormData((prev) => ({ ...prev, status: 'success' }));
   }, [user]);
 
