@@ -52,8 +52,8 @@ export const TransactionService = createApi({
       ResponseType<ResponsePagination<Transactions[]>>,
       any
     >({
-      query: ({ id }) => ({
-        url: `/transaction-details/${id}`
+      query: ({ id, type }) => ({
+        url: `/transaction-details/${id}${type}`
       })
     }),
     createTransaction: builder.mutation<ResponseType<string>, PostBody>({

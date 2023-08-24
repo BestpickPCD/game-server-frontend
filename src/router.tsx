@@ -50,6 +50,9 @@ const VendorsDetails = Loader(
 const UserTransactionsManagements = Loader(
   lazy(() => import('src/modules/managements/Transactions/UserTransaction'))
 );
+const UserTransactionTypeHistory = Loader(
+  lazy(() => import('src/modules/managements/Transactions/Type'))
+);
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
 );
@@ -58,7 +61,6 @@ const UserSettings = Loader(
 );
 
 // Status
-
 const Status404 = Loader(
   lazy(() => import('src/content/pages/Status/Status404'))
 );
@@ -155,14 +157,6 @@ const routes: RouteObject[] = [
         path: '',
         element: <Navigate to="games" replace />
       },
-      // {
-      //   path: 'games',
-      //   element: <PrivateRoute element={GamesManagement} />
-      // },
-      // {
-      //   path: 'usersx',
-      //   element: <PrivateRoute element={UsersManagement_new} />
-      // },
       {
         path: 'users',
         element: <PrivateRoute element={UsersManagement} />
@@ -184,7 +178,16 @@ const routes: RouteObject[] = [
           },
           {
             path: ':slug',
-            element: <PrivateRoute element={UserTransactionsManagements} />
+            children: [
+              {
+                path: '',
+                element: <PrivateRoute element={UserTransactionsManagements} />
+              },
+              {
+                path: ':type',
+                element: <PrivateRoute element={UserTransactionTypeHistory} />
+              }
+            ]
           }
         ]
       },

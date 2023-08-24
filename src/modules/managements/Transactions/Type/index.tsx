@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Transactions } from 'src/models';
-import { useGetUserTransactionByIdQuery } from 'src/services/transactionService';
-import { useParams } from 'react-router';
 import { Paper, TableContainer } from '@mui/material';
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { useParams } from 'react-router';
+import { useGetUserTransactionByIdQuery } from 'src/services/transactionService';
 
 const columns: GridColDef[] = [
   {
@@ -29,12 +27,21 @@ const showRows = async (data) => {
   rows = data.details;
 };
 
-export default function UserTransaction(): JSX.Element {
-  const { slug } = useParams();
+export default function name(): JSX.Element {
+  const { slug, type } = useParams();
+
+  let typeParam;
+  if (type === 'betting-history') {
+    typeParam = 'bet,win,charge';
+  } else if (type === 'recharge-history') {
+    typeParam = 'add,adjust';
+  }
+
   const { data } = useGetUserTransactionByIdQuery({
     id: slug,
-    type: '?type=add,bet'
+    type: `?type=${typeParam}`
   });
+
   if (data) {
     showRows(data);
   }

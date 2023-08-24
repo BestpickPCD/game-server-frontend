@@ -65,14 +65,41 @@ const UserTable = (): UserTableProps => {
       align: 'inherit',
       children: (
         <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            href={`transactions/${item.id}`}
           >
             {item.user.balance}
-          </Typography>
+          </Button>
+        </>
+      )
+    },
+    {
+      align: 'inherit',
+      children: (
+        <>
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            href={`transactions/${item.id}/betting-history`}
+          >
+            {item.user.balance}
+          </Button>
+        </>
+      )
+    },
+    {
+      align: 'inherit',
+      children: (
+        <>
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            href={`transactions/${item.id}/recharge-history`}
+          >
+            {item.user.balance}
+          </Button>
         </>
       )
     },
@@ -132,6 +159,16 @@ const UserTable = (): UserTableProps => {
       align: 'inherit',
       title: 'Balance',
       name: 'balance'
+    },
+    {
+      align: 'inherit',
+      title: 'Total Betting amount',
+      name: 'totalBettingAmount'
+    },
+    {
+      align: 'inherit',
+      title: 'Total Recharge Amount',
+      name: 'totalBettingAmount'
     },
     {
       align: 'right',
