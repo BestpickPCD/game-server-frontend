@@ -84,7 +84,7 @@ const UserTable = (): UserTableProps => {
             startIcon={<PaidOutlinedIcon />}
             href={`transactions/${item.id}/betting-history`}
           >
-            {item.user.balance}
+            {item.user.betGameAmount}
           </Button>
         </>
       )
@@ -98,7 +98,7 @@ const UserTable = (): UserTableProps => {
             startIcon={<PaidOutlinedIcon />}
             href={`transactions/${item.id}/recharge-history`}
           >
-            {item.user.balance}
+            {item.user.amountReceived}
           </Button>
         </>
       )
@@ -139,6 +139,7 @@ const UserTable = (): UserTableProps => {
       children: (
         <>
           <Button
+            disabled={JSON.parse(localStorage.getItem('user'))?.id != item.agentId}
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
             onClick={() => onClickButton(item)}
