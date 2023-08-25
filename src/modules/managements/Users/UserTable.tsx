@@ -139,7 +139,9 @@ const UserTable = (): UserTableProps => {
       children: (
         <>
           <Button
-            disabled={JSON.parse(localStorage.getItem('user'))?.id != item.agentId}
+            disabled={
+              JSON.parse(localStorage.getItem('user'))?.id != item.agentId
+            }
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
             onClick={() => onClickButton(item)}
