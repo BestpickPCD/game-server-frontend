@@ -15,13 +15,13 @@ interface PageHeaderProps {
 const PageHeader = ({
   headerTitle,
   headerSubtitle,
-  onOpenModal,
-  breadcrumbs
+  breadcrumbs,
+  onOpenModal
 }: PageHeaderProps): JSX.Element => (
   <Grid container justifyContent="space-between" alignItems="center">
     <Grid item>
       <Typography variant="h3" component="h3" gutterBottom>
-        <FormattedMessage id="title.add-transaction" />
+        <FormattedMessage id={headerTitle} />
       </Typography>
       <Typography variant="subtitle2">{headerSubtitle}</Typography>
       {breadcrumbs && (
@@ -38,7 +38,7 @@ const PageHeader = ({
           startIcon={<AddTwoToneIcon fontSize="small" />}
           onClick={onOpenModal}
         >
-          Create
+          <FormattedMessage id="label.create" />
         </Button>
       </Grid>
     )}

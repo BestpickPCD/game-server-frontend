@@ -10,7 +10,8 @@ export const CurrencyService = createApi({
       query: (params) => ({
         url: '/currencies',
         params
-      })
+      }),
+      transformResponse: ({ data: { data } }) => data
     }),
     createCurrency: builder.mutation<unknown, any>({
       query: (body) => ({

@@ -13,6 +13,7 @@ import { ReactNode, useState } from 'react';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import { useModal } from 'src/utils/hooks';
 import { User } from 'src/models';
+import { FormattedMessage } from 'react-intl';
 
 interface UserTableProps {
   tableHeader: TableHeader[];
@@ -155,61 +156,63 @@ const UserTable = (): UserTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'Name',
+      title: 'label.name',
       name: 'name'
     },
     {
       align: 'inherit',
-      title: 'Balance',
+      title: 'label.balance',
       name: 'balance'
     },
     {
       align: 'inherit',
-      title: 'Total Betting amount',
+      title: 'label.betting',
       name: 'totalBettingAmount'
     },
     {
       align: 'inherit',
-      title: 'Total Recharge Amount',
+      title: 'label.recharge',
       name: 'totalBettingAmount'
     },
     {
       align: 'right',
-      title: 'Username',
+      title: 'label.username',
       name: 'username'
     },
     {
       align: 'right',
-      title: 'Updated At',
+      title: 'label.updated.at',
       name: 'updatedAt'
     },
     {
       align: 'center',
-      title: 'Management',
+      title: 'title.managements',
       name: 'management'
     },
     {
       align: 'right',
-      title: 'Actions'
+      title: 'label.actions'
     }
   ];
   const tableFilter = ({ status, dateFrom, dateTo }: TableFilterProps) => [
     <DatePicker
-      label="From"
+      label={<FormattedMessage id="label.from" />}
       // value={dateFrom.value ?? null}
       onChange={dateFrom.onChange}
     />,
     <DatePicker
-      label="To"
+      label={<FormattedMessage id="label.to" />}
       // value={dateTo.value ?? null}
       onChange={dateTo.onChange}
     />,
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="isActive">Status</InputLabel>
+      <InputLabel id="isActive">
+        <FormattedMessage id="label.status" />
+      </InputLabel>
       <Select
         labelId="isActive"
         value={status.value}
-        label="Status"
+        label={<FormattedMessage id="label.status" />}
         onChange={(e) => status.onChange(e.target.value)}
       >
         <MenuItem value="">

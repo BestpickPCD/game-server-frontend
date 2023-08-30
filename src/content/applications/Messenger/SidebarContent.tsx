@@ -183,7 +183,6 @@ const SidebarContent = (): JSX.Element => {
             </InputAdornment>
           )
         }}
-        placeholder="Search..."
       />
 
       <Typography

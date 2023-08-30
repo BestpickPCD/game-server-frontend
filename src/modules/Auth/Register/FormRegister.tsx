@@ -8,6 +8,7 @@ import { useToast } from 'src/utils/hooks';
 import { LoadingButton } from '@mui/lab';
 import * as yup from 'yup';
 import { useEffect } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 const schema = yup.object().shape({
   username: yup
@@ -147,7 +148,7 @@ const FormRegister = ({
       <TextField
         required
         fullWidth
-        label="Username"
+        label={<FormattedMessage id="label.username" />}
         sx={{ my: 1 }}
         error={!!errors['username']}
         helperText={errors['username'] ? errors['username'].message : ''}

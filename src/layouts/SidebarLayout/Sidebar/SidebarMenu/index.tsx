@@ -17,11 +17,12 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import SupportAgentRounded from '@mui/icons-material/SupportAgentRounded';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TableChartTwoToneIcon from '@mui/icons-material/GamesTwoTone';
 import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle';
 import CurrencyExchange from '@mui/icons-material/AttachMoney';
 import TransferWithinAStationOutlined from '@mui/icons-material/CurrencyExchangeOutlined';
+import StarTwoTone from '@mui/icons-material/StarTwoTone';
 import { useModal } from 'src/utils/hooks';
+import { FormattedMessage } from 'react-intl';
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
   .MuiList-root {
@@ -173,7 +174,7 @@ const SidebarMenu = (): JSX.Element => {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Dashboards
+              <FormattedMessage id="title.dashboard" />
             </ListSubheader>
           }
         >
@@ -187,7 +188,7 @@ const SidebarMenu = (): JSX.Element => {
                   to="/dashboards"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
-                  Dashboards
+                  <FormattedMessage id="title.dashboard" />
                 </Button>
               </ListItem>
             </List>
@@ -195,7 +196,7 @@ const SidebarMenu = (): JSX.Element => {
         </List>
         <CustomAccordion expanded={!visible}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />} onClick={toggle}>
-            Managements
+            <FormattedMessage id="title.managements" />
           </AccordionSummary>
           <SubMenuWrapper>
             <CustomList>
@@ -209,7 +210,7 @@ const SidebarMenu = (): JSX.Element => {
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
-                  User Management
+                  <FormattedMessage id="title.users-management" />
                 </Button>
               </ListItem>
               <ListItem>
@@ -222,7 +223,7 @@ const SidebarMenu = (): JSX.Element => {
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
-                  Agents Management
+                  <FormattedMessage id="title.agents-management" />
                 </Button>
               </ListItem>
               <ListItem>
@@ -235,7 +236,7 @@ const SidebarMenu = (): JSX.Element => {
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
-                  Currencies Management
+                  <FormattedMessage id="title.currencies-management" />
                 </Button>
               </ListItem>
               <ListItem>
@@ -248,7 +249,7 @@ const SidebarMenu = (): JSX.Element => {
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
-                  Vendor Management
+                  <FormattedMessage id="title.vendors-management" />
                 </Button>
               </ListItem>
               {/* <ListItem>
@@ -274,7 +275,20 @@ const SidebarMenu = (): JSX.Element => {
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
-                  Transactions Management
+                  <FormattedMessage id="title.transactions-management" />
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/management/roles"
+                  startIcon={<StarTwoTone />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  <FormattedMessage id="title.roles-management" />
                 </Button>
               </ListItem>
             </CustomList>

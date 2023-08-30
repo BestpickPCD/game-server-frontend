@@ -11,6 +11,7 @@ import HeaderNotifications from './Notifications';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getLang } from 'src/app/commonSlice';
+import { FormattedMessage } from 'react-intl';
 
 const HeaderButtons = (): JSX.Element => {
   const [lang, setLang] = useState('en');
@@ -38,12 +39,14 @@ const HeaderButtons = (): JSX.Element => {
         <HeaderNotifications />
       </Box>
       <FormControl sx={{ width: '120px', marginLeft: '8px' }}>
-        <InputLabel id="demo-simple-select-label">Languages</InputLabel>
+        <InputLabel id="demo-simple-select-label">
+          <FormattedMessage id="label.languages" />
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={lang}
-          label="Languages"
+          label={<FormattedMessage id="label.languages" />}
           onChange={onChangeLanguage}
         >
           <MenuItem value="en">English</MenuItem>

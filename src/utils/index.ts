@@ -30,10 +30,10 @@ export const formatToISOString = (
   date: Date,
   option: 'from' | 'to'
 ): string => {
-  if (option === 'from') {
-    const startOfDayUtc = moment(date).startOf('day').utc();
-    return startOfDayUtc.toISOString();
+  if (option === 'to') {
+    const endOfDayUtc = moment(date).endOf('day').utc();
+    return endOfDayUtc.toISOString();
   }
-  const endOfDayUtc = moment(date).endOf('day').utc();
-  return endOfDayUtc.toISOString();
+  const startOfDayUtc = moment(date).startOf('day').utc();
+  return startOfDayUtc.toISOString();
 };
