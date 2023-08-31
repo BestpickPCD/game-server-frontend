@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   Checkbox,
+  CircularProgress,
   Container,
   Divider,
   IconButton,
@@ -48,6 +49,7 @@ const LoadingButtonCustom = styled(LoadingButton)`
 `;
 import { v4 as uuid } from 'uuid';
 import useDebounce from 'src/utils/hooks/useDebounce';
+import { FormattedMessage } from 'react-intl';
 interface TableProps<P> {
   className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,72 +65,6 @@ interface TableProps<P> {
   onUpdate?: (value: number | string) => void;
   onPagination: (value: unknown) => void;
 }
-
-const ToolTipDelete = ({
-  item,
-  hide,
-  onDelete,
-  handleShow,
-  rowId,
-  visible,
-  theme,
-  isLoading
-}) => (
-  <Tooltip
-    title={
-      <>
-        <Container>
-          <Typography variant="h5" sx={{ marginTop: '4px', width: '100%' }}>
-            Are you sure want to delete?
-          </Typography>
-          <Container
-            sx={{
-              display: 'flex',
-              gap: '12px',
-              padding: '12px 0 8px'
-            }}
-          >
-            <Button variant="outlined" onClick={hide}>
-              No
-            </Button>
-            <LoadingButtonCustom
-              onClick={() => onDelete(item.id)}
-              loading={isLoading}
-              loadingPosition="start"
-              startIcon={<SendIcon />}
-              variant="contained"
-              sx={{
-                width: '80px'
-              }}
-            >
-              Yes
-            </LoadingButtonCustom>
-          </Container>
-        </Container>
-      </>
-    }
-    arrow
-    open={item.id === rowId && visible}
-    disableFocusListener
-    disableHoverListener
-    disableTouchListener
-    PopperProps={{
-      disablePortal: true
-    }}
-  >
-    <IconButton
-      sx={{
-        '&:hover': { background: theme.colors.error.lighter },
-        color: theme.palette.error.main
-      }}
-      color="inherit"
-      size="small"
-      onClick={() => handleShow(item.id)}
-    >
-      <DeleteTwoToneIcon fontSize="small" />
-    </IconButton>
-  </Tooltip>
-);
 
 const Table = ({
   data,
@@ -219,6 +155,70 @@ const Table = ({
     return tableHeader;
   }, [onDelete, onUpdate]);
 
+  const ToolTipDelete = ({
+    item,
+    hide,
+    onDelete,
+    handleShow,
+    rowId,
+    visible,
+    theme,
+    isLoading
+  }) => (
+    <Tooltip
+      title={
+        <Container>
+          <Typography variant="h5" sx={{ marginTop: '4px', width: '100%' }}>
+            Are you sure want to delete?
+          </Typography>
+          <Container
+            sx={{
+              display: 'flex',
+              gap: '12px',
+              padding: '12px 0 8px'
+            }}
+          >
+            <Button variant="outlined" onClick={hide}>
+              No
+            </Button>
+            <LoadingButtonCustom
+              onClick={() => onDelete(item.id)}
+              loading={isLoading}
+              loadingPosition="start"
+              startIcon={<SendIcon />}
+              variant="contained"
+              sx={{
+                width: '80px'
+              }}
+            >
+              Yes
+            </LoadingButtonCustom>
+          </Container>
+        </Container>
+      }
+      arrow
+      open={item.id === rowId && visible && !isLoading}
+      disableFocusListener
+      disableHoverListener
+      disableTouchListener
+      PopperProps={{
+        disablePortal: true
+      }}
+    >
+      <IconButton
+        sx={{
+          '&:hover': { background: theme.colors.error.lighter },
+          color: theme.palette.error.main
+        }}
+        color="inherit"
+        size="small"
+        onClick={() => handleShow(item.id)}
+      >
+        <DeleteTwoToneIcon fontSize="small" />
+      </IconButton>
+    </Tooltip>
+  );
+
   return (
     <Card>
       {selectedRows?.length > 0 && (
@@ -227,48 +227,47 @@ const Table = ({
         </Box>
       )}
       <Divider />
-      <TableContainer>
-        <Card
+      <Card
+        sx={{
+          padding: '1rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: '0.5rem'
+        }}
+      >
+        <Box
           sx={{
-            padding: '1rem',
             display: 'flex',
-            justifyContent: 'space-between',
-            gap: '0.5rem'
+            alignItems: 'center',
+            position: 'relative',
+            width: 'max-content'
           }}
         >
-          <Box
+          <TextField
+            label={<FormattedMessage id="label.search" />}
+            variant="outlined"
+            onChange={(event) => setSearchTerm(event.target.value.trim())}
+          />
+          <IconButton
+            type="button"
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              position: 'relative',
-              width: 'max-content'
+              p: '10px',
+              position: 'absolute',
+              right: 0,
+              ':hover': { background: 'unset' }
             }}
+            aria-label="search"
           >
-            <TextField
-              placeholder="Search ..."
-              label="Search"
-              variant="outlined"
-              onChange={(event) => setSearchTerm(event.target.value.trim())}
-            />
-            <IconButton
-              type="button"
-              sx={{
-                p: '10px',
-                position: 'absolute',
-                right: 0,
-                ':hover': { background: 'unset' }
-              }}
-              aria-label="search"
-            >
-              <SearchIcon />
-            </IconButton>
-          </Box>
-          <Box display="flex" alignItems="center" gap="0.5rem">
-            {tableFilter?.map((filterItem, index) => (
-              <Box key={index}>{filterItem}</Box>
-            ))}
-          </Box>
-        </Card>
+            <SearchIcon />
+          </IconButton>
+        </Box>
+        <Box display="flex" alignItems="center" gap="0.5rem">
+          {tableFilter?.map((filterItem, index) => (
+            <Box key={index}>{filterItem}</Box>
+          ))}
+        </Box>
+      </Card>
+      <TableContainer>
         <MUITable>
           <TableHead>
             <TableRow>
@@ -296,16 +295,22 @@ const Table = ({
                       }
                       onClick={() => onSort(index)}
                     >
-                      {headerItem.title}
+                      <FormattedMessage id={headerItem.title} />
                     </TableSortLabel>
                   ) : (
-                    <>{headerItem.title}</>
+                    <FormattedMessage id={headerItem.title.toLowerCase()} />
                   )}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody
+            sx={{
+              position: 'relative',
+              minHeight: '100px',
+              height: !data || data.length >= 0 ? '100px' : 'unset'
+            }}
+          >
             {data.map((item) => {
               const isItemSelected = selectedRows.includes(item.id);
               return (
@@ -326,11 +331,7 @@ const Table = ({
                       key={uuid()}
                       sx={{ ...item.tableProps }}
                     >
-                      {!isLoading ? (
-                        item.children
-                      ) : (
-                        <Skeleton animation="wave" />
-                      )}
+                      {item.children}
                     </TableCell>
                   ))}
                   {(onUpdate || onDelete) && (
@@ -341,7 +342,10 @@ const Table = ({
                         </Tooltip>
                       ))}
                       {onUpdate && (
-                        <Tooltip title="View / Edit" arrow>
+                        <Tooltip
+                          title={<FormattedMessage id="label.view.edit" />}
+                          arrow
+                        >
                           <IconButton
                             sx={{
                               '&:hover': {
@@ -373,6 +377,29 @@ const Table = ({
                 </TableRow>
               );
             })}
+            {isLoading && (
+              <TableRow>
+                <TableCell>
+                  <Box
+                    position={'absolute'}
+                    top={'50%'}
+                    left={'50%'}
+                    width={'100%'}
+                    height={'100%'}
+                    display={'flex'}
+                    alignItems={'center'}
+                    justifyContent={'center'}
+                    sx={{
+                      transform: 'translate(-50%, -50%)',
+                      background: 'rgba(255, 255, 255, 0.5)',
+                      zIndex: 100
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </MUITable>
       </TableContainer>

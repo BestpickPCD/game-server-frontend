@@ -16,15 +16,15 @@ interface CurrencyPagination extends PaginationAndSort {
   dateFrom: string;
   dateTo: string;
 }
-
+const title = 'title.currencies-management';
 const CurrencyManagements = (): JSX.Element => {
   const breadcrumbs = [
     {
       link: '/dashboards',
-      name: 'Dashboards'
+      name: 'title.dashboard'
     },
     {
-      name: 'Currency managements'
+      name: title
     }
   ];
   const { visible, hide, show } = useModal();
@@ -103,12 +103,12 @@ const CurrencyManagements = (): JSX.Element => {
   return (
     <>
       <TableComponent
-        title="Currency Management"
+        title={title}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data={data as any}
         tableHeader={tableHeader}
         tableBody={tableBody}
-        headerTitle="Currency Management"
+        headerTitle={title}
         breadcrumbs={breadcrumbs}
         onOpenModal={onAdd}
         isLoading={isFetching || isLoading || isLoadingDelete}

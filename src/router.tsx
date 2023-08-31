@@ -53,6 +53,9 @@ const UserTransactionsManagements = Loader(
 const UserTransactionTypeHistory = Loader(
   lazy(() => import('src/modules/managements/Transactions/Type'))
 );
+const RolesManagements = Loader(
+  lazy(() => import('src/modules/managements/Roles'))
+);
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
 );
@@ -203,6 +206,10 @@ const routes: RouteObject[] = [
             element: <PrivateRoute element={VendorsDetails} />
           }
         ]
+      },
+      {
+        path: 'roles',
+        element: <PrivateRoute element={RolesManagements} />
       },
       {
         path: 'profile',

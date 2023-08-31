@@ -29,6 +29,7 @@ import {
 import DoneTwoToneIcon from '@mui/icons-material/DoneTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { format, subHours, subWeeks, subDays } from 'date-fns';
+import { FormattedMessage } from 'react-intl';
 
 const ButtonError = styled(Button)(
   ({ theme }) => `
@@ -246,7 +247,9 @@ const SecurityTab = (): JSX.Element => {
                   <TableCell>IP Address</TableCell>
                   <TableCell>Location</TableCell>
                   <TableCell>Date/Time</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell align="right">
+                    <FormattedMessage id="label.actions" />
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

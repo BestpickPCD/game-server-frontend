@@ -22,14 +22,16 @@ interface UsersPagination extends PaginationAndSort {
   isSubmit?: boolean;
   setIsSubmit?: () => void;
 }
+
+const title = 'title.users-management';
 const UsersManagement = (): JSX.Element => {
   const breadcrumbs = [
     {
       link: '/dashboards',
-      name: 'Dashboards'
+      name: 'title.dashboard'
     },
     {
-      name: 'User managements'
+      name: title
     }
   ];
   const { visible, hide, show } = useModal();
@@ -148,12 +150,12 @@ const UsersManagement = (): JSX.Element => {
   return (
     <>
       <TableComponent
-        title="User Management"
+        title={title}
         data={data}
         totalItems={userData?.data.totalItems}
         tableHeader={tableHeader}
         tableBody={tableBody}
-        headerTitle="User Management"
+        headerTitle={title}
         breadcrumbs={breadcrumbs}
         onOpenModal={onAdd}
         isLoading={isFetching || isLoadingDelete}

@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FormattedMessage } from 'react-intl';
 import Modals from 'src/components/Modals';
 import UploadFile from 'src/components/UploadFile';
 import {
@@ -134,7 +135,7 @@ const GameModal = ({
         />
         <TextField
           fullWidth
-          label="Type"
+          label={<FormattedMessage id="label.type" />}
           sx={{ my: 2 }}
           required
           error={!!errors['type']}

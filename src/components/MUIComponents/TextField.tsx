@@ -1,6 +1,7 @@
 import { TextField as MUITextField, TextFieldProps } from '@mui/material';
+import { ReactNode } from 'react';
 interface MUIInputProps extends Omit<TextFieldProps, 'variant'> {
-  label?: string;
+  label?: ReactNode | string;
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors: any;

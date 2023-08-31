@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import { useGetVendorsQuery } from 'src/services/vendorService';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 
 export default function Vendors(): JSX.Element {
   const { data } = useGetVendorsQuery({});
@@ -19,7 +20,9 @@ export default function Vendors(): JSX.Element {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
+            <TableCell>
+              <FormattedMessage id="label.name" />
+            </TableCell>
             <TableCell align="left">Link</TableCell>
             <TableCell align="center">Games</TableCell>
           </TableRow>

@@ -16,6 +16,7 @@ import { useLoginMutation } from 'src/services/authService';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
 import AuthLayout from '../AuthLayout';
+import { FormattedMessage } from 'react-intl';
 
 const schema = yup.object().shape({
   username: yup
@@ -92,7 +93,7 @@ const Login = (): JSX.Element => {
             margin="normal"
             required
             fullWidth
-            label="Username"
+            label={<FormattedMessage id="label.username" />}
             autoFocus
             sx={{ my: 2 }}
             error={!!errors['username']}

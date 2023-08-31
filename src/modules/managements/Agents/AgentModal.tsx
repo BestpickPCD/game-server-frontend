@@ -8,9 +8,11 @@ import Modals from 'src/components/Modals';
 import { Agent } from 'src/models';
 import FormRegister from 'src/modules/Auth/Register/FormRegister';
 import { useUpdateAgentMutation } from 'src/services/agentService';
-import { useCurrencyQuery, useRolesQuery } from 'src/services/commonServices';
+import { useGetCurrenciesQuery } from 'src/services/currencyService';
+import { useRolesQuery } from 'src/services/commonServices';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
+import { FormattedMessage } from 'react-intl';
 interface UserModals {
   open: boolean;
   detail: Agent;
@@ -42,10 +44,11 @@ const UserModal = ({
     {},
     { refetchOnMountOrArgChange: true, skip: !detail?.id }
   );
-  const { data: currenciesData } = useCurrencyQuery(
+  const { data: currenciesData } = useGetCurrenciesQuery(
     {},
     { refetchOnMountOrArgChange: true, skip: !detail?.id }
   );
+
   const {
     register,
     setValue,
@@ -103,13 +106,14 @@ const UserModal = ({
   };
   const roleOptions = useMemo(
     () =>
-      rolesData?.map((role) => ({
+      rolesData?.data?.data?.map((role) => ({
         id: role.id,
         name: role.name,
         value: role.id
       })),
     [rolesData]
   );
+
   const currencyOptions = useMemo(
     () =>
       currenciesData?.map((role) => ({
@@ -131,7 +135,7 @@ const UserModal = ({
         <Box component={'form'} id="form-users">
           <div className="block">
             <TextField
-              label="Username"
+              label={<FormattedMessage id="label.username" />}
               name="username"
               sx={{ my: 2 }}
               errors={errors}
@@ -139,7 +143,7 @@ const UserModal = ({
               disabled={detail?.id ? true : false}
             />
             <TextField
-              label="Name"
+              label={<FormattedMessage id="label.name" />}
               name="name"
               sx={{ my: 2 }}
               errors={errors}

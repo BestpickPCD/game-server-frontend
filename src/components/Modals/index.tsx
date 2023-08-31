@@ -6,6 +6,7 @@ import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import List from '@mui/material/List';
 import { ReactNode } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 interface ModalProps extends DialogProps {
   title: string;
@@ -40,8 +41,8 @@ function Modals({
           padding: '12px 0'
         }}
       >
-        <Button variant="outlined" sx={{ width: '80px' }} onClick={onClose}>
-          Cancel
+        <Button variant="outlined" sx={{ width: '90px' }} onClick={onClose}>
+          <FormattedMessage id="label.cancel" />
         </Button>
         {onOk && (
           <LoadingButton
@@ -50,10 +51,10 @@ function Modals({
             loadingPosition="start"
             startIcon={<SaveIcon />}
             variant="contained"
-            sx={{ width: '80px' }}
+            sx={{ width: '90px' }}
             type="submit"
           >
-            OK
+            <FormattedMessage id="label.OK" />
           </LoadingButton>
         )}
       </Container>

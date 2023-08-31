@@ -15,6 +15,7 @@ import { Transactions } from 'src/models';
 import { transactionTypes } from 'src/models/variables';
 import Label from 'src/components/MUIComponents/Label';
 import { useNavigate } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 interface TransactionTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
@@ -142,48 +143,56 @@ const TransactionTable = (): TransactionTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'Sender Name',
+      title: 'label.sender.name',
       name: 'senderName'
     },
     {
       align: 'inherit',
-      title: 'Receiver Name',
+      title: 'label.receiver.name',
       name: 'receiverName'
     },
     {
       align: 'right',
-      title: 'Amount',
+      title: 'label.amount',
       name: 'amount'
     },
     {
       align: 'right',
-      title: 'Type',
+      title: 'label.title',
       name: 'type'
     },
     {
       align: 'right',
-      title: 'Status',
+      title: 'label.status',
       name: 'status'
     },
     {
       align: 'right',
-      title: 'Updated At',
+      title: 'label.updated.at',
       name: 'updatedAt'
     },
     {
       align: 'right',
-      title: 'Actions'
+      title: 'label.actions'
     }
   ];
   const tableFilter = ({ type, dateFrom, dateTo }: TableFilterProps) => [
-    <DatePicker label="From" onChange={dateFrom.onChange} />,
-    <DatePicker label="To" onChange={dateTo.onChange} />,
+    <DatePicker
+      label={<FormattedMessage id="label.from" />}
+      onChange={dateFrom.onChange}
+    />,
+    <DatePicker
+      label={<FormattedMessage id="label.to" />}
+      onChange={dateTo.onChange}
+    />,
     <FormControl sx={{ maxWidth: 140, width: 140 }}>
-      <InputLabel id="Type">Type</InputLabel>
+      <InputLabel id="Type">
+        <FormattedMessage id="label.type" />
+      </InputLabel>
       <Select
         labelId="Type"
         value={type.value}
-        label="Type"
+        label={<FormattedMessage id="label.type" />}
         onChange={(e) => type.onChange(e.target.value)}
       >
         <MenuItem value="">

@@ -1,7 +1,7 @@
-import { Card, Container, Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { ReactNode, memo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Breadcrumbs } from '../Breadcrumbs/type';
@@ -75,21 +75,19 @@ TableProps<any, PaginationAndSort>): JSX.Element => {
           spacing={3}
         >
           <Grid item xs={12}>
-            <Card>
-              <Table
-                data={data}
-                totalItems={totalItems}
-                tableHeader={tableHeader}
-                tableBody={tableBody}
-                isLoading={isLoading}
-                onDelete={onDelete}
-                onUpdate={onUpdate}
-                onPagination={onPagination}
-                pagination={pagination}
-                tableFilter={tableFilter}
-                extraOptions={extraOptions}
-              />
-            </Card>
+            <Table
+              data={data}
+              totalItems={totalItems}
+              tableHeader={tableHeader}
+              tableBody={tableBody}
+              isLoading={isLoading}
+              onDelete={onDelete}
+              onUpdate={onUpdate}
+              onPagination={onPagination}
+              pagination={pagination}
+              tableFilter={tableFilter}
+              extraOptions={extraOptions}
+            />
           </Grid>
         </Grid>
       </Container>

@@ -13,13 +13,13 @@ import {
   SelectProps,
   TextField
 } from '@mui/material';
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 import { Controller } from 'react-hook-form';
 export interface MUISelectProps extends SelectProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control?: any;
   name: string;
-  label: string;
+  label: string | ReactNode;
   isFetching?: boolean;
   options: { id: number | string; name: string; value: string | number }[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

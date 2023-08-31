@@ -27,6 +27,7 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
 
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
+import { FormattedMessage } from 'react-intl';
 
 const Transition = forwardRef(function Transition(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,7 +94,7 @@ const HeaderSearch = (): JSX.Element => {
 
   return (
     <>
-      <Tooltip arrow title="Search">
+      <Tooltip arrow title={<FormattedMessage id="label.search" />}>
         <IconButton color="primary" onClick={handleClickOpen}>
           <SearchTwoToneIcon />
         </IconButton>
@@ -120,9 +121,8 @@ const HeaderSearch = (): JSX.Element => {
                 </InputAdornment>
               )
             }}
-            placeholder="Search terms here..."
             fullWidth
-            label="Search"
+            label={<FormattedMessage id="label.search" />}
           />
         </DialogTitleWrapper>
         <Divider />
