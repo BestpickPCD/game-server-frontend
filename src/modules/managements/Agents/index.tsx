@@ -24,7 +24,7 @@ interface UsersPagination extends PaginationAndSort {
   dateTo: string;
 }
 
-const pageName = 'title.agent-management';
+const pageName = 'title.agents-management';
 const checkPermission = (permissionArray: string[], permission: string) =>
   permissionArray?.includes(permission);
 
@@ -32,7 +32,7 @@ const AgentsManagement = (): JSX.Element => {
   const breadcrumbs = [
     {
       link: '/dashboards',
-      name: 'Dashboards'
+      name: 'title.dashboard'
     },
     {
       name: pageName

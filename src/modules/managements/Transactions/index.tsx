@@ -17,15 +17,15 @@ interface TransactionPagination extends PaginationAndSort {
   dateTo: string;
 }
 
-const pageName = 'Transactions Management';
+const title = 'title.transactions-management';
 const TransactionManagement = (): JSX.Element => {
   const breadcrumbs = [
     {
       link: '/dashboards',
-      name: 'Dashboards'
+      name: 'title.dashboard'
     },
     {
-      name: pageName
+      name: title
     }
   ];
   const { visible, hide, show } = useModal();
@@ -99,12 +99,12 @@ const TransactionManagement = (): JSX.Element => {
   return (
     <>
       <TableComponent
-        title={pageName}
+        title={title}
         data={data}
         totalItems={transactionData?.data.totalItems}
         tableHeader={tableHeader}
         tableBody={tableBody}
-        headerTitle={pageName}
+        headerTitle={title}
         breadcrumbs={breadcrumbs}
         onOpenModal={onAdd}
         isLoading={isFetching}

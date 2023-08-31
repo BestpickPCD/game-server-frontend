@@ -2,12 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import { memo, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { FormattedMessage } from 'react-intl';
 import { Select, TextField } from 'src/components/MUIComponents';
 import { InfinityAgent } from 'src/components/MUIComponents/InfinitySelect';
 import Modals from 'src/components/Modals';
 import { Transactions } from 'src/models';
 import { transactionStatus, transactionTypes } from 'src/models/variables';
-import { useCurrencyQuery } from 'src/services/commonServices';
+import { useGetCurrenciesQuery } from 'src/services/currencyService';
 import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
@@ -69,7 +70,7 @@ const TransactionModal = ({
   refetch
 }: ModalProps): JSX.Element => {
   const { notify, message } = useToast();
-  const { data: currenciesData } = useCurrencyQuery(
+  const { data: currenciesData } = useGetCurrenciesQuery(
     {},
     { refetchOnMountOrArgChange: true, skip: !open }
   );
@@ -206,14 +207,14 @@ const TransactionModal = ({
           <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
             <Select
               name="type"
-              label="Type"
+              label={<FormattedMessage id="label.type" />}
               control={control}
               options={typeOptions}
               readOnly={!!detail?.id}
               errors={errors}
             />
             <Select
-              label="Status"
+              label={<FormattedMessage id="label.status" />}
               name="status"
               control={control}
               options={statusOptions}

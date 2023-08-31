@@ -10,6 +10,7 @@ import {
 import { format, parseISO } from 'date-fns';
 import { ReactNode } from 'react';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
+import { FormattedMessage } from 'react-intl';
 interface GameTableProps {
   tableHeader: TableHeader[];
   tableBody: (item: TableBody[]) => TableBody[];
@@ -110,7 +111,7 @@ const GameTable = (): GameTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'Name',
+      title: 'label.name',
       name: 'name'
     },
     {
@@ -119,7 +120,7 @@ const GameTable = (): GameTableProps => {
     },
     {
       align: 'inherit',
-      title: 'Type'
+      title: 'label.type'
     },
     {
       align: 'right',
@@ -128,31 +129,33 @@ const GameTable = (): GameTableProps => {
     },
     {
       align: 'right',
-      title: 'Updated At'
+      title: 'label.updated.at'
     },
     {
       align: 'right',
-      title: 'Actions'
+      title: 'label.actions'
     }
   ];
 
   const tableFilter = ({ status, dateFrom, dateTo }: TableFilterProps) => [
     <DatePicker
-      label="From"
+      label={<FormattedMessage id="label.from" />}
       // value={dateFrom.value ?? null}
       onChange={dateFrom.onChange}
     />,
     <DatePicker
-      label="To"
+      label={<FormattedMessage id="label.to" />}
       // value={dateTo.value ?? null}
       onChange={dateTo.onChange}
     />,
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="isActive">Status</InputLabel>
+      <InputLabel id="isActive">
+        <FormattedMessage id="label.status" />
+      </InputLabel>
       <Select
         labelId="isActive"
         value={status.value}
-        label="Status"
+        label={<FormattedMessage id="label.status" />}
         onChange={(e) => status.onChange(e.target.value)}
       >
         <MenuItem value="">

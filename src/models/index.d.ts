@@ -119,3 +119,16 @@ export interface Transactions {
   note?: string;
   token: string;
 }
+
+interface FeaturePermissions {
+  [key: string]: string[];
+}
+
+export interface Permissions {
+  createdAt: string;
+  deletedAt: string | null;
+  id: number;
+  name: string;
+  permissions: FeaturePermissions;
+  updatedAt: string;
+}
