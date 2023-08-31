@@ -52,6 +52,13 @@ export const UserService = createApi({
         url: `/user/${id}`,
         method: 'GET'
       })
+    }),
+    getDashboard: builder.mutation<unknown, any>({
+      query: (body) => ({
+        url: `dashboard`,
+        method: `GET`,
+        body
+      })
     })
   })
 });
@@ -61,5 +68,6 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetUserByIdMutation,
-  useCreateUserMutation
+  useCreateUserMutation,
+  useGetDashboardMutation
 } = UserService;

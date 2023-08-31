@@ -80,14 +80,13 @@ const UserTable = (): UserTableProps => {
       align: 'right',
       children: (
         <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            href={`transactions/${item.id}`}
           >
             {item.balance}
-          </Typography>
+          </Button>
         </>
       )
     },
