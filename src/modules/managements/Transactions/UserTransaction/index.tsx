@@ -7,18 +7,18 @@ import { Paper, TableContainer } from '@mui/material';
 
 const columns: GridColDef[] = [
   {
-    field: 'user.name',
+    field: 'receiverUsername',
     headerName: 'Receiver',
     width: 200,
-    valueGetter: (params: GridValueGetterParams) => params.row.user?.name
+    valueGetter: (params: GridValueGetterParams) => params.row.receiverUsername
   },
-  { field: 'action', headerName: 'type', width: 200 },
+  { field: 'type', headerName: 'type', width: 200 },
   {
-    field: 'sender.name',
+    field: 'senderUsername',
     headerName: 'Sender',
     width: 200,
     valueGetter: (params: GridValueGetterParams) =>
-      params.row.sender?.name ?? params.row.receiver?.name
+      params.row.senderUsername ?? params.row.receiverUsername
   },
   { field: 'status', headerName: 'status', width: 200 },
   { field: 'amount', headerName: 'amount', width: 200, type: 'number' }
@@ -26,7 +26,7 @@ const columns: GridColDef[] = [
 
 let rows = [];
 const showRows = async (data) => {
-  rows = data.details;
+  rows = data;
 };
 
 export default function UserTransaction(): JSX.Element {

@@ -46,7 +46,7 @@ const UsersManagement = (): JSX.Element => {
   } = UserTable();
 
   const [formData, setFormData] = useState({
-    receiverId: 0,
+    receiverUsername: '',
     amount: 0,
     type: 'add',
     note: '',
@@ -102,7 +102,7 @@ const UsersManagement = (): JSX.Element => {
   }, [userData, pagination.sortBy, pagination.sortDirection]);
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, receiverId: user?.id }));
+    setFormData((prev) => ({ ...prev, receiverUsername: user?.username }));
     setFormData((prev) => ({ ...prev, status: 'success' }));
   }, [user]);
 

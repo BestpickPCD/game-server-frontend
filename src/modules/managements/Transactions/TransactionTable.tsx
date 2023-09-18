@@ -60,8 +60,6 @@ const getStatusLabel = (status: string): JSX.Element => {
     }
   };
   if (data[status]) {
-    console.log(data[status]);
-
     const { text, color } = data[status];
     return <Label color={color}>{text}</Label>;
   }
@@ -80,7 +78,7 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item.senderUser}
+            {item.senderUsername}
           </Typography>
         </>
       )
@@ -90,10 +88,10 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <CustomLink
-            onClick={() => onRedirect(item.receiverId)}
+            onClick={() => onRedirect(item.receiverUsername)}
             color="text.primary"
           >
-            {item.receiverUser}
+            {item.receiverUsername}
           </CustomLink>
         </>
       )

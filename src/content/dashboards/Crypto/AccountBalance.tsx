@@ -17,6 +17,8 @@ import {
 import TrendingUp from '@mui/icons-material/TrendingUp';
 import Chart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
+import { useGetDashboardQuery } from 'src/services/userService';
+import { useEffect, useState } from 'react';
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
@@ -56,6 +58,8 @@ const ListItemAvatarWrapper = styled(ListItemAvatar)(
 
 const AccountBalance = (): JSX.Element => {
   const theme = useTheme();
+
+  const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
 
   const chartOptions: ApexOptions = {
     chart: {
@@ -141,7 +145,7 @@ const AccountBalance = (): JSX.Element => {
             </Typography>
             <Box>
               <Typography variant="h1" gutterBottom>
-                $54,584.23
+                {1}
               </Typography>
               <Typography
                 variant="h4"
