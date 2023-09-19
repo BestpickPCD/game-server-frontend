@@ -8,15 +8,15 @@ const columns: GridColDef[] = [
     field: 'user.name',
     headerName: 'Receiver',
     width: 200,
-    valueGetter: (params: GridValueGetterParams) => params.row.user?.name
+    valueGetter: (params: GridValueGetterParams) => params.row.receiverUsername
   },
-  { field: 'action', headerName: 'type', width: 200 },
+  { field: 'type', headerName: 'type', width: 200 },
   {
     field: 'sender.name',
     headerName: 'Sender',
     width: 200,
     valueGetter: (params: GridValueGetterParams) =>
-      params.row.sender?.name ?? params.row.receiver?.name
+      params.row.senderUsername ?? params.row.receiverUsername
   },
   { field: 'status', headerName: 'status', width: 200 },
   { field: 'amount', headerName: 'amount', width: 200, type: 'number' }
@@ -24,7 +24,7 @@ const columns: GridColDef[] = [
 
 let rows = [];
 const showRows = async (data) => {
-  rows = data.details;
+  rows = data;
 };
 
 export default function name(): JSX.Element {

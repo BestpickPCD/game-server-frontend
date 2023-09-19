@@ -94,7 +94,6 @@ const TransactionManagement = (): JSX.Element => {
       notify({ message: message.ERROR, type: 'error' });
     }
   };
-  console.log(data);
 
   return (
     <>

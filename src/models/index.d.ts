@@ -71,8 +71,8 @@ export interface Transactions {
   amount: string | number;
   receiver?: User | Agent | null;
   sender?: User | Agent | null;
-  senderId?: number | string | null;
-  receiverId?: number | string | null;
+  senderUsername?: number | string | null;
+  receiverUsername?: number | string | null;
   senderUser?: string;
   receiverUser?: string;
   type: transactionType;
