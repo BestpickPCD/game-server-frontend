@@ -145,14 +145,14 @@ const AccountBalance = (): JSX.Element => {
             </Typography>
             <Box>
               <Typography variant="h1" gutterBottom>
-                {1}
+                { data?.balance.balance} KRW
               </Typography>
               <Typography
                 variant="h4"
                 fontWeight="normal"
                 color="text.secondary"
               >
-                1.0045983485234 BTC
+                { data?.balance.balance} KRW
               </Typography>
               <Box
                 display="flex"
