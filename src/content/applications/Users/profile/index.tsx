@@ -8,30 +8,48 @@ import RecentActivity from './RecentActivity';
 import Feed from './Feed';
 import PopularTags from './PopularTags';
 import MyCards from './MyCards';
-import Addresses from './Addresses';
+import UserInfo from './UserInfo';
+import { useGetDashboardQuery } from 'src/services/userService';
 
-export interface User {
+export interface UserDashboard {
+  id: number;
   name: string;
+  username: string;
+  currency: {
+    name: string;
+    code: string;
+  };
+  type: string;
+  subAgent: number;
+  parentAgentId: number;
+  balance: {
+    balance: number;
+    calculatedBalance: number;
+    sendOut: number;
+    receive: number;
+    bet: number;
+    charge: number;
+  };
   avatar: string;
-  description: string;
   jobTitle: string;
-  location: string;
-  followers: string;
-  savedCards: number;
   coverImg: string;
 }
 
 const ManagementUserProfile = (): JSX.Element => {
-  const user: User = {
-    savedCards: 7,
-    name: 'Catherine Pike',
-    coverImg: '/static/images/placeholders/covers/5.jpg',
+  const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
+  console.log(data);
+  const user: UserDashboard = {
+    id: data?.userId,
+    name: data?.name,
+    username: data?.username,
+    currency: data?.currency,
+    type: data?.type,
+    subAgent: data?.subAgent,
+    parentAgentId: data?.parentAgentId,
+    balance: data?.balance,
     avatar: '/static/images/avatars/4.jpg',
-    description:
-      "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage",
-    jobTitle: 'Web Developer',
-    location: 'Barcelona, Spain',
-    followers: '465'
+    jobTitle: data?.type,
+    coverImg: '/static/images/placeholders/covers/5.jpg'
   };
 
   return (
@@ -47,23 +65,11 @@ const ManagementUserProfile = (): JSX.Element => {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12} md={8}>
-            <ProfileCover user={user} />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <RecentActivity />
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Feed />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <PopularTags />
-          </Grid>
           <Grid item xs={12} md={7}>
-            <MyCards />
+            <UserInfo user={user} />
           </Grid>
           <Grid item xs={12} md={5}>
-            <Addresses />
+            <Feed users={data.affiliatedAgents} />
           </Grid>
         </Grid>
       </Container>
