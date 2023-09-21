@@ -1,11 +1,11 @@
 import { Typography, Avatar, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useGetDashboardQuery } from 'src/services/userService'
 
 const PageHeader = (): JSX.Element => {
-  const user = {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg'
-  };
+
+  const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
+
   const theme = useTheme();
 
   return (
@@ -18,15 +18,15 @@ const PageHeader = (): JSX.Element => {
             height: theme.spacing(8)
           }}
           variant="rounded"
-          alt={user.name}
-          src={user.avatar}
+          alt={data?.name}
+          src={'/static/images/avatars/1.jpg'}
         />
       </Grid>
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Welcome, {user.name}!
+          Welcome, {data?.name}
         </Typography>
-        <Typography variant="subtitle2">Today is a good day!</Typography>
+        <Typography variant="subtitle2">{data?.type}</Typography>
       </Grid>
     </Grid>
   );

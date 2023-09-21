@@ -14,7 +14,7 @@ import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
 import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
-import { User } from '.';
+import { UserDashboard } from '.';
 
 const Input = styled('input')({
   display: 'none'
@@ -79,7 +79,7 @@ const CardCoverAction = styled(Box)(
 );
 
 interface ProfileCoverProps {
-  user: User;
+  user: UserDashboard;
 }
 
 const ProfileCover = ({ user }: ProfileCoverProps): JSX.Element => (
@@ -134,10 +134,6 @@ const ProfileCover = ({ user }: ProfileCoverProps): JSX.Element => (
       <Typography gutterBottom variant="h4">
         {user.name}
       </Typography>
-      <Typography variant="subtitle2">{user.description}</Typography>
-      <Typography sx={{ py: 2 }} variant="subtitle2" color="text.primary">
-        {user.jobTitle} | {user.location} | {user.followers} followers
-      </Typography>
       <Box
         display={{ xs: 'block', md: 'flex' }}
         alignItems="center"
@@ -154,14 +150,6 @@ const ProfileCover = ({ user }: ProfileCoverProps): JSX.Element => (
             <MoreHorizTwoToneIcon />
           </IconButton>
         </Box>
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          size="small"
-          variant="text"
-          endIcon={<ArrowForwardTwoToneIcon />}
-        >
-          See all {user.followers} connections
-        </Button>
       </Box>
     </Box>
   </>
