@@ -22,7 +22,6 @@ import { UserDashboard } from '.';
 import { useEffect, useState } from 'react';
 import { useGetUserByIdMutation } from 'src/services/userService';
 
-
 const AvatarWrapper = styled(Card)(
   ({ theme }) => `
 
@@ -54,7 +53,6 @@ interface ProfileCoverProps {
 }
 
 const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
-  
   const [getUserDetail] = useGetUserByIdMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [response, setResponse] = useState<any | null>(null);
@@ -73,28 +71,28 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
 
   const { data } = response || {};
 
-return (
-  <>
-    <Box display="flex" mb={3}>
-      <Tooltip arrow placement="top" title="Go back">
-        <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
-          <ArrowBackTwoToneIcon />
-        </IconButton>
-      </Tooltip>
-    </Box>
-    <CardCover>
-      <CardMedia image={user.coverImg} />
-    </CardCover>
-    <AvatarWrapper>
-      <Avatar variant="rounded" alt={user.name} src={user.avatar} />
-    </AvatarWrapper>
-    <Box py={2} pl={2} mb={3}>
-      <Card>
-        <CardHeader title={user.name} />
-        <Divider />
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableBody>
+  return (
+    <>
+      <Box display="flex" mb={3}>
+        <Tooltip arrow placement="top" title="Go back">
+          <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
+            <ArrowBackTwoToneIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <CardCover>
+        <CardMedia image={user.coverImg} />
+      </CardCover>
+      <AvatarWrapper>
+        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+      </AvatarWrapper>
+      <Box py={2} pl={2} mb={3}>
+        <Card>
+          <CardHeader title={user.name} />
+          <Divider />
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableBody>
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
@@ -103,7 +101,7 @@ return (
                       fullWidth
                       label="Number"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.username ?? ''}
                     />
@@ -117,7 +115,7 @@ return (
                       fullWidth
                       label="Type"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.type ?? ''}
                     />
@@ -127,7 +125,7 @@ return (
                       fullWidth
                       label="Affiliated agent"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.parentAgentId ?? ''}
                     />
@@ -141,7 +139,7 @@ return (
                       fullWidth
                       label="Id"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.id ?? ''}
                     />
@@ -151,7 +149,7 @@ return (
                       fullWidth
                       label="Join time"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={data?.createdAt ?? ''}
                     />
@@ -165,7 +163,7 @@ return (
                       fullWidth
                       label="Nickname"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={data?.nickname ?? ''}
                     />
@@ -175,7 +173,7 @@ return (
                       fullWidth
                       label="Account number"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={data?.accountNumber ?? ''}
                     />
@@ -189,7 +187,7 @@ return (
                       fullWidth
                       label="API KEY"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={data?.apiKey ?? ''}
                     />
@@ -203,7 +201,7 @@ return (
                       fullWidth
                       label="API call allowed IP settings"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={data?.apiIpSetting ?? ''}
                     />
@@ -213,7 +211,7 @@ return (
                       fullWidth
                       label="Callback URL"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={data?.CallbackUrl ?? ''}
                     />
@@ -227,7 +225,7 @@ return (
                       fullWidth
                       label="Current holding amount"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance.balance ?? ''}
                     />
@@ -237,7 +235,7 @@ return (
                       fullWidth
                       label="Subagent current total holding amount"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance.balance ?? ''}
                     />
@@ -251,7 +249,7 @@ return (
                       fullWidth
                       label="Current total amount held by sub-users"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance.balance ?? ''}
                     />
@@ -261,7 +259,7 @@ return (
                       fullWidth
                       label="Rate"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={data?.rate ?? ''}
                     />
@@ -275,7 +273,7 @@ return (
                       fullWidth
                       label="Total amount paid"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance.sendOut ?? ''}
                     />
@@ -285,7 +283,7 @@ return (
                       fullWidth
                       label="Total recharged amount"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance.balance ?? ''}
                     />
@@ -299,7 +297,7 @@ return (
                       fullWidth
                       label="Number of sub-agents"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance.balance ?? ''}
                     />
@@ -309,20 +307,19 @@ return (
                       fullWidth
                       label="Number of lower users"
                       required
-                      helperText={"error"}
+                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance.balance ?? ''}
                     />
                   </TableCell>
                 </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
-    </Box>
-  </>
-);
-
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Card>
+      </Box>
+    </>
+  );
 };
 
 export default UserInfo;

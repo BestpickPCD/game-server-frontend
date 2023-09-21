@@ -17,7 +17,6 @@ interface AffiliatedAgent {
   email: string;
 }
 const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
-
   const feed = users;
 
   return (

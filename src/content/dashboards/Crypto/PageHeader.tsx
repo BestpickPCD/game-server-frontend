@@ -1,9 +1,8 @@
 import { Typography, Avatar, Grid } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useGetDashboardQuery } from 'src/services/userService'
+import { useGetDashboardQuery } from 'src/services/userService';
 
 const PageHeader = (): JSX.Element => {
-
   const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
 
   const theme = useTheme();

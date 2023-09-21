@@ -12,33 +12,32 @@ import UserInfo from './UserInfo';
 import { useGetDashboardQuery } from 'src/services/userService';
 
 export interface UserDashboard {
-  id: number,
+  id: number;
   name: string;
   username: string;
   currency: {
-    name: string,
-    code: string,
+    name: string;
+    code: string;
   };
   type: string;
   subAgent: number;
   parentAgentId: number;
   balance: {
-    balance: number,
-    calculatedBalance: number,
-    sendOut: number,
-    receive: number,
-    bet: number,
-    charge: number,
-  }
+    balance: number;
+    calculatedBalance: number;
+    sendOut: number;
+    receive: number;
+    bet: number;
+    charge: number;
+  };
   avatar: string;
   jobTitle: string;
   coverImg: string;
 }
 
 const ManagementUserProfile = (): JSX.Element => {
-
   const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
-  console.log(data)
+  console.log(data);
   const user: UserDashboard = {
     id: data?.userId,
     name: data?.name,
@@ -50,7 +49,7 @@ const ManagementUserProfile = (): JSX.Element => {
     balance: data?.balance,
     avatar: '/static/images/avatars/4.jpg',
     jobTitle: data?.type,
-    coverImg: '/static/images/placeholders/covers/5.jpg',
+    coverImg: '/static/images/placeholders/covers/5.jpg'
   };
 
   return (
