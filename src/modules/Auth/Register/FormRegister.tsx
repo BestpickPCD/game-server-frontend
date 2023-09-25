@@ -1,14 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, TextField } from '@mui/material';
+import { Box, Grid, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useRegisterMutation } from 'src/services/authService';
 import { useToast } from 'src/utils/hooks';
-
+import { Select } from 'src/components/MUIComponents';
 import { LoadingButton } from '@mui/lab';
 import * as yup from 'yup';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useRolesQuery } from 'src/services/commonServices';
+import { useGetAffiliatedAgentsQuery } from 'src/services/agentService';
 
 const schema = yup.object().shape({
   username: yup
@@ -16,14 +18,13 @@ const schema = yup.object().shape({
     .trim('Username no space')
     .matches(/[a-zA-Z]/, 'Username can only contain letters.')
     .required('Username is required'),
-  firstName: yup
+  name: yup
     .string()
-    .matches(/[a-zA-Z]/, 'First name can only contain letters.')
+    .matches(/[a-zA-Z]/, 'Name can only contain letters.')
     .required('First name is required'),
-  lastName: yup
-    .string()
-    .matches(/[a-zA-Z]/, 'Last name can only contain letters.')
-    .required('First name is required'),
+  type: yup.string().required('Type is required'),
+  rate: yup.number().required('Rate is required'),
+  parentAgentId: yup.number().required('Rate is required'),
   email: yup
     .string()
     .email('Invalid email format')
@@ -56,21 +57,29 @@ const FormRegister = ({
   onClose
 }: FormRegisterProps): JSX.Element => {
   const [onRegister, { isLoading }] = useRegisterMutation();
+
+  const { data: affAgentData } = useGetAffiliatedAgentsQuery({
+    refetchOnMountOrArgChange: true
+  });
+
   const { notify, message } = useToast();
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     reset,
+    control,
     setValue,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
+      name: '',
+      rate: 0,
       email: '',
       username: '',
+      parentAgentId: 0,
+      type: 'agent',
       password: '',
       confirmPassword: ''
     }
@@ -83,8 +92,37 @@ const FormRegister = ({
     }
   }, [isSubmit]);
 
+  const { data: rolesData } = useRolesQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const isRoleArray = Array.isArray(affAgentData);
+
+  const affAgentOptions = useMemo(() => {
+    if (isRoleArray) {
+      return affAgentData.map((role) => ({
+        id: role.id,
+        name: role.name,
+        value: role.id
+      }));
+    }
+    return [];
+  }, [affAgentData]);
+
+  const roleOptions = useMemo(
+    () =>
+      rolesData?.data?.data?.map((role) => ({
+        id: role.id,
+        name: role.name,
+        value: role.id
+      })),
+    [rolesData]
+  );
+
   const onSubmit = async (values) => {
     try {
+      console.log(values);
       const response = await onRegister(values).unwrap();
       if (response && response.message === 'CREATED') {
         reset();
@@ -113,72 +151,105 @@ const FormRegister = ({
       onSubmit={handleSubmit(onSubmit)}
       sx={{ mt: 1 }}
     >
-      <TextField
-        required
-        fullWidth
-        label="First name"
-        autoFocus
-        sx={{ my: 1 }}
-        error={!!errors['firstName']}
-        helperText={errors['firstName'] ? errors['firstName'].message : ''}
-        {...register('firstName')}
-        onBlur={(e) => setValue('firstName', e.target.value.trim())}
-      />
-      <TextField
-        required
-        fullWidth
-        label="Last name"
-        sx={{ my: 1 }}
-        error={!!errors['lastName']}
-        helperText={errors['lastName'] ? errors['lastName'].message : ''}
-        {...register('lastName')}
-        onBlur={(e) => setValue('lastName', e.target.value.trim())}
-      />
-      <TextField
-        required
-        fullWidth
-        label="Email"
-        type="email"
-        sx={{ my: 1 }}
-        error={!!errors['email']}
-        helperText={errors['email'] ? errors['email'].message : ''}
-        {...register('email')}
-        onBlur={(e) => setValue('email', e.target.value.trim())}
-      />
-      <TextField
-        required
-        fullWidth
-        label={<FormattedMessage id="label.username" />}
-        sx={{ my: 1 }}
-        error={!!errors['username']}
-        helperText={errors['username'] ? errors['username'].message : ''}
-        {...register('username')}
-        onBlur={(e) => setValue('username', e.target.value.trim())}
-      />
-      <TextField
-        required
-        fullWidth
-        label="Password"
-        type="password"
-        sx={{ my: 1 }}
-        error={!!errors['password']}
-        helperText={errors['password'] ? errors['password'].message : ''}
-        {...register('password')}
-        onBlur={(e) => setValue('password', e.target.value.trim())}
-      />
-      <TextField
-        required
-        fullWidth
-        label="Confirm Password"
-        type="password"
-        sx={{ my: 1 }}
-        error={!!errors['confirmPassword']}
-        helperText={
-          errors['confirmPassword'] ? errors['confirmPassword'].message : ''
-        }
-        {...register('confirmPassword')}
-        onBlur={(e) => setValue('confirmPassword', e.target.value.trim())}
-      />
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            label="Name"
+            autoFocus
+            sx={{ my: 1 }}
+            error={!!errors['name']}
+            helperText={errors['name'] ? errors['name'].message : ''}
+            {...register('name')}
+            onBlur={(e) => setValue('name', e.target.value.trim())}
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <Select
+            label="Agent"
+            name="parentAgentId"
+            control={control}
+            options={affAgentOptions}
+            sx={{ my: 2 }}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField
+            required
+            fullWidth
+            label="Rate"
+            autoFocus
+            sx={{ my: 1 }}
+            error={!!errors['rate']}
+            helperText={errors['rate'] ? errors['rate'].message : ''}
+            {...register('rate')}
+            onBlur={(e) => setValue('rate', parseFloat(e.target.value.trim()))}
+          />
+        </Grid>
+        <Grid item xs={8}>
+          <TextField
+            required
+            fullWidth
+            label="Email"
+            type="email"
+            sx={{ my: 1 }}
+            error={!!errors['email']}
+            helperText={errors['email'] ? errors['email'].message : ''}
+            {...register('email')}
+            onBlur={(e) => setValue('email', e.target.value.trim())}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <Select
+            label="Role"
+            name="roleId"
+            control={control}
+            options={roleOptions}
+            sx={{ my: 2 }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            fullWidth
+            label={<FormattedMessage id="label.username" />}
+            sx={{ my: 1 }}
+            error={!!errors['username']}
+            helperText={errors['username'] ? errors['username'].message : ''}
+            {...register('username')}
+            onBlur={(e) => setValue('username', e.target.value.trim())}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            sx={{ my: 1 }}
+            error={!!errors['password']}
+            helperText={errors['password'] ? errors['password'].message : ''}
+            {...register('password')}
+            onBlur={(e) => setValue('password', e.target.value.trim())}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            required
+            fullWidth
+            label="Confirm Password"
+            type="password"
+            sx={{ my: 1 }}
+            error={!!errors['confirmPassword']}
+            helperText={
+              errors['confirmPassword'] ? errors['confirmPassword'].message : ''
+            }
+            {...register('confirmPassword')}
+            onBlur={(e) => setValue('confirmPassword', e.target.value.trim())}
+          />
+        </Grid>
+      </Grid>
       {!isUserRegister && (
         <LoadingButton
           type="submit"

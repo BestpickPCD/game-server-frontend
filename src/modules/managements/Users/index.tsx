@@ -157,7 +157,6 @@ const UsersManagement = (): JSX.Element => {
         tableBody={tableBody}
         headerTitle={title}
         breadcrumbs={breadcrumbs}
-        onOpenModal={onAdd}
         isLoading={isFetching || isLoadingDelete}
         onDelete={onDelete}
         onUpdate={onUpdate}

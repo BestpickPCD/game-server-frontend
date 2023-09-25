@@ -51,6 +51,7 @@ export interface Agent extends User {
   level: number;
   agentParentName: string;
   Agents: {
+    rate: number;
     parentAgentId: number | null;
     level: number;
     parentAgent: User;

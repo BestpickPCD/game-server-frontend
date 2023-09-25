@@ -27,6 +27,12 @@ export const AgentService = createApi({
         };
       }
     }),
+    getAffiliatedAgents: builder.query<unknown, any>({
+      query: (params) => ({
+        url: '/user-affiliated-agents',
+        params
+      })
+    }),
     getAgentById: builder.mutation<ResponseType<Agent>, { id: number }>({
       query: ({ id }) => ({
         url: `/agents/${id}`
@@ -53,6 +59,7 @@ export const AgentService = createApi({
 
 export const {
   useGetAgentsQuery,
+  useGetAffiliatedAgentsQuery,
   useGetAgentByIdMutation,
   useUpdateAgentMutation,
   useDeleteAgentMutation
