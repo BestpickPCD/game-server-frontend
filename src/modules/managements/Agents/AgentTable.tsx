@@ -38,8 +38,6 @@ interface TableFilterProps {
   };
 }
 
-
-
 const UserTable = (): UserTableProps => {
   const { visible, toggle } = useModal();
   const [user, setUser] = useState<User>();

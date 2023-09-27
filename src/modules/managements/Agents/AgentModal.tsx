@@ -44,7 +44,7 @@ const UserModal = ({
   const { data: rolesData } = useRolesQuery(
     {},
     { refetchOnMountOrArgChange: true, skip: !detail?.id }
-  ); 
+  );
   const { data: currenciesData } = useGetCurrenciesQuery(
     {},
     { refetchOnMountOrArgChange: true, skip: !detail?.id }
