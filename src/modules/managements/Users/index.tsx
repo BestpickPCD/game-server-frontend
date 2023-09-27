@@ -6,6 +6,7 @@ import {
 } from 'src/services/userService';
 import { useGetUsersQuery } from 'src/services/userService';
 import { useModal, useToast } from 'src/utils/hooks';
+import { useForm } from 'react-hook-form';
 import UserModal from './UserModal';
 import UserTable from './UserTable';
 import { PaginationAndSort } from 'src/components/Table/tableType';
@@ -36,6 +37,7 @@ const UsersManagement = (): JSX.Element => {
   ];
   const { visible, hide, show } = useModal();
   const { notify, message } = useToast();
+  const { reset } = useForm();
   const {
     tableBody,
     tableHeader,
@@ -137,9 +139,14 @@ const UsersManagement = (): JSX.Element => {
       const response = await createTransaction(formData).unwrap();
       if (response) {
         toggleTransaction();
+        notify({ message: message.UPDATED });
+        refetch();
+        hide();
+        reset();
       }
     } catch (error) {
       console.log(error);
+      notify({ message: message.ERROR, type: 'error' });
     }
   };
 
@@ -157,7 +164,6 @@ const UsersManagement = (): JSX.Element => {
         tableBody={tableBody}
         headerTitle={title}
         breadcrumbs={breadcrumbs}
-        onOpenModal={onAdd}
         isLoading={isFetching || isLoadingDelete}
         onDelete={onDelete}
         onUpdate={onUpdate}

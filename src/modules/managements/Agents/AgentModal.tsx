@@ -24,6 +24,7 @@ interface UserModals {
 const schema = yup.object().shape({
   name: yup.string().required('Name is required!'),
   roleId: yup.number().required('Role is required!'),
+  rate: yup.number().required('Rate is required!'),
   currencyId: yup.number().required('Currency is required!'),
   username: yup.string().required('Username is required!'),
   parentAgentId: yup.number().required('Parent Agent is required!')
@@ -70,9 +71,10 @@ const UserModal = ({
     if (detail?.id) {
       setValue('name', detail.name);
       setValue('username', detail.username);
+      setValue('rate', detail?.Agents?.rate);
       setValue('roleId', detail.roleId);
       setValue('currencyId', detail.currencyId);
-      setValue('parentAgentId', detail?.Agents.parentAgentId);
+      setValue('parentAgentId', detail?.Agents?.parentAgent?.id);
     } else {
       reset();
     }
@@ -81,6 +83,7 @@ const UserModal = ({
   const onSubmit = async (values: {
     name: string;
     roleId: number;
+    rate: number;
     currencyId: number;
     parentAgentId: number;
   }) => {
@@ -91,6 +94,7 @@ const UserModal = ({
           body: {
             name: values.name,
             roleId: values.roleId,
+            rate: values.rate,
             currencyId: values.currencyId,
             parentAgentId: values.parentAgentId
           }
@@ -125,7 +129,7 @@ const UserModal = ({
   );
   return (
     <Modals
-      title={detail?.id ? `Edit ${detail.name}` : 'Add Game'}
+      title={detail?.id ? `Edit ${detail.name}` : 'Add Agent'}
       onClose={onClose}
       open={open}
       isLoading={isLoadingUpdate}
@@ -149,6 +153,15 @@ const UserModal = ({
               errors={errors}
               register={register}
             />
+            <Box display={'flex'} gap="1rem">
+              <TextField
+                label={<FormattedMessage id="label.rate" />}
+                name="rate"
+                sx={{ my: 2 }}
+                errors={errors}
+                register={register}
+              />
+            </Box>
             <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
               <Select
                 label="Role"
@@ -167,9 +180,9 @@ const UserModal = ({
               control={control}
               name="parentAgentId"
               parent={{
-                id: detail?.Agents?.parentAgentId,
-                name: detail?.Agents?.name,
-                value: detail?.Agents?.parentAgentId
+                id: detail?.Agents?.parentAgent?.name,
+                name: detail?.Agents?.parentAgent?.name,
+                value: detail?.Agents?.parentAgent?.id
               }}
             />
           </div>

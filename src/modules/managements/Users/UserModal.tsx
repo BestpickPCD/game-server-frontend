@@ -47,6 +47,7 @@ const UserModal = ({
     {},
     { refetchOnMountOrArgChange: true, skip: !detail?.id }
   );
+
   const {
     register,
     setValue,
@@ -80,6 +81,7 @@ const UserModal = ({
   const onSubmit = async (values: {
     name: string;
     email: string;
+    type: string;
     roleId: number;
     currencyId: number;
   }) => {
@@ -125,7 +127,7 @@ const UserModal = ({
 
   return (
     <Modals
-      title={detail?.id ? `Edit ${detail.name}` : 'Add Game'}
+      title={detail?.id ? `Edit ${detail.name}` : 'Add User'}
       onClose={onClose}
       open={open}
       isLoading={isLoadingUpdate}

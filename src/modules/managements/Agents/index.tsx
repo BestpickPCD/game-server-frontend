@@ -2,6 +2,7 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import { RootState } from 'src/app/store';
 import TableComponent from 'src/components/Table';
 import { PaginationAndSort } from 'src/components/Table/tableType';
@@ -39,6 +40,7 @@ const AgentsManagement = (): JSX.Element => {
     }
   ];
   const { visible, hide, show } = useModal();
+  const { reset } = useForm();
   const { notify, message } = useToast();
   const {
     tableBody,
@@ -91,7 +93,7 @@ const AgentsManagement = (): JSX.Element => {
   );
 
   const [formData, setFormData] = useState({
-    receiverId: 0,
+    receiverUsername: '',
     amount: 0,
     type: 'add',
     note: '',
@@ -99,7 +101,7 @@ const AgentsManagement = (): JSX.Element => {
   });
 
   useEffect(() => {
-    formData.receiverId = user?.id;
+    formData.receiverUsername = user?.username;
     setFormData((prev) => ({ ...prev, status: 'success' }));
   }, [user]);
 
@@ -145,9 +147,14 @@ const AgentsManagement = (): JSX.Element => {
       const response = await createTransaction(formData).unwrap();
       if (response) {
         toggleTransaction();
+        notify({ message: message.UPDATED });
+        refetch();
+        hide();
+        reset();
       }
     } catch (error) {
       console.log(error);
+      notify({ message: message.ERROR, type: 'error' });
     }
   };
 

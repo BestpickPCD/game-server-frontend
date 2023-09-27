@@ -46,6 +46,7 @@ const UserTable = (): UserTableProps => {
     setUser(user);
     toggle();
   };
+
   const tableBody = (item): TableBody[] => [
     {
       align: 'inherit',
@@ -81,10 +82,25 @@ const UserTable = (): UserTableProps => {
       align: 'right',
       children: (
         <>
+          <Typography
+            variant="body1"
+            fontWeight="bold"
+            color="text.primary"
+            noWrap
+          >
+            {item?.Agents?.rate && 0}
+          </Typography>
+        </>
+      )
+    },
+    {
+      align: 'right',
+      children: (
+        <>
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.id}`}
+            href={`transactions/${item.username}`}
           >
             {item.balance}
           </Button>
@@ -132,6 +148,11 @@ const UserTable = (): UserTableProps => {
       align: 'inherit',
       title: 'label.parent.name',
       name: 'agentParentName'
+    },
+    {
+      align: 'inherit',
+      title: 'label.rate',
+      name: 'rate'
     },
     {
       align: 'right',
