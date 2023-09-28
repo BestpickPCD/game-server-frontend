@@ -232,32 +232,32 @@ const AccountBalance = (): JSX.Element => {
                   sx={{
                     width: '100%'
                   }}
-                >      
-                {chartSeries.map((item, index) => (
-                  <ListItem disableGutters>
-                    <ListItemAvatarWrapper>
-                      <img
-                        alt="BTC"
-                        src="/static/images/placeholders/logo/bitcoin.png"
+                >
+                  {chartSeries.map((item, index) => (
+                    <ListItem disableGutters>
+                      <ListItemAvatarWrapper>
+                        <img
+                          alt="BTC"
+                          src="/static/images/placeholders/logo/bitcoin.png"
+                        />
+                      </ListItemAvatarWrapper>
+                      <ListItemText
+                        primary="BTC"
+                        primaryTypographyProps={{ variant: 'h5', noWrap: true }}
+                        secondary="Bitcoin"
+                        secondaryTypographyProps={{
+                          variant: 'subtitle2',
+                          noWrap: true
+                        }}
                       />
-                    </ListItemAvatarWrapper>
-                    <ListItemText
-                      primary="BTC"
-                      primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Bitcoin"
-                      secondaryTypographyProps={{
-                        variant: 'subtitle2',
-                        noWrap: true
-                      }}
-                    />
-                    <Box>
-                      <Typography align="right" variant="h4" noWrap>
-                        20%
-                      </Typography>
-                      <span color="success">+2.54%</span>
-                    </Box>
-                  </ListItem>
-                ))}
+                      <Box>
+                        <Typography align="right" variant="h4" noWrap>
+                          20%
+                        </Typography>
+                        <span color="success">+2.54%</span>
+                      </Box>
+                    </ListItem>
+                  ))}
                 </List>
               </Grid>
             </Grid>

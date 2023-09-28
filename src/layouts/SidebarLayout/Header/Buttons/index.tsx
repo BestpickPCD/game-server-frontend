@@ -34,9 +34,11 @@ const HeaderButtons = (): JSX.Element => {
   }, []);
 
   const handleOpenNewWindow = () => {
-    
-    window.open('https://translate.google.com/', '_blank', 'width=600,height=400');
-
+    window.open(
+      'https://translate.google.com/',
+      '_blank',
+      'width=600,height=400'
+    );
   };
 
   return (

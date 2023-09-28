@@ -192,9 +192,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       autoComplete="off"
                       value={data?.apiKey ?? ''}
                     />
-                    <Button variant="contained">
-                      {'Generate'}
-                    </Button>
+                    <Button variant="contained">{'Generate'}</Button>
                   </TableCell>
                 </TableRow>
                 <TableRow
