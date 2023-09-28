@@ -232,7 +232,8 @@ const AccountBalance = (): JSX.Element => {
                   sx={{
                     width: '100%'
                   }}
-                >
+                >      
+                {chartSeries.map((item, index) => (
                   <ListItem disableGutters>
                     <ListItemAvatarWrapper>
                       <img
@@ -256,75 +257,7 @@ const AccountBalance = (): JSX.Element => {
                       <span color="success">+2.54%</span>
                     </Box>
                   </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemAvatarWrapper>
-                      <img
-                        alt="XRP"
-                        src="/static/images/placeholders/logo/ripple.png"
-                      />
-                    </ListItemAvatarWrapper>
-                    <ListItemText
-                      primary="XRP"
-                      primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Ripple"
-                      secondaryTypographyProps={{
-                        variant: 'subtitle2',
-                        noWrap: true
-                      }}
-                    />
-                    <Box>
-                      <Typography align="right" variant="h4" noWrap>
-                        10%
-                      </Typography>
-                      <span color="error">-1.22%</span>
-                    </Box>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemAvatarWrapper>
-                      <img
-                        alt="ADA"
-                        src="/static/images/placeholders/logo/cardano.png"
-                      />
-                    </ListItemAvatarWrapper>
-                    <ListItemText
-                      primary="ADA"
-                      primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Cardano"
-                      secondaryTypographyProps={{
-                        variant: 'subtitle2',
-                        noWrap: true
-                      }}
-                    />
-                    <Box>
-                      <Typography align="right" variant="h4" noWrap>
-                        40%
-                      </Typography>
-                      <span color="success">+10.50%</span>
-                    </Box>
-                  </ListItem>
-                  <ListItem disableGutters>
-                    <ListItemAvatarWrapper>
-                      <img
-                        alt="ETH"
-                        src="/static/images/placeholders/logo/ethereum.png"
-                      />
-                    </ListItemAvatarWrapper>
-                    <ListItemText
-                      primary="ETH"
-                      primaryTypographyProps={{ variant: 'h5', noWrap: true }}
-                      secondary="Ethereum"
-                      secondaryTypographyProps={{
-                        variant: 'subtitle2',
-                        noWrap: true
-                      }}
-                    />
-                    <Box>
-                      <Typography align="right" variant="h4" noWrap>
-                        30%
-                      </Typography>
-                      <span color="error">-12.38%</span>
-                    </Box>
-                  </ListItem>
+                ))}
                 </List>
               </Grid>
             </Grid>

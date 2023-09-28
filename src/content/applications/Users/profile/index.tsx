@@ -37,7 +37,7 @@ export interface UserDashboard {
 
 const ManagementUserProfile = (): JSX.Element => {
   const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
-  console.log(data.affiliatedAgents);
+  console.log(data);
   const user: UserDashboard = {
     id: data?.userId,
     name: data?.name,
@@ -69,7 +69,7 @@ const ManagementUserProfile = (): JSX.Element => {
             <UserInfo user={user} />
           </Grid>
           <Grid item xs={12} md={5}>
-            <Feed users={data.affiliatedAgents ?? []} />
+            <Feed users={data?.affiliatedAgents ?? []} />
           </Grid>
         </Grid>
       </Container>

@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardHeader,
   CardMedia,
@@ -191,6 +192,9 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       autoComplete="off"
                       value={data?.apiKey ?? ''}
                     />
+                    <Button variant="contained">
+                      {'Generate'}
+                    </Button>
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -227,7 +231,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       required
                       helperText={'error'}
                       autoComplete="off"
-                      value={user?.balance.balance ?? ''}
+                      value={user?.balance?.balance ?? 0}
                     />
                   </TableCell>
                   <TableCell align="left">
@@ -237,7 +241,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       required
                       helperText={'error'}
                       autoComplete="off"
-                      value={user?.balance.balance ?? ''}
+                      value={user?.balance?.balance ?? 0}
                     />
                   </TableCell>
                 </TableRow>
@@ -251,7 +255,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       required
                       helperText={'error'}
                       autoComplete="off"
-                      value={user?.balance.balance ?? ''}
+                      value={user?.balance?.balance ?? 0}
                     />
                   </TableCell>
                   <TableCell align="left">
@@ -275,7 +279,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       required
                       helperText={'error'}
                       autoComplete="off"
-                      value={user?.balance.sendOut ?? ''}
+                      value={user?.balance?.sendOut ?? ''}
                     />
                   </TableCell>
                   <TableCell align="left">
@@ -285,7 +289,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       required
                       helperText={'error'}
                       autoComplete="off"
-                      value={user?.balance.balance ?? ''}
+                      value={user?.balance?.balance ?? 0}
                     />
                   </TableCell>
                 </TableRow>
@@ -299,7 +303,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       required
                       helperText={'error'}
                       autoComplete="off"
-                      value={user?.balance.balance ?? ''}
+                      value={user?.balance?.balance ?? 0}
                     />
                   </TableCell>
                   <TableCell align="left">
@@ -309,7 +313,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       required
                       helperText={'error'}
                       autoComplete="off"
-                      value={user?.balance.balance ?? ''}
+                      value={user?.balance?.balance ?? 0}
                     />
                   </TableCell>
                 </TableRow>
