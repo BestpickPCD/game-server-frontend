@@ -23,32 +23,6 @@ import { UserDashboard } from '.';
 import { useEffect, useState } from 'react';
 import { useGetUserByIdMutation } from 'src/services/userService';
 
-const AvatarWrapper = styled(Card)(
-  ({ theme }) => `
-
-    position: relative;
-    overflow: visible;
-    display: inline-block;
-    margin-top: -${theme.spacing(9)};
-    margin-left: ${theme.spacing(2)};
-
-    .MuiAvatar-root {
-      width: ${theme.spacing(16)};
-      height: ${theme.spacing(16)};
-    }
-`
-);
-
-const CardCover = styled(Card)(
-  ({ theme }) => `
-    position: relative;
-
-    .MuiCardMedia-root {
-      height: ${theme.spacing(26)};
-    }
-`
-);
-
 interface ProfileCoverProps {
   user: UserDashboard;
 }
@@ -74,19 +48,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
 
   return (
     <>
-      <Box display="flex" mb={3}>
-        <Tooltip arrow placement="top" title="Go back">
-          <IconButton color="primary" sx={{ p: 2, mr: 2 }}>
-            <ArrowBackTwoToneIcon />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <CardCover>
-        <CardMedia image={user.coverImg} />
-      </CardCover>
-      <AvatarWrapper>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
-      </AvatarWrapper>
       <Box py={2} pl={2} mb={3}>
         <Card>
           <CardHeader title={user.name} />
@@ -97,14 +58,23 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell colSpan={2} align="left">
+                  <TableCell align="left">
                     <TextField
                       fullWidth
-                      label="Number"
+                      label="Username"
                       required
-                      helperText={'error'}
+                      disabled
                       autoComplete="off"
                       value={user?.username ?? ''}
+                    />
+                  </TableCell>
+                  <TableCell align="left">
+                    <TextField
+                      fullWidth
+                      label="Join time"
+                      required
+                      autoComplete="off"
+                      value={new Date(data?.createdAt).toLocaleString() ?? ''}
                     />
                   </TableCell>
                 </TableRow>
@@ -116,7 +86,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Type"
                       required
-                      helperText={'error'}
+                      disabled
                       autoComplete="off"
                       value={user?.type ?? ''}
                     />
@@ -126,7 +96,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Affiliated agent"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.parentAgentId ?? ''}
                     />
@@ -138,43 +107,9 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                   <TableCell align="left">
                     <TextField
                       fullWidth
-                      label="Id"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={user?.id ?? ''}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Join time"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={data?.createdAt ?? ''}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Nickname"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={data?.nickname ?? ''}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
                       label="Account number"
                       required
-                      helperText={'error'}
+                      helperText={''}
                       autoComplete="off"
                       value={data?.accountNumber ?? ''}
                     />
@@ -183,7 +118,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell colSpan={2} align="left">
+                  <TableCell align="left">
                     <TextField
                       fullWidth
                       label="API KEY"
@@ -192,6 +127,8 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       autoComplete="off"
                       value={data?.apiKey ?? ''}
                     />
+                  </TableCell>
+                  <TableCell align="left">
                     <Button variant="contained">{'Generate'}</Button>
                   </TableCell>
                 </TableRow>
