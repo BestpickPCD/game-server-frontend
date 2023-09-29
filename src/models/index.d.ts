@@ -31,6 +31,7 @@ export interface User {
   email: string;
   name: string;
   username: string;
+  apiKey?: string;
   createdAt?: string;
   currency?: {
     code: string;

@@ -23,10 +23,16 @@ const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
     <Card>
       <CardHeader title="Followers Feed" />
       <Divider />
-      <Box p={2}>
+      <Box
+        p={2}
+        sx={{
+          overflow: 'auto',
+          height: '73vh'
+        }}
+      >
         <Grid container spacing={0}>
           {feed.map((_feed) => (
-            <Grid key={_feed.name} item xs={12} sm={6} lg={4}>
+            <Grid key={_feed.name} item xs={12}>
               <Box p={3} display="flex" alignItems="flex-start">
                 <Box pl={2}>
                   <Typography gutterBottom variant="subtitle2">
@@ -34,9 +40,6 @@ const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
                   </Typography>
                   <Typography variant="h4" gutterBottom>
                     {_feed.name}
-                  </Typography>
-                  <Typography color="text.primary" sx={{ pb: 2 }}>
-                    {_feed.email}
                   </Typography>
                   <Button
                     variant="outlined"

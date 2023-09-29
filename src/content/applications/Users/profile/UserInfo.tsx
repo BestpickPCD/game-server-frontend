@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardHeader,
   CardMedia,
@@ -21,7 +20,12 @@ import { styled } from '@mui/material/styles';
 import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
 import { UserDashboard } from '.';
 import { useEffect, useState } from 'react';
-import { useGetUserByIdMutation } from 'src/services/userService';
+import {
+  useGetUserByIdMutation,
+  useGetApiKeyMutation
+} from 'src/services/userService';
+import { width } from '@mui/system';
+import { LoadingButton } from '@mui/lab';
 
 interface ProfileCoverProps {
   user: UserDashboard;
@@ -45,6 +49,16 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
   }, []);
 
   const { data } = response || {};
+
+  const [GetApiKey, { isLoading: isLoadingUpdate }] = useGetApiKeyMutation();
+  const generateApiKey = async () => {
+    try {
+      const { token } = (await GetApiKey({}).unwrap()) as { token: string };
+      console.log(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -73,6 +87,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Join time"
                       required
+                      disabled
                       autoComplete="off"
                       value={new Date(data?.createdAt).toLocaleString() ?? ''}
                     />
@@ -104,58 +119,40 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Account number"
-                      required
-                      helperText={''}
-                      autoComplete="off"
-                      value={data?.accountNumber ?? ''}
-                    />
+                  <TableCell align="left" colSpan={2}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <TextField
+                        sx={{ width: '75%' }}
+                        name="apiKey"
+                        label="API KEY"
+                        required
+                        autoComplete="off"
+                        value={data?.apiKey ?? ''}
+                      />
+                      <LoadingButton
+                        loading={isLoadingUpdate}
+                        variant="outlined"
+                        sx={{ marginLeft: 2, padding: 1.5 }}
+                        onClick={generateApiKey}
+                      >
+                        {'Generate'}
+                      </LoadingButton>
+                    </div>
                   </TableCell>
                 </TableRow>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="API KEY"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={data?.apiKey ?? ''}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <Button variant="contained">{'Generate'}</Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="API call allowed IP settings"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={data?.apiIpSetting ?? ''}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Callback URL"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={data?.CallbackUrl ?? ''}
-                    />
-                  </TableCell>
-                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <CardHeader title={'Balance Summaries'} />
+          <Divider />
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableBody>
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
@@ -249,6 +246,69 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.balance ?? 0}
+                    />
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              justifyItems: 'center',
+              padding: 4
+            }}
+          >
+            <CardHeader title={'Account and API Settings'} />
+            <LoadingButton
+              loading={isLoadingUpdate}
+              variant="outlined"
+              sx={{ marginLeft: 2, padding: 1.5 }}
+              onClick={generateApiKey}
+            >
+              {'Generate'}
+            </LoadingButton>
+          </div>
+          <Divider />
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableBody>
+                <TableRow
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="left" colSpan={2}>
+                    <TextField
+                      fullWidth
+                      label="Account number"
+                      required
+                      helperText={''}
+                      autoComplete="off"
+                      value={data?.accountNumber ?? ''}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="left">
+                    <TextField
+                      fullWidth
+                      label="API call allowed IP settings"
+                      required
+                      helperText={'error'}
+                      autoComplete="off"
+                      value={data?.apiIpSetting ?? ''}
+                    />
+                  </TableCell>
+                  <TableCell align="left">
+                    <TextField
+                      fullWidth
+                      label="Callback URL"
+                      required
+                      helperText={'error'}
+                      autoComplete="off"
+                      value={data?.CallbackUrl ?? ''}
                     />
                   </TableCell>
                 </TableRow>
