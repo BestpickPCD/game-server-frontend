@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -32,8 +33,19 @@ const HeaderButtons = (): JSX.Element => {
     return setLang('en');
   }, []);
 
+  const handleOpenNewWindow = () => {
+    window.open(
+      'https://translate.google.com/',
+      '_blank',
+      'width=600,height=400'
+    );
+  };
+
   return (
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">
+      <Button onClick={handleOpenNewWindow} variant="outlined">
+        Chat
+      </Button>
       <HeaderSearch />
       <Box sx={{ mx: 0.5 }} component="span">
         <HeaderNotifications />
