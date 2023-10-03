@@ -19,13 +19,11 @@ interface AffiliatedAgent {
   username: string;
   email: string;
 }
- 
 
 const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
   const feed = users;
 
-  const theme = useTheme(); 
-
+  const theme = useTheme();
 
   const chartOptions: ApexOptions = {
     chart: {
@@ -106,7 +104,7 @@ const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
       }
     }
   };
-  
+
   const chart1Data = [
     {
       name: 'Bitcoin Price',
@@ -136,14 +134,11 @@ const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
                   <Typography variant="h4" gutterBottom>
                     {_feed.name}
                   </Typography>
-                  <Button
-                    variant="outlined" 
-                    size="small"
-                  >
+                  <Button variant="outlined" size="small">
                     {_feed.email}
                   </Button>
                 </Box>
-                <Box pl={2} sx={{height:100}}>
+                <Box pl={2} sx={{ height: 100 }}>
                   <Chart
                     options={chartOptions}
                     series={chart1Data}

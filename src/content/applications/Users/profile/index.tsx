@@ -38,7 +38,7 @@ export interface UserDashboard {
 
 const ManagementUserProfile = (): JSX.Element => {
   const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
-  
+
   const user: UserDashboard = {
     id: data?.userId,
     name: data?.name,

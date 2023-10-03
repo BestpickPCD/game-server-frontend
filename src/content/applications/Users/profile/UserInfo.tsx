@@ -27,14 +27,13 @@ import {
 import { width } from '@mui/system';
 import { LoadingButton } from '@mui/lab';
 import ProfileFormSubmit from './profileFormSubmit';
-import GenerateApi from './generateApi'
+import GenerateApi from './generateApi';
 
 interface ProfileCoverProps {
   user: UserDashboard;
 }
 
 const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
-
   const [getUserDetail] = useGetUserByIdMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [response, setResponse] = useState<any | null>(null);
@@ -106,7 +105,9 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       label="Upper Agent"
                       required
                       autoComplete="off"
-                      value={data?.Agents?.parentAgent?.username ?? 'No higher agent'}
+                      value={
+                        data?.Agents?.parentAgent?.username ?? 'No higher agent'
+                      }
                     />
                   </TableCell>
                 </TableRow>
@@ -114,7 +115,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="left" colSpan={2}>
-                    <GenerateApi data={{apiKey: data?.apiKey}} />
+                    <GenerateApi data={{ apiKey: data?.apiKey }} />
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -216,13 +217,13 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
               </TableBody>
             </Table>
           </TableContainer>
-          <ProfileFormSubmit data={
-            {
+          <ProfileFormSubmit
+            data={{
               accountNumber: data?.rate,
               callbackUrl: data?.rate,
               apiCall: data?.rate
-            }
-          }/>
+            }}
+          />
         </Card>
       </Box>
     </>
