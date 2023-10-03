@@ -21,6 +21,7 @@ export interface UserDashboard {
   };
   type: string;
   subAgent: number;
+  apiKey: string;
   parentAgentId: number;
   balance: {
     balance: number;
@@ -37,13 +38,14 @@ export interface UserDashboard {
 
 const ManagementUserProfile = (): JSX.Element => {
   const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
-  console.log(data);
+  
   const user: UserDashboard = {
     id: data?.userId,
     name: data?.name,
     username: data?.username,
     currency: data?.currency,
     type: data?.type,
+    apiKey: data?.apiKey,
     subAgent: data?.subAgent,
     parentAgentId: data?.parentAgentId,
     balance: data?.balance,
