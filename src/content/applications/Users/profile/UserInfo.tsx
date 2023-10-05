@@ -219,9 +219,10 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
           </TableContainer>
           <ProfileFormSubmit
             data={{
-              accountNumber: data?.rate,
-              callbackUrl: data?.rate,
-              apiCall: data?.rate
+              userId: user?.id,
+              accountNumber: user?.accountNumber,
+              callbackUrl: user?.callbackUrl,
+              apiCall: user?.apiCall
             }}
           />
         </Card>

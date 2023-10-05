@@ -11,24 +11,33 @@ import {
 } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useUpdateUserMutation } from 'src/services/userService';
+import { useToast } from 'src/utils/hooks';
 
 interface ProfileSetting {
+  userId: number;
   accountNumber: string;
   callbackUrl: string;
   apiCall: string;
 }
 
 const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
+  const { notify } = useToast();
+
+  const [updateUser, { isLoading: isLoadingUpdate }] = useUpdateUserMutation();
+
   const updateSetting = async () => {
     try {
-      console.log(inputValues);
-      // continue here make api to update all these
+      await updateUser({ id: data.userId, body: inputValues }).unwrap();
+      notify({ message: 'API Details updated' });
+      reset();
     } catch (error) {
       console.log(error);
     }
   };
 
   const [inputValues, setInputValues] = useState<ProfileSetting>({
+    userId: data.userId,
     accountNumber: data.accountNumber,
     callbackUrl: data.callbackUrl,
     apiCall: data.apiCall
@@ -58,28 +67,9 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
 
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          justifyItems: 'center',
-          padding: 4
-        }}
-      >
-        <CardHeader title={'Account and API Settings'} />
-        <LoadingButton
-          // loading={isLoadingUpdate}
-          variant="outlined"
-          sx={{ marginLeft: 2, marginRight: 1.5, padding: 1.5 }}
-          onClick={updateSetting}
-        >
-          {'Update'}
-        </LoadingButton>
-      </div>
+      <CardHeader title={'Account and API Settings'} />
       <Divider />
-      <TableContainer
-      // component={Paper}
-      >
+      <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableBody>
             <TableRow
@@ -121,6 +111,20 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
                   onChange={changeValue}
                   value={inputValues.callbackUrl}
                 />
+              </TableCell>
+            </TableRow>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="left" colSpan={2}>
+                <LoadingButton
+                  loading={isLoadingUpdate}
+                  fullWidth
+                  variant="outlined"
+                  onClick={updateSetting}
+                >
+                  {'Update'}
+                </LoadingButton>
               </TableCell>
             </TableRow>
           </TableBody>

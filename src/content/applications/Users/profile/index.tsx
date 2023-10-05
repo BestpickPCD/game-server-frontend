@@ -20,6 +20,9 @@ export interface UserDashboard {
     code: string;
   };
   type: string;
+  accountNumber: string;
+  callbackUrl: string;
+  apiCall: string;
   subAgent: number;
   apiKey: string;
   parentAgentId: number;
@@ -45,6 +48,9 @@ const ManagementUserProfile = (): JSX.Element => {
     username: data?.username,
     currency: data?.currency,
     type: data?.type,
+    accountNumber: data?.accountNumber,
+    callbackUrl: data?.callbackUrl,
+    apiCall: data?.apiCall,
     apiKey: data?.apiKey,
     subAgent: data?.subAgent,
     parentAgentId: data?.parentAgentId,
