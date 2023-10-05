@@ -50,7 +50,7 @@ export const UserService = createApi({
     updateUser: builder.mutation<unknown, any>({
       query: ({ id, body }) => ({
         url: `/user/${id}`,
-        method: 'PUT',
+        method: 'PATCH',
         body
       })
     }),

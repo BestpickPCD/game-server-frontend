@@ -1,27 +1,45 @@
-import {
-  Box,
-  Typography,
-  Card,
-  CardHeader,
-  Divider,
-  Avatar,
-  Grid,
-  Button
-} from '@mui/material';
-
-import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
+import { Box, Card, CardHeader, Divider, Grid } from '@mui/material';
+import AffiliatedAgentCard from './affiliatedAgentCard';
 interface AffiliatedAgent {
   id: number;
   name: string;
   username: string;
   email: string;
+  allSums: {
+    winGame: {
+      _sum: {
+        amount: number;
+      };
+    };
+    betGame: {
+      _sum: {
+        amount: number;
+      };
+    };
+    chargeGame: {
+      _sum: {
+        amount: number;
+      };
+    };
+    sentOut: {
+      _sum: {
+        amount: number;
+      };
+    };
+    received: {
+      _sum: {
+        amount: number;
+      };
+    };
+  };
 }
+
 const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
-  const feed = users;
+  const a = 1;
 
   return (
     <Card>
-      <CardHeader title="Followers Feed" />
+      <CardHeader title="Affiliated Agents" />
       <Divider />
       <Box
         p={2}
@@ -31,27 +49,11 @@ const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
         }}
       >
         <Grid container spacing={0}>
-          {feed.map((_feed) => (
-            <Grid key={_feed.name} item xs={12}>
-              <Box p={3} display="flex" alignItems="flex-start">
-                <Box pl={2}>
-                  <Typography gutterBottom variant="subtitle2">
-                    {_feed.username}
-                  </Typography>
-                  <Typography variant="h4" gutterBottom>
-                    {_feed.name}
-                  </Typography>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<AddTwoToneIcon />}
-                  >
-                    Follow
-                  </Button>
-                </Box>
-              </Box>
-            </Grid>
-          ))}
+          {users.map((data) =>
+            !Object.keys(data.allSums).length === 0 > 0 ? (
+              <AffiliatedAgentCard data={data} />
+            ) : null
+          )}
         </Grid>
       </Box>
     </Card>

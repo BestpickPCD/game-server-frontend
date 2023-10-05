@@ -122,7 +122,6 @@ const FormRegister = ({
 
   const onSubmit = async (values) => {
     try {
-      console.log(values);
       const response = await onRegister(values).unwrap();
       if (response && response.message === 'CREATED') {
         reset();

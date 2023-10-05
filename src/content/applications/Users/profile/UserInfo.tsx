@@ -26,6 +26,8 @@ import {
 } from 'src/services/userService';
 import { width } from '@mui/system';
 import { LoadingButton } from '@mui/lab';
+import ProfileFormSubmit from './profileFormSubmit';
+import GenerateApi from './generateApi';
 
 interface ProfileCoverProps {
   user: UserDashboard;
@@ -49,16 +51,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
   }, []);
 
   const { data } = response || {};
-
-  const [GetApiKey, { isLoading: isLoadingUpdate }] = useGetApiKeyMutation();
-  const generateApiKey = async () => {
-    try {
-      const { token } = (await GetApiKey({}).unwrap()) as { token: string };
-      console.log(token);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>
@@ -109,10 +101,13 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                   <TableCell align="left">
                     <TextField
                       fullWidth
-                      label="Affiliated agent"
+                      disabled
+                      label="Upper Agent"
                       required
                       autoComplete="off"
-                      value={user?.parentAgentId ?? ''}
+                      value={
+                        data?.Agents?.parentAgent?.username ?? 'No higher agent'
+                      }
                     />
                   </TableCell>
                 </TableRow>
@@ -120,29 +115,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell align="left" colSpan={2}>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between'
-                      }}
-                    >
-                      <TextField
-                        sx={{ width: '75%' }}
-                        name="apiKey"
-                        label="API KEY"
-                        required
-                        autoComplete="off"
-                        value={data?.apiKey ?? ''}
-                      />
-                      <LoadingButton
-                        loading={isLoadingUpdate}
-                        variant="outlined"
-                        sx={{ marginLeft: 2, padding: 1.5 }}
-                        onClick={generateApiKey}
-                      >
-                        {'Generate'}
-                      </LoadingButton>
-                    </div>
+                    <GenerateApi data={{ apiKey: data?.apiKey }} />
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -161,7 +134,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Current holding amount"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.balance ?? 0}
                     />
@@ -171,7 +143,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Subagent current total holding amount"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.balance ?? 0}
                     />
@@ -185,7 +156,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Current total amount held by sub-users"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.balance ?? 0}
                     />
@@ -195,7 +165,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Rate"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={data?.rate ?? ''}
                     />
@@ -209,7 +178,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Total amount paid"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.sendOut ?? ''}
                     />
@@ -219,7 +187,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Total recharged amount"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.balance ?? 0}
                     />
@@ -233,7 +200,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Number of sub-agents"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.balance ?? 0}
                     />
@@ -243,7 +209,6 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       fullWidth
                       label="Number of lower users"
                       required
-                      helperText={'error'}
                       autoComplete="off"
                       value={user?.balance?.balance ?? 0}
                     />
@@ -252,69 +217,14 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
               </TableBody>
             </Table>
           </TableContainer>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              justifyItems: 'center',
-              padding: 4
+          <ProfileFormSubmit
+            data={{
+              userId: user?.id,
+              accountNumber: user?.accountNumber,
+              callbackUrl: user?.callbackUrl,
+              apiCall: user?.apiCall
             }}
-          >
-            <CardHeader title={'Account and API Settings'} />
-            <LoadingButton
-              loading={isLoadingUpdate}
-              variant="outlined"
-              sx={{ marginLeft: 2, padding: 1.5 }}
-              onClick={generateApiKey}
-            >
-              {'Generate'}
-            </LoadingButton>
-          </div>
-          <Divider />
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableBody>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left" colSpan={2}>
-                    <TextField
-                      fullWidth
-                      label="Account number"
-                      required
-                      helperText={''}
-                      autoComplete="off"
-                      value={data?.accountNumber ?? ''}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="API call allowed IP settings"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={data?.apiIpSetting ?? ''}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Callback URL"
-                      required
-                      helperText={'error'}
-                      autoComplete="off"
-                      value={data?.CallbackUrl ?? ''}
-                    />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+          />
         </Card>
       </Box>
     </>
