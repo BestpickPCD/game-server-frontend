@@ -155,7 +155,7 @@ const UserModal = ({
             />
             <Box display={'flex'} gap="1rem">
               <TextField
-                label={"Rate"}
+                label={'Rate'}
                 name="rate"
                 sx={{ my: 2 }}
                 errors={errors}
