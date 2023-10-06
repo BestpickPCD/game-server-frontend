@@ -43,7 +43,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
         const result = await getUserDetail(`${user?.id}`).unwrap();
         setResponse(result);
       } catch (error) {
-        console.error(error);
+        console.log(error);
       }
     }
 

@@ -56,7 +56,6 @@ const TransactionManagement = (): JSX.Element => {
     refetch
   } = useGetTransactionQuery(
     {
-      id: 1,
       page: pagination.page,
       size: pagination.size,
       search: pagination.search,

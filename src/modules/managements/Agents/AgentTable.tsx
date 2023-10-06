@@ -79,7 +79,7 @@ const UserTable = (): UserTableProps => {
       )
     },
     {
-      align: 'right',
+      align: 'left',
       children: (
         <>
           <Typography
@@ -88,7 +88,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item?.Agents?.rate && 0}
+            {parseFloat(item.Agents.rate).toFixed(2)}%
           </Typography>
         </>
       )
@@ -151,7 +151,7 @@ const UserTable = (): UserTableProps => {
     },
     {
       align: 'inherit',
-      title: 'label.rate',
+      title: 'Rate',
       name: 'rate'
     },
     {
