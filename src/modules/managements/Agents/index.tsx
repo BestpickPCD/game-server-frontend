@@ -161,7 +161,7 @@ const AgentsManagement = (): JSX.Element => {
   const onInput = (value, inputName) => {
     setFormData((prev) => ({ ...prev, [`${inputName}`]: value }));
   };
-
+  console.log(data);
   return (
     <>
       <TableComponent
