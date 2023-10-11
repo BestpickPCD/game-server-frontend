@@ -62,7 +62,9 @@ const UserProfile = Loader(
 const UserSettings = Loader(
   lazy(() => import('src/content/applications/Users/settings'))
 );
-
+const PassowrdUpdate = Loader(
+  lazy(() => import('src/content/applications/Users/update'))
+);
 // Status
 const Status404 = Loader(
   lazy(() => import('src/content/pages/Status/Status404'))
@@ -225,6 +227,10 @@ const routes: RouteObject[] = [
           {
             path: 'settings',
             element: <UserSettings />
+          },
+          {
+            path: 'update',
+            element: <PassowrdUpdate />
           }
         ]
       },
