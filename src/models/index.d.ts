@@ -47,6 +47,14 @@ export interface User {
   type?: string;
 }
 
+export interface TransactionLimit {
+  id: number;
+  agentId: number;
+  limitType: string;
+  limitTypeId: string;
+  limit: number;
+}
+
 export interface Agent extends User {
   parentAgentId: number | null;
   level: number;

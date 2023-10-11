@@ -35,7 +35,7 @@ const HeaderButtons = (): JSX.Element => {
 
   const handleOpenNewWindow = () => {
     window.open(
-      'https://translate.google.com/',
+      `https://user-demo-frontend.vercel.app/chat?token=123`,
       '_blank',
       'width=600,height=400'
     );

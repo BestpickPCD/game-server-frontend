@@ -62,6 +62,37 @@ export const TransactionService = createApi({
         method: 'POST',
         body
       })
+    }),
+    getTransactionLimit: builder.query<any, unknown>({
+      query: (params) => ({
+        url: '/bet-limit',
+        params
+      })
+    }),
+    getTransactionLimitById: builder.mutation<any, unknown>({
+      query: ({ id }) => ({
+        url: `/bet-limit/${id}`
+      })
+    }),
+    createTransactionLimit: builder.mutation<any, unknown>({
+      query: (body) => ({
+        url: `/bet-limit`,
+        method: 'POST',
+        body
+      })
+    }),
+    updateTransactionLimit: builder.mutation<unknown, any>({
+      query: ({ id, body }) => ({
+        url: `/bet-limit/${id}`,
+        method: 'PATCH',
+        body
+      })
+    }),
+    deleteTransactionLimit: builder.mutation<any, unknown>({
+      query: ({ id }) => ({
+        url: `/bet-limit/${id}`,
+        method: 'DELETE'
+      })
     })
   })
 });
@@ -70,5 +101,10 @@ export const {
   useGetTransactionQuery,
   useGetTransactionByIdMutation,
   useCreateTransactionMutation,
-  useGetUserTransactionByIdQuery
+  useGetUserTransactionByIdQuery,
+  useGetTransactionLimitQuery,
+  useGetTransactionLimitByIdMutation,
+  useCreateTransactionLimitMutation,
+  useDeleteTransactionLimitMutation,
+  useUpdateTransactionLimitMutation
 } = TransactionService;
