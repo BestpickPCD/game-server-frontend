@@ -7,7 +7,7 @@ export const VendorService = createApi({
   reducerPath: 'VendorService',
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({
-    getVendors: builder.query<ResponseType<any>, any>({
+    getVendors: builder.query<any, any>({
       query: () => ({
         url: '/game-vendors'
       })
@@ -21,5 +21,8 @@ export const VendorService = createApi({
   })
 });
 
-export const { useGetVendorsQuery, useGetVendorGameListsByIdQuery } =
-  VendorService;
+export const {
+  useLazyGetVendorsQuery,
+  useGetVendorsQuery,
+  useGetVendorGameListsByIdQuery
+} = VendorService;

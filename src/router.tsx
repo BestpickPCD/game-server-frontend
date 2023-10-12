@@ -53,6 +53,9 @@ const UserTransactionsManagements = Loader(
 const UserTransactionTypeHistory = Loader(
   lazy(() => import('src/modules/managements/Transactions/Type'))
 );
+const BetLimitManagements = Loader(
+  lazy(() => import('src/modules/managements/BetLimits'))
+);
 const RolesManagements = Loader(
   lazy(() => import('src/modules/managements/Roles'))
 );
@@ -210,6 +213,10 @@ const routes: RouteObject[] = [
       {
         path: 'roles',
         element: <PrivateRoute element={RolesManagements} />
+      },
+      {
+        path: 'bet-limit',
+        element: <PrivateRoute element={BetLimitManagements} />
       },
       {
         path: 'profile',

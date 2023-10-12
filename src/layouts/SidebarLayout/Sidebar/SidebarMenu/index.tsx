@@ -283,6 +283,19 @@ const SidebarMenu = (): JSX.Element => {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
+                  to="/management/bet-limit"
+                  startIcon={<TransferWithinAStationOutlined />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  {'Set Maximum Bet Limit'}
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
                   to="/management/roles"
                   startIcon={<StarTwoTone />}
                   fullWidth
