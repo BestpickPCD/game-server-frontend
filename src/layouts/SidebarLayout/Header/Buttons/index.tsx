@@ -36,14 +36,14 @@ const HeaderButtons = (): JSX.Element => {
   const handleOpenNewWindow = () => {
     window.open(
       `https://chat-service-frontend.vercel.app/?token=${localStorage.getItem(
-        "tokens"
-      )}&user=${localStorage.getItem("user")}`,
+        'tokens'
+      )}&user=${localStorage.getItem('user')}`,
       '_blank',
       'width=600,height=400'
     );
   };
 
-  console.log(process.env.NEXT_PUBLIC_CHAT_URL)
+  console.log(process.env.NEXT_PUBLIC_CHAT_URL);
 
   return (
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">
