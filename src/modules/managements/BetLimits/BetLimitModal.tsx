@@ -1,7 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
-  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -9,9 +8,8 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import Modals from 'src/components/Modals';
-import UploadFile from 'src/components/UploadFile';
 import { useLazyGetVendorsQuery } from 'src/services/vendorService';
 import {
   useCreateTransactionLimitMutation,
