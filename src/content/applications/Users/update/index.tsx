@@ -61,7 +61,7 @@ const ManagementUserProfile = (): JSX.Element => {
           spacing={3}
         >
           <Grid item xs={12} md={7}>
-            <PasswordUpdate user={user} />
+            <PasswordUpdate />
           </Grid>
         </Grid>
       </Container>
