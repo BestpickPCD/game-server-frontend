@@ -34,5 +34,6 @@
   "label.search.term": "여기에 검색어 입력",
   "label.languages": "언어",
   "label.from": "시작",
-  "label.to": "종료"
+  "label.to": "종료",
+  "label.rate": "평가"
 }

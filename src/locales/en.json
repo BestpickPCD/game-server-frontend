@@ -34,5 +34,6 @@
   "label.search.term": "Search term here",
   "label.languages": "Languages",
   "label.from": "From",
-  "label.to": "To"
+  "label.to": "To",
+  "label.rate": "Rate"
 }

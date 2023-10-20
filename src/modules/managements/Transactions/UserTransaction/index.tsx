@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { styled } from '@mui/material';
+import { Container } from '@mui/system';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Transactions } from 'src/models';
-import { useGetUserTransactionByIdQuery } from 'src/services/transactionService';
 import { useParams } from 'react-router';
-import { Paper, TableContainer } from '@mui/material';
+import { useGetUserTransactionByIdQuery } from 'src/services/transactionService';
 
 const columns: GridColDef[] = [
   {
@@ -39,21 +38,40 @@ export default function UserTransaction(): JSX.Element {
     showRows(data);
   }
 
+  const MyCustomNoRowsOverlay = () => (
+    <div>12312312h3h123h1232121123ljbkj123123123123jb12k321</div>
+  );
+
   return (
-    <TableContainer component={Paper} sx={{ margin: 6 }}>
-      <div style={{ width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 }
-            }
-          }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-        />
-      </div>
-    </TableContainer>
+    <Container sx={{ marginTop: 4 }}>
+      <DataTable
+        rows={[]}
+        slots={{
+          noResultsOverlay: MyCustomNoRowsOverlay
+        }}
+        columns={columns}
+        // initialState={{
+        //   pagination: {
+        //     paginationModel: { page: 0, pageSize: 5 }
+        //   }
+        // }}
+        // pageSizeOptions={[5, 10]}
+        // checkboxSelection
+      />
+    </Container>
   );
 }
+const DataTable = styled(DataGrid)(({ theme }) => ({
+  '.MuiDataGrid-columnHeaderTitleContainer': {
+    '&:active, &:focus, &:focus-within, &:focus-visible': {
+      border: 'none !important',
+      outline: 'none !important'
+    }
+  },
+  '.MuiDataGrid-columnHeader': {
+    outline: 'none !important'
+  },
+  '.MuiDataGrid-virtualScroller': {
+    minHeight: '50px'
+  }
+}));

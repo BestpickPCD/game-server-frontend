@@ -27,7 +27,7 @@ export interface ResponseType<T> {
   subMessage?: string;
 }
 export interface User {
-  id: number;
+  id: string;
   email: string;
   name: string;
   username: string;
@@ -35,9 +35,11 @@ export interface User {
   createdAt?: string;
   currency?: {
     code: string;
+    id: number;
   };
   role?: {
     name: string;
+    id: number;
   };
   roleId?: number;
   currencyId?: number;
@@ -45,6 +47,7 @@ export interface User {
   currencyName?: string;
   roleName?: string;
   type?: string;
+  parent?: User;
 }
 
 export interface TransactionLimit {
@@ -56,12 +59,13 @@ export interface TransactionLimit {
 }
 
 export interface Agent extends User {
-  parentAgentId: number | null;
+  rate: number;
+  parentAgentId: string | null;
   level: number;
   agentParentName: string;
   Agents: {
     rate: number;
-    parentAgentId: number | null;
+    parentAgentId: string | null;
     level: number;
     parentAgent: User;
     name: string;

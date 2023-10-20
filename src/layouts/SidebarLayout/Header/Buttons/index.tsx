@@ -43,8 +43,6 @@ const HeaderButtons = (): JSX.Element => {
     );
   };
 
-  console.log(process.env.NEXT_PUBLIC_CHAT_URL);
-
   return (
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">
       <Button onClick={handleOpenNewWindow} variant="outlined">

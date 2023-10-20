@@ -40,7 +40,7 @@ const Header = (): JSX.Element => {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
   const [user, setUser] = useState<User>({
-    id: 0,
+    id: '',
     email: '',
     name: '',
     username: '',

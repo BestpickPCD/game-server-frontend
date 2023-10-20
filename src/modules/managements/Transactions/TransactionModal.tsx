@@ -161,9 +161,9 @@ const TransactionModal = ({
                 control={control}
                 label="Sender"
                 parent={{
-                  id: detail.senderId,
+                  id: detail.senderId as string,
                   name: detail.sender?.name,
-                  value: detail.senderId
+                  value: detail.senderId as string
                 }}
                 readOnly={!!detail?.id}
                 errors={errors}
@@ -175,9 +175,9 @@ const TransactionModal = ({
               label="Receiver"
               {...(detail?.id && {
                 parent: {
-                  id: detail?.receiverId,
+                  id: detail?.receiverId as string,
                   name: detail?.receiver.name,
-                  value: detail?.receiverId
+                  value: detail?.receiverId as string
                 }
               })}
               readOnly={!!detail?.id}
