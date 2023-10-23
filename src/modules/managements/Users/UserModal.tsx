@@ -71,8 +71,8 @@ const UserModal = ({
       setValue('name', detail.name);
       setValue('username', detail.username);
       setValue('email', detail.email);
-      setValue('roleId', detail.roleId);
-      setValue('currencyId', detail.currencyId);
+      setValue('roleId', detail?.role?.id);
+      setValue('currencyId', detail?.currency?.id);
     } else {
       reset();
     }
@@ -108,13 +108,14 @@ const UserModal = ({
 
   const roleOptions = useMemo(
     () =>
-      rolesData?.data?.data?.map((role) => ({
+      rolesData?.data?.map((role) => ({
         id: role.id,
         name: role.name,
         value: role.id
       })),
     [rolesData]
   );
+
   const currencyOptions = useMemo(
     () =>
       currenciesData?.map((role) => ({
@@ -158,13 +159,12 @@ const UserModal = ({
               errors={errors}
               register={register}
             />
-            <Box display={'flex'} gap="1rem">
+            <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
               <Select
                 label="Role"
                 name="roleId"
                 control={control}
                 options={roleOptions}
-                sx={{ my: 2 }}
               />
               <Select
                 label="Currency"

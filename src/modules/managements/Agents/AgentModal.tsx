@@ -27,7 +27,7 @@ const schema = yup.object().shape({
   rate: yup.number().required('Rate is required!'),
   currencyId: yup.number().required('Currency is required!'),
   username: yup.string().required('Username is required!'),
-  parentAgentId: yup.number().required('Parent Agent is required!')
+  parentAgentId: yup.string().required('Parent Agent is required!')
 });
 
 const UserModal = ({
@@ -64,17 +64,17 @@ const UserModal = ({
       roleId: 0,
       username: '',
       currencyId: 0,
-      parentAgentId: 0
+      parentAgentId: ''
     }
   });
   useEffect(() => {
     if (detail?.id) {
       setValue('name', detail.name);
       setValue('username', detail.username);
-      setValue('rate', detail?.rate);
+      setValue('rate', Number(detail?.rate));
       setValue('roleId', detail.roleId);
       setValue('currencyId', detail.currencyId);
-      setValue('parentAgentId', detail?.Agents?.parentAgent?.id);
+      setValue('parentAgentId', detail?.parentAgentId);
     } else {
       reset();
     }
@@ -85,7 +85,7 @@ const UserModal = ({
     roleId: number;
     rate: number;
     currencyId: number;
-    parentAgentId: number;
+    parentAgentId: string;
   }) => {
     try {
       if (detail?.id) {
@@ -94,7 +94,7 @@ const UserModal = ({
           body: {
             name: values.name,
             roleId: values.roleId,
-            rate: values.rate,
+            rate: Number(values.rate),
             currencyId: values.currencyId,
             parentAgentId: values.parentAgentId
           }
@@ -105,12 +105,12 @@ const UserModal = ({
       hide();
       reset();
     } catch (error) {
-      notify({ message: message.ERROR, type: 'error' });
+      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
     }
   };
   const roleOptions = useMemo(
     () =>
-      rolesData?.data?.data?.map((role) => ({
+      rolesData?.data?.map((role) => ({
         id: role.id,
         name: role.name,
         value: role.id
@@ -127,6 +127,7 @@ const UserModal = ({
       })),
     [currenciesData]
   );
+
   return (
     <Modals
       title={detail?.id ? `Edit ${detail.name}` : 'Add Agent'}
@@ -149,15 +150,13 @@ const UserModal = ({
             <TextField
               label={<FormattedMessage id="label.name" />}
               name="name"
-              sx={{ my: 2 }}
               errors={errors}
               register={register}
             />
-            <Box display={'flex'} gap="1rem">
+            <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
               <TextField
-                label={'Rate'}
+                label={<FormattedMessage id="label.rate" />}
                 name="rate"
-                sx={{ my: 2 }}
                 errors={errors}
                 register={register}
               />
@@ -180,16 +179,15 @@ const UserModal = ({
               control={control}
               name="parentAgentId"
               parent={{
-                id: detail?.Agents?.parentAgent?.name,
-                name: detail?.Agents?.parentAgent?.name,
-                value: detail?.Agents?.parentAgent?.id
+                id: detail?.parent?.id,
+                name: detail?.parent?.name,
+                value: detail?.parent?.id
               }}
             />
           </div>
         </Box>
       ) : (
         <FormRegister
-          isUserRegister={true}
           isSubmit={isRegister}
           setIsSubmit={() => setIsRegister(false)}
           refetch={refetch}

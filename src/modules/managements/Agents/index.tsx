@@ -125,17 +125,17 @@ const AgentsManagement = (): JSX.Element => {
 
   const onDelete = async (id: string) => {
     try {
-      await deleteAgent({ id: Number(id) }).unwrap();
+      await deleteAgent({ id }).unwrap();
       notify({ message: message.DELETED });
       refetch();
     } catch (error) {
-      notify({ message: message.ERROR, type: 'error' });
+      notify({ message: error.data.message || message.ERROR, type: 'error' });
     }
   };
 
   const onUpdate = async (value: string) => {
     try {
-      const response = await getAgentDetail({ id: Number(value) }).unwrap();
+      const response = await getAgentDetail({ id: value }).unwrap();
       show();
       setDetail(response.data);
     } catch (error) {
@@ -162,6 +162,7 @@ const AgentsManagement = (): JSX.Element => {
   const onInput = (value, inputName) => {
     setFormData((prev) => ({ ...prev, [`${inputName}`]: value }));
   };
+
   return (
     <>
       <TableComponent

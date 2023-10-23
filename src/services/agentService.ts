@@ -18,8 +18,7 @@ export const AgentService = createApi({
         const convertResponse = response?.data.data.map((item) => ({
           ...item,
           agentParentId: item.parentAgentId,
-          level: item.level,
-          agentParentName: item.name
+          level: item.level
         }));
         return {
           ...response,
@@ -33,14 +32,14 @@ export const AgentService = createApi({
         params
       })
     }),
-    getAgentById: builder.mutation<ResponseType<Agent>, { id: number }>({
+    getAgentById: builder.mutation<ResponseType<Agent>, { id: string }>({
       query: ({ id }) => ({
         url: `/agents/${id}`
       })
     }),
     updateAgent: builder.mutation<
       ResponseType<Agent>,
-      { id: number; body: any }
+      { id: string; body: any }
     >({
       query: ({ id, body }) => ({
         url: `/agents/${id}`,
@@ -48,7 +47,7 @@ export const AgentService = createApi({
         body
       })
     }),
-    deleteAgent: builder.mutation<ResponseType<Agent>, { id: number }>({
+    deleteAgent: builder.mutation<ResponseType<Agent>, { id: string }>({
       query: ({ id }) => ({
         url: `/agents/${id}`,
         method: 'DELETE'

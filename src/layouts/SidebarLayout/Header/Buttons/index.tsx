@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getLang } from 'src/app/commonSlice';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 const HeaderButtons = (): JSX.Element => {
   const [lang, setLang] = useState('en');
@@ -33,22 +34,20 @@ const HeaderButtons = (): JSX.Element => {
     return setLang('en');
   }, []);
 
-  const handleOpenNewWindow = () => {
-    window.open(
-      `https://chat-service-frontend.vercel.app/?token=${localStorage.getItem(
-        'tokens'
-      )}&user=${localStorage.getItem('user')}`,
-      '_blank',
-      'width=600,height=400'
-    );
-  };
-
-  console.log(process.env.NEXT_PUBLIC_CHAT_URL);
+  const chatUrl = `${
+    process.env.REACT_APP_CHAT_URL
+  }/?token=${localStorage.getItem('tokens')}&user=${localStorage.getItem(
+    'user'
+  )}`;
+  ('_blank');
+  console.log(chatUrl);
 
   return (
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">
-      <Button onClick={handleOpenNewWindow} variant="outlined">
-        Chat
+      <Button variant="outlined">
+        <a target="_blank" href={chatUrl}>
+          Chat
+        </a>
       </Button>
       <HeaderSearch />
       <Box sx={{ mx: 0.5 }} component="span">

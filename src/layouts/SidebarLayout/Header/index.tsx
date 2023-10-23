@@ -39,12 +39,16 @@ const HeaderWrapper = styled(Box)(
 const Header = (): JSX.Element => {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
-  const [user, setUser] = useState({
-    id: 0,
+  const [user, setUser] = useState<User>({
+    id: '',
     email: '',
     name: '',
     username: '',
-    type: ''
+    type: '',
+    parentAgentId: '',
+    agentParentName: '',
+    rate: 0,
+    level: 0
   });
 
   useEffect(() => {

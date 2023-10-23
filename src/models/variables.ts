@@ -1,12 +1,10 @@
 export const transactionTypes = [
-  'add',
-  'adjust',
+  'win',
   'bet',
   'cancel',
-  'charge',
-  'exceed_credit',
-  'promo_win',
-  'win'
+  'deposit',
+  'withdraw',
+  'agent.add_balance'
 ];
 
 export const transactionStatus = ['success', 'pending', 'cancelled', 'failed'];

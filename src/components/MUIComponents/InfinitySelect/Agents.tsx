@@ -1,14 +1,14 @@
 import { SelectProps } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Select } from 'src/components/MUIComponents/';
 import { User } from 'src/models';
 import { useGetAgentsQuery } from 'src/services/agentService';
 import useDebounce from 'src/utils/hooks/useDebounce';
 
 interface Options {
-  id: string | number;
+  id: string;
   name: string;
-  value: string | number;
+  value: string;
 }
 
 const formatAgents = (data: User[]): Options[] =>
@@ -46,6 +46,7 @@ const AgentInfinity = ({
     totalItems: 0,
     id: 1
   });
+
   const [searchTerm, setSearchTerm] = useState<string>('');
   const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
   const [agent, setAgent] = useState<Options[]>([]);
@@ -98,9 +99,7 @@ const AgentInfinity = ({
   useEffect(() => {
     if (parent) {
       return setAgent((prev) => {
-        const newArr = [...prev, ...formatAgents(data?.data?.data)].filter(
-          (item) => Number(item.id) !== 1
-        );
+        const newArr = [...prev, ...formatAgents(data?.data?.data)].slice();
         newArr.unshift(formatParent(parent));
         return newArr;
       });
@@ -109,23 +108,34 @@ const AgentInfinity = ({
   }, [data, parent]);
 
   useEffect(() => {
-    if (selected.id) {
+    if (selected?.id) {
       setAgent((prev: Options[]) => {
-        const newArr = prev.filter(
-          (item) => Number(item.id) !== Number(selected.id)
-        );
+        const newArr = prev.slice();
         newArr.unshift(selected);
         return newArr;
       });
     }
   }, [selected, data]);
 
+  const agentSet = useMemo(() => {
+    const uniqueUsers = [];
+    const seenIds = new Set();
+
+    for (const user of agent) {
+      if (!seenIds.has(user.id)) {
+        seenIds.add(user.id);
+        uniqueUsers.push(user);
+      }
+    }
+    return uniqueUsers;
+  }, [agent]);
+
   return (
     <Select
       onScroll={loadMoreItems}
       name={name}
       label={label}
-      options={agent}
+      options={agentSet}
       control={control}
       MenuProps={{
         className: 'infinity-select',

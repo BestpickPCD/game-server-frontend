@@ -15,6 +15,8 @@ import { User } from 'src/models';
 import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
 import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { LoadingButton } from '@mui/lab';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/app/store';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
@@ -76,6 +78,10 @@ const UsersManagement = (): JSX.Element => {
   const [createTransaction, { isLoading: isLoadingCreate }] =
     useCreateTransactionMutation();
 
+  const checkPermission = (permissionArray: string[], permission: string) =>
+    permissionArray?.includes(permission);
+  const { permissions } = useSelector((state: RootState) => state.common);
+
   const {
     data: userData,
     isFetching,
@@ -119,7 +125,7 @@ const UsersManagement = (): JSX.Element => {
       notify({ message: message.DELETED });
       refetch();
     } catch (error) {
-      notify({ message: message.ERROR, type: 'error' });
+      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
     }
   };
 
@@ -145,7 +151,6 @@ const UsersManagement = (): JSX.Element => {
         reset();
       }
     } catch (error) {
-      console.log(error);
       notify({ message: message.ERROR, type: 'error' });
     }
   };
@@ -169,6 +174,7 @@ const UsersManagement = (): JSX.Element => {
         onUpdate={onUpdate}
         pagination={pagination}
         onPagination={setPagination}
+        onOpenModal={checkPermission(permissions, 'create') && onAdd}
         tableFilter={tableFilter({
           status: {
             value: pagination.status,

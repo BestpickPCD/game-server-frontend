@@ -1,4 +1,4 @@
-import { Paper, TableContainer } from '@mui/material';
+import { Container, Paper, TableContainer, styled } from '@mui/material';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import TableComponent from 'src/components/Table';
 import { useParams } from 'react-router';
@@ -48,20 +48,32 @@ export default function name(): JSX.Element {
   }
 
   return (
-    <TableContainer component={Paper} sx={{ margin: 6 }}>
-      <div style={{ width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 }
-            }
-          }}
-          pageSizeOptions={[5, 10]}
-          checkboxSelection
-        />
-      </div>
-    </TableContainer>
+    <Container sx={{ marginTop: 4 }}>
+      <DataTable
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 }
+          }
+        }}
+        pageSizeOptions={[5, 10]}
+        checkboxSelection
+      />
+    </Container>
   );
 }
+const DataTable = styled(DataGrid)(({ theme }) => ({
+  '.MuiDataGrid-columnHeaderTitleContainer': {
+    '&:active, &:focus, &:focus-within, &:focus-visible': {
+      border: 'none !important',
+      outline: 'none !important'
+    }
+  },
+  '.MuiDataGrid-columnHeader': {
+    outline: 'none !important'
+  },
+  '.MuiDataGrid-virtualScroller': {
+    minHeight: '50px'
+  }
+}));
