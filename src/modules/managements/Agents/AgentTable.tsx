@@ -88,7 +88,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {parseFloat(item.Agents.rate).toFixed(2)}%
+            {parseFloat(item.rate).toFixed(2)}%
           </Typography>
         </>
       )

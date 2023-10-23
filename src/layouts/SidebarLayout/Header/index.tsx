@@ -39,7 +39,7 @@ const HeaderWrapper = styled(Box)(
 const Header = (): JSX.Element => {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
-  const [user, setUser] = useState<User>({
+  const [user, setUser] = useState({
     id: 0,
     email: '',
     name: '',
@@ -86,7 +86,7 @@ const Header = (): JSX.Element => {
         width="100%"
       >
         <HeaderButtons />
-        <HeaderUserbox user={user} />
+        <HeaderUserbox user={user as User} />
         <Box
           component="span"
           sx={{

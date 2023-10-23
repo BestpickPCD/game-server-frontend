@@ -33,6 +33,11 @@ export interface User {
   username: string;
   apiKey?: string;
   createdAt?: string;
+  parentAgentId: number | null;
+  agentParentName: string;
+  rate: number;
+  level: number;
+  name: string;
   currency?: {
     code: string;
   };
@@ -55,18 +60,6 @@ export interface TransactionLimit {
   limit: number;
 }
 
-export interface Agent extends User {
-  parentAgentId: number | null;
-  level: number;
-  agentParentName: string;
-  Agents: {
-    rate: number;
-    parentAgentId: number | null;
-    level: number;
-    parentAgent: User;
-    name: string;
-  };
-}
 type transactionType =
   | 'win'
   | 'bet'

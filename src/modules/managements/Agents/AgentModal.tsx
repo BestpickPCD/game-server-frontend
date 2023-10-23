@@ -71,7 +71,7 @@ const UserModal = ({
     if (detail?.id) {
       setValue('name', detail.name);
       setValue('username', detail.username);
-      setValue('rate', detail?.Agents?.rate);
+      setValue('rate', detail?.rate);
       setValue('roleId', detail.roleId);
       setValue('currencyId', detail.currencyId);
       setValue('parentAgentId', detail?.Agents?.parentAgent?.id);
