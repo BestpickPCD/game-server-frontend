@@ -78,7 +78,7 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item.senderUsername}
+            {item.username}
           </Typography>
         </>
       )
@@ -88,10 +88,10 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <CustomLink
-            onClick={() => onRedirect(item.receiverUsername)}
+            onClick={() => onRedirect(item.agentUsername)}
             color="text.primary"
           >
-            {item.receiverUsername}
+            {item.agentUsername}
           </CustomLink>
         </>
       )
@@ -116,16 +116,7 @@ const TransactionTable = (): TransactionTableProps => {
         </>
       )
     },
-    {
-      align: 'right',
-      children: (
-        <>
-          <Typography variant="body1" color="text.primary" noWrap>
-            {getStatusLabel(item.status)}
-          </Typography>
-        </>
-      )
-    },
+
     {
       align: 'right',
       children: (
@@ -142,12 +133,12 @@ const TransactionTable = (): TransactionTableProps => {
     {
       align: 'inherit',
       title: 'label.sender.name',
-      name: 'senderName'
+      name: 'username'
     },
     {
       align: 'inherit',
       title: 'label.receiver.name',
-      name: 'receiverName'
+      name: 'agentUsername'
     },
     {
       align: 'right',
@@ -156,13 +147,8 @@ const TransactionTable = (): TransactionTableProps => {
     },
     {
       align: 'right',
-      title: 'label.title',
+      title: 'label.type',
       name: 'type'
-    },
-    {
-      align: 'right',
-      title: 'label.status',
-      name: 'status'
     },
     {
       align: 'right',

@@ -75,18 +75,17 @@ type transactionType =
   | 'win'
   | 'bet'
   | 'cancel'
-  | 'add'
-  | 'charge'
-  | 'adjust'
-  | 'promo_win'
-  | 'exceed_credit';
+  | 'deposit'
+  | 'withdraw'
+  | 'agent.add_balance';
+
 export interface Transactions {
   id: number;
   amount: string | number;
   receiver?: User | Agent | null;
   sender?: User | Agent | null;
-  senderUsername?: number | string | null;
-  receiverUsername?: number | string | null;
+  username?: string | null;
+  agentUsername?: string | null;
   senderUser?: string;
   receiverUser?: string;
   type: transactionType;
@@ -122,8 +121,8 @@ export interface Transactions {
   amount: string | number;
   receiver?: User | Agent | null;
   sender?: User | Agent | null;
-  senderId?: number | string | null;
-  receiverId?: number | string | null;
+  senderId?: string;
+  receiverId?: string;
   senderName?: string;
   receiverName?: string;
   type: transactionType;
@@ -132,6 +131,7 @@ export interface Transactions {
   updatedAt: string;
   note?: string;
   token: string;
+  userId: string;
 }
 
 interface FeaturePermissions {

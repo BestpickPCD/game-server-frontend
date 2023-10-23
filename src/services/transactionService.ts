@@ -42,7 +42,7 @@ export const TransactionService = createApi({
     }),
     getTransactionById: builder.mutation<
       ResponseType<Transactions>,
-      { id: number }
+      { id: string }
     >({
       query: ({ id }) => ({
         url: `/transactions/${id}`
