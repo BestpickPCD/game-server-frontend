@@ -47,9 +47,6 @@ const VendorsManagements = Loader(
 const VendorsDetails = Loader(
   lazy(() => import('src/modules/managements/Vendor/details'))
 );
-const UserTransactionsManagements = Loader(
-  lazy(() => import('src/modules/managements/Transactions/UserTransaction'))
-);
 const UserTransactionTypeHistory = Loader(
   lazy(() => import('src/modules/managements/Transactions/Type'))
 );
@@ -187,7 +184,7 @@ const routes: RouteObject[] = [
             children: [
               {
                 path: '',
-                element: <PrivateRoute element={UserTransactionsManagements} />
+                element: <PrivateRoute element={UserTransactionTypeHistory} />
               },
               {
                 path: ':type',

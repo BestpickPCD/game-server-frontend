@@ -1,4 +1,4 @@
-import { Container, Paper, TableContainer, styled } from '@mui/material';
+import { Card, Container, Paper, TableContainer, styled } from '@mui/material';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import TableComponent from 'src/components/Table';
 import { useParams } from 'react-router';
@@ -6,18 +6,15 @@ import { useGetUserTransactionByIdQuery } from 'src/services/transactionService'
 
 const columns: GridColDef[] = [
   {
-    field: 'user.name',
-    headerName: 'Receiver',
-    width: 200,
-    valueGetter: (params: GridValueGetterParams) => params.row.receiverUsername
+    field: 'username',
+    headerName: 'Username',
+    width: 200
   },
   { field: 'type', headerName: 'type', width: 200 },
   {
-    field: 'sender.name',
-    headerName: 'Sender',
-    width: 200,
-    valueGetter: (params: GridValueGetterParams) =>
-      params.row.senderUsername ?? params.row.receiverUsername
+    field: 'agentUsername',
+    headerName: 'Agent Username',
+    width: 200
   },
   { field: 'status', headerName: 'status', width: 200 },
   { field: 'amount', headerName: 'amount', width: 200, type: 'number' }
@@ -36,6 +33,8 @@ export default function name(): JSX.Element {
     typeParam = 'bet,win,cancel';
   } else if (type === 'recharge-history') {
     typeParam = 'agent.add_balance,user.add_balance,deposit,withdraw';
+  } else {
+    typeParam = '';
   }
 
   const { data } = useGetUserTransactionByIdQuery({
@@ -49,17 +48,19 @@ export default function name(): JSX.Element {
 
   return (
     <Container sx={{ marginTop: 4 }}>
-      <DataTable
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 }
-          }
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
+      <Card>
+        <DataTable
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 }
+            }
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+        />
+      </Card>
     </Container>
   );
 }
