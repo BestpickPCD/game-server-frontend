@@ -1,15 +1,11 @@
 import { Helmet } from 'react-helmet-async';
 import Footer from 'src/components/Footer';
 
-import { Grid, Container } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
-import ProfileCover from './ProfileCover';
-import RecentActivity from './RecentActivity';
-import Feed from './Feed';
-import PopularTags from './PopularTags';
-import MyCards from './MyCards';
-import UserInfo from './UserInfo';
 import { useGetDashboardQuery } from 'src/services/userService';
+import Feed from './Feed';
+import UserInfo from './UserInfo';
 
 export interface UserDashboard {
   id: number;

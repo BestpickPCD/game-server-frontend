@@ -1,17 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Grid, TextField } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import { useRegisterMutation } from 'src/services/authService';
-import { useToast } from 'src/utils/hooks';
-import { Select } from 'src/components/MUIComponents';
 import { LoadingButton } from '@mui/lab';
-import * as yup from 'yup';
+import { Box, Grid, TextField } from '@mui/material';
 import { useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { useRolesQuery } from 'src/services/commonServices';
-import { useGetAffiliatedAgentsQuery } from 'src/services/agentService';
+import { useNavigate } from 'react-router';
+import { Select } from 'src/components/MUIComponents';
 import { InfinityAgent } from 'src/components/MUIComponents/InfinitySelect';
+import { useRegisterMutation } from 'src/services/authService';
+import { useRolesQuery } from 'src/services/commonServices';
+import { useToast } from 'src/utils/hooks';
+import * as yup from 'yup';
 
 const schema = yup.object().shape({
   username: yup
@@ -24,8 +23,8 @@ const schema = yup.object().shape({
     .matches(/[a-zA-Z]/, 'Name can only contain letters.')
     .required('First name is required'),
   type: yup.string().nullable(),
-  rate: yup.number().nullable(),
-  roleId: yup.number().nullable(),
+  rate: yup.number().positive().moreThan(0, 'Rate is required').nullable(),
+  roleId: yup.number().positive().moreThan(0, 'Role is required').nullable(),
   parentAgentId: yup.string().nullable(),
   email: yup
     .string()
@@ -60,10 +59,6 @@ const FormRegister = ({
 }: FormRegisterProps): JSX.Element => {
   const [onRegister, { isLoading }] = useRegisterMutation();
 
-  const { data: affAgentData } = useGetAffiliatedAgentsQuery({
-    refetchOnMountOrArgChange: true
-  });
-
   const { notify, message } = useToast();
   const navigate = useNavigate();
   const {
@@ -72,6 +67,7 @@ const FormRegister = ({
     reset,
     control,
     setValue,
+    getValues,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),
@@ -88,8 +84,6 @@ const FormRegister = ({
     }
   });
 
-  console.log(isUserRegister);
-
   useEffect(() => {
     if (isSubmit) {
       handleSubmit(onSubmit)();
@@ -101,21 +95,6 @@ const FormRegister = ({
     {},
     { refetchOnMountOrArgChange: true }
   );
-
-  const isRoleArray = Array.isArray(affAgentData);
-
-  const affAgentOptions = useMemo(() => {
-    if (isRoleArray) {
-      return affAgentData.map((role) => ({
-        id: role.id,
-        name: role.name,
-        value: role.id
-      }));
-    }
-    return [];
-  }, [affAgentData]);
-
-  console.log(errors);
 
   const roleOptions = useMemo(
     () =>
@@ -215,8 +194,8 @@ const FormRegister = ({
                 <Select
                   label="Role"
                   name="roleId"
-                  control={control}
-                  options={roleOptions}
+                  options={[...(roleOptions || [])]}
+                  errors={errors}
                 />
               </Grid>
             )}

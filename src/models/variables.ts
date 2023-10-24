@@ -4,7 +4,7 @@ export const transactionTypes = [
   'cancel',
   'deposit',
   'withdraw',
-  'agent.add_balance'
+  'user.add_balance'
 ];
 
 export const transactionStatus = ['success', 'pending', 'cancelled', 'failed'];
