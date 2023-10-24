@@ -47,9 +47,16 @@ const UserTable = (): UserTableProps => {
   };
 
   const onCalculate = (item) =>
-    
-    Math.abs(Object.keys(item?.balances).filter((item) => item === 'deposit' || item === 'withdraw' || item === 'user.add_balance').reduce((acc: number, cur: string) => acc + item.balances[cur], 0))
-  
+    Math.abs(
+      Object.keys(item?.balances)
+        .filter(
+          (item) =>
+            item === 'deposit' ||
+            item === 'withdraw' ||
+            item === 'user.add_balance'
+        )
+        .reduce((acc: number, cur: string) => acc + item.balances[cur], 0)
+    );
 
   const tableBody = (item): TableBody[] => [
     {
