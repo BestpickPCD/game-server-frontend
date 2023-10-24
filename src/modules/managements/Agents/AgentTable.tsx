@@ -100,7 +100,7 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}`}
+            href={`transactions/${item.id}`}
           >
             {item.balance}
           </Button>

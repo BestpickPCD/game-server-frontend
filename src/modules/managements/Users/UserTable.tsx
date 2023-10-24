@@ -69,7 +69,7 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}`}
+            href={`transactions/${item.id}`}
           >
             {item.balance}
           </Button>
@@ -83,9 +83,9 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}/betting-history`}
+            href={`transactions/${item.id}/betting-history`}
           >
-            {item?.betGameAmount}
+            {((item?.balances?.win ?? 0) + (item?.balances?.bet ?? 0) + (item?.balances?.cancel ?? 0)) ?? 0}
           </Button>
         </>
       )
@@ -97,9 +97,9 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}/recharge-history`}
+            href={`transactions/${item.id}/recharge-history`}
           >
-            {item.amountReceived}
+            { (-( item?.balances?.deposit )?? 0 + item?.balances?.agent.add_balance ?? 0 + item?.balances?.user.add_balance ?? 0 + item?.balances?.withdraw ?? 0) ?? 0 }
           </Button>
         </>
       )
