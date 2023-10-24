@@ -46,6 +46,11 @@ const UserTable = (): UserTableProps => {
     toggle();
   };
 
+  const onCalculate = (item) =>
+    
+    Math.abs(Object.keys(item?.balances).filter((item) => item === 'deposit' || item === 'withdraw' || item === 'user.add_balance').reduce((acc: number, cur: string) => acc + item.balances[cur], 0))
+  
+
   const tableBody = (item): TableBody[] => [
     {
       align: 'inherit',
@@ -101,10 +106,7 @@ const UserTable = (): UserTableProps => {
             startIcon={<PaidOutlinedIcon />}
             href={`transactions/${item.id}/recharge-history`}
           >
-            {(-item?.balances?.deposit ?? 0) +
-              (item?.balances?.agent.add_balance ?? 0) +
-              (item?.balances?.user.add_balance ?? 0) +
-              (item?.balances?.withdraw ?? 0) ?? 0}
+            {item?.balances && onCalculate(item)}
           </Button>
         </>
       )
