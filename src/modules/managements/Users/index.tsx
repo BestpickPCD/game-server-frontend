@@ -52,7 +52,7 @@ const UsersManagement = (): JSX.Element => {
   const [formData, setFormData] = useState({
     receiverUsername: '',
     amount: 0,
-    type: 'add',
+    type: 'user.add_balance',
     note: '',
     status: 'pending'
   });

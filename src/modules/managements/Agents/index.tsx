@@ -93,15 +93,15 @@ const AgentsManagement = (): JSX.Element => {
   );
 
   const [formData, setFormData] = useState({
-    receiverUsername: '',
+    userId: '',
     amount: 0,
-    type: 'add',
+    type: 'user.add_balance',
     note: '',
-    status: 'pending'
+    token: ''
   });
 
   useEffect(() => {
-    formData.receiverUsername = user?.username;
+    formData.userId = user?.id;
     setFormData((prev) => ({ ...prev, status: 'success' }));
   }, [user]);
 
@@ -144,7 +144,10 @@ const AgentsManagement = (): JSX.Element => {
 
   const handleSubmit = async () => {
     try {
-      const response = await createTransaction(formData).unwrap();
+      const response = await createTransaction({
+        ...formData,
+        currencyId: user.currencyId
+      }).unwrap();
       if (response) {
         toggleTransaction();
         notify({ message: message.UPDATED });
@@ -153,7 +156,6 @@ const AgentsManagement = (): JSX.Element => {
         reset();
       }
     } catch (error) {
-      console.log(error);
       notify({ message: message.ERROR, type: 'error' });
     }
   };
@@ -229,7 +231,10 @@ const AgentsManagement = (): JSX.Element => {
                 variant="outlined"
                 fullWidth
                 onInput={(event) =>
-                  onInput((event.target as HTMLInputElement).value, 'amount')
+                  onInput(
+                    Number((event.target as HTMLInputElement).value),
+                    'amount'
+                  )
                 }
               />
               <LoadingButton
