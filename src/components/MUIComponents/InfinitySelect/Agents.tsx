@@ -1,7 +1,7 @@
 import { SelectProps } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { Select } from 'src/components/MUIComponents/';
-import { Agent } from 'src/models';
+import { User } from 'src/models';
 import { useGetAgentsQuery } from 'src/services/agentService';
 import useDebounce from 'src/utils/hooks/useDebounce';
 
@@ -11,7 +11,7 @@ interface Options {
   value: string;
 }
 
-const formatAgents = (data: Agent[]): Options[] =>
+const formatAgents = (data: User[]): Options[] =>
   (data || []).map((item) => ({
     id: item.id,
     name: item.name,

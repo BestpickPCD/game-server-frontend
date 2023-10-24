@@ -91,6 +91,7 @@ const AgentsManagement = (): JSX.Element => {
       skip: !checkPermission(permissions, 'get')
     }
   );
+  console.log(data);
 
   const [formData, setFormData] = useState({
     userId: '',
@@ -163,7 +164,6 @@ const AgentsManagement = (): JSX.Element => {
   const onInput = (value, inputName) => {
     setFormData((prev) => ({ ...prev, [`${inputName}`]: value }));
   };
-
   return (
     <>
       <TableComponent

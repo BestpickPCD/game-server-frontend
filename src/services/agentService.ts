@@ -1,24 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQueryWithReAuth } from './baseQuery';
-import { Agent, ResponseType, ResponsePagination } from 'src/models';
+import { Agent, ResponseType, ResponsePagination, User } from 'src/models';
 
 export const AgentService = createApi({
   reducerPath: 'AgentService',
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({
-    getAgents: builder.query<ResponseType<ResponsePagination<Agent[]>>, any>({
+    getAgents: builder.query<ResponseType<ResponsePagination<User[]>>, any>({
       query: (params) => ({
         url: '/agents',
         params
       }),
       transformResponse: (
-        response: ResponseType<ResponsePagination<Agent[]>>
+        response: ResponseType<ResponsePagination<User[]>>
       ) => {
         const convertResponse = response?.data.data.map((item) => ({
           ...item,
           agentParentId: item.parentAgentId,
-          level: item.level
+          level: item.level,
+          agentParentName: item?.name
         }));
         return {
           ...response,

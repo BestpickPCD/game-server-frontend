@@ -33,6 +33,11 @@ export interface User {
   username: string;
   apiKey?: string;
   createdAt?: string;
+  parentAgentId: string | null;
+  agentParentName: string;
+  rate: number;
+  level: number;
+  name: string;
   currency?: {
     code: string;
     id: number;

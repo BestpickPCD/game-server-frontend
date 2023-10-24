@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
+import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import SupportAgentRounded from '@mui/icons-material/SupportAgentRounded';
@@ -284,7 +285,7 @@ const SidebarMenu = (): JSX.Element => {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/management/bet-limit"
-                  startIcon={<TransferWithinAStationOutlined />}
+                  startIcon={<CreditCardOffIcon />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >

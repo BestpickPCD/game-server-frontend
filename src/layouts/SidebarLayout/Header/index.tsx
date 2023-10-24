@@ -44,7 +44,11 @@ const Header = (): JSX.Element => {
     email: '',
     name: '',
     username: '',
-    type: ''
+    type: '',
+    parentAgentId: '',
+    agentParentName: '',
+    rate: 0,
+    level: 0
   });
 
   useEffect(() => {
@@ -86,7 +90,7 @@ const Header = (): JSX.Element => {
         width="100%"
       >
         <HeaderButtons />
-        <HeaderUserbox user={user} />
+        <HeaderUserbox user={user as User} />
         <Box
           component="span"
           sx={{
