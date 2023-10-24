@@ -57,7 +57,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.user.name}
+            {item.name}
           </Typography>
         </>
       )
@@ -71,7 +71,7 @@ const UserTable = (): UserTableProps => {
             startIcon={<PaidOutlinedIcon />}
             href={`transactions/${item.username}`}
           >
-            {item.user.balance}
+            {item.balance}
           </Button>
         </>
       )
@@ -85,7 +85,7 @@ const UserTable = (): UserTableProps => {
             startIcon={<PaidOutlinedIcon />}
             href={`transactions/${item.username}/betting-history`}
           >
-            {item.user.betGameAmount}
+            {item?.betGameAmount}
           </Button>
         </>
       )
@@ -99,7 +99,7 @@ const UserTable = (): UserTableProps => {
             startIcon={<PaidOutlinedIcon />}
             href={`transactions/${item.username}/recharge-history`}
           >
-            {item.user.amountReceived}
+            {item.amountReceived}
           </Button>
         </>
       )
@@ -114,7 +114,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.user.username}
+            {item.username}
           </Typography>
         </>
       )
@@ -129,8 +129,8 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item?.user.updatedAt &&
-              format(parseISO(item?.user.updatedAt), 'dd/MM/yyyy HH:mm')}
+            {item?.updatedAt &&
+              format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
           </Typography>
         </>
       )

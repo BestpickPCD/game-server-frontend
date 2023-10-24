@@ -56,6 +56,7 @@ const UserModal = ({
     reset,
     handleSubmit,
     control,
+    getValues,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),

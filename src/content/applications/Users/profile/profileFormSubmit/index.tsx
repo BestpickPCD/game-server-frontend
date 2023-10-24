@@ -35,12 +35,13 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
       console.log(error);
     }
   };
+  console.log(data);
 
   const [inputValues, setInputValues] = useState<ProfileSetting>({
     userId: data.userId,
-    accountNumber: data.accountNumber,
-    callbackUrl: data.callbackUrl,
-    apiCall: data.apiCall
+    accountNumber: '',
+    callbackUrl: '',
+    apiCall: ''
   });
 
   const changeValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +61,13 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
       setValue('accountNumber', data?.accountNumber);
       setValue('callbackUrl', data?.callbackUrl);
       setValue('apiCall', data?.apiCall);
+
+      setInputValues({
+        accountNumber: data?.accountNumber,
+        apiCall: data?.apiCall,
+        callbackUrl: data?.callbackUrl,
+        userId: data?.userId
+      });
     } else {
       reset();
     }

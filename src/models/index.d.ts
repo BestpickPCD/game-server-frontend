@@ -82,7 +82,7 @@ type transactionType =
   | 'cancel'
   | 'deposit'
   | 'withdraw'
-  | 'agent.add_balance';
+  | 'user.add_balance';
 
 export interface Transactions {
   id: number;
