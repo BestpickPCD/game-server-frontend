@@ -25,7 +25,7 @@ const schema = yup.object().shape({
   type: yup.string().nullable(),
   rate: yup.number().positive().moreThan(0, 'Rate is required').nullable(),
   roleId: yup.number().positive().moreThan(0, 'Role is required').nullable(),
-  parentAgentId: yup.string().nullable(),
+  parentAgentId: yup.string().required('Parent Agent is required'),
   email: yup
     .string()
     .email('Invalid email format')
@@ -67,7 +67,6 @@ const FormRegister = ({
     reset,
     control,
     setValue,
-    getValues,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),
@@ -109,6 +108,8 @@ const FormRegister = ({
   );
 
   const onSubmit = async (values) => {
+    console.log(values);
+
     try {
       const response = await onRegister(values).unwrap();
       if (response && response.message === 'CREATED') {
@@ -131,6 +132,7 @@ const FormRegister = ({
       return notify({ message: message.ERROR, type: 'error' });
     }
   };
+  console.log(errors);
 
   return (
     <Box
@@ -156,7 +158,11 @@ const FormRegister = ({
         <Grid item xs={12} marginY={1}>
           <Grid container columnSpacing={{ xs: 1 }} rowSpacing={2}>
             <Grid item xs={!isUserRegister ? 8 : 12}>
-              <InfinityAgent control={control} name="parentAgentId" />
+              <InfinityAgent
+                control={control}
+                name="parentAgentId"
+                errors={errors}
+              />
             </Grid>
             {!isUserRegister && (
               <Grid item xs={4}>
@@ -196,8 +202,9 @@ const FormRegister = ({
                 <Select
                   label="Role"
                   name="roleId"
-                  options={[...(roleOptions || [])]}
+                  options={roleOptions}
                   errors={errors}
+                  control={control}
                 />
               </Grid>
             )}

@@ -18,7 +18,8 @@ export const AgentService = createApi({
         const convertResponse = response?.data.data.map((item) => ({
           ...item,
           agentParentId: item.parentAgentId,
-          level: item.level
+          level: item.level,
+          agentParentName: item?.name
         }));
         return {
           ...response,

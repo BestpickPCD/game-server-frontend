@@ -89,6 +89,7 @@ const TransactionModal = ({
     }
   });
   const [createTransaction] = useCreateTransactionMutation();
+  console.log(detail);
 
   useEffect(() => {
     if (!detail?.id) {
@@ -125,7 +126,7 @@ const TransactionModal = ({
     () =>
       currenciesData?.map((item) => ({
         id: String(item.id),
-        name: String(item.name),
+        name: String(item.agentName),
         value: String(item.id)
       })),
     [currenciesData]
@@ -153,9 +154,9 @@ const TransactionModal = ({
               label="User"
               {...(detail?.id && {
                 parent: {
-                  id: detail?.receiverId as string,
-                  name: detail?.receiver.name,
-                  value: detail?.receiverId as string
+                  id: detail?.userId as string,
+                  name: detail?.username,
+                  value: detail?.userId as string
                 }
               })}
               readOnly={!!detail?.id}
