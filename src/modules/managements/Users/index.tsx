@@ -50,7 +50,7 @@ const UsersManagement = (): JSX.Element => {
   } = UserTable();
 
   const [formData, setFormData] = useState({
-    receiverUsername: '',
+    userId: '',
     amount: 0,
     type: 'user.add_balance',
     note: '',
@@ -110,8 +110,12 @@ const UsersManagement = (): JSX.Element => {
   }, [userData, pagination.sortBy, pagination.sortDirection]);
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, receiverUsername: user?.username }));
-    setFormData((prev) => ({ ...prev, status: 'success' }));
+    user &&
+      setFormData((prev) => ({
+        ...prev,
+        userId: user?.id,
+        amount: Number(prev.amount)
+      }));
   }, [user]);
 
   const onAdd = () => {
@@ -219,7 +223,10 @@ const UsersManagement = (): JSX.Element => {
                 variant="outlined"
                 fullWidth
                 onInput={(event) =>
-                  onInput((event.target as HTMLInputElement).value, 'amount')
+                  onInput(
+                    Number((event.target as HTMLInputElement).value),
+                    'amount'
+                  )
                 }
               />
             </Grid>
