@@ -84,19 +84,6 @@ const TransactionTable = (): TransactionTableProps => {
       )
     },
     {
-      align: 'inherit',
-      children: (
-        <>
-          <CustomLink
-            onClick={() => onRedirect(item.agentUsername)}
-            color="text.primary"
-          >
-            {item.agentUsername}
-          </CustomLink>
-        </>
-      )
-    },
-    {
       align: 'right',
       children: (
         <>
@@ -132,13 +119,8 @@ const TransactionTable = (): TransactionTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'label.sender.name',
+      title: 'label.username',
       name: 'username'
-    },
-    {
-      align: 'inherit',
-      title: 'label.receiver.name',
-      name: 'agentUsername'
     },
     {
       align: 'right',
