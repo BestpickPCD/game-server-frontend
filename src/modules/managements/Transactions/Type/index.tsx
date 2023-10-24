@@ -33,9 +33,9 @@ export default function name(): JSX.Element {
 
   let typeParam;
   if (type === 'betting-history') {
-    typeParam = 'bet,win,charge';
+    typeParam = 'bet,win,cancel';
   } else if (type === 'recharge-history') {
-    typeParam = 'add,adjust';
+    typeParam = 'agent.add_balance,user.add_balance,deposit,withdraw';
   }
 
   const { data } = useGetUserTransactionByIdQuery({
