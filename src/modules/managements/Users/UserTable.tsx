@@ -101,12 +101,10 @@ const UserTable = (): UserTableProps => {
             startIcon={<PaidOutlinedIcon />}
             href={`transactions/${item.id}/recharge-history`}
           >
-            {((-item?.balances?.deposit ??
-              0) + (item?.balances?.agent.add_balance ??
-              0) + (item?.balances?.user.add_balance ??
-              0) + (item?.balances?.withdraw ??
-              0)) ??
-              0}
+            {(-item?.balances?.deposit ?? 0) +
+              (item?.balances?.agent.add_balance ?? 0) +
+              (item?.balances?.user.add_balance ?? 0) +
+              (item?.balances?.withdraw ?? 0) ?? 0}
           </Button>
         </>
       )
