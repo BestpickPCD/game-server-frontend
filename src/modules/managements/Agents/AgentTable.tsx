@@ -73,7 +73,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.parent.name}
+            {item?.parent?.name ?? "-" }
           </Typography>
         </>
       )
