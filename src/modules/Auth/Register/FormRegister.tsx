@@ -77,7 +77,7 @@ const FormRegister = ({
       username: '',
       parentAgentId: isUserRegister ? null : '',
       type: isUserRegister ? 'player' : 'agent',
-      roleId: isUserRegister ? null : 0,
+      roleId: isUserRegister ? 2 : 0,
       password: '',
       confirmPassword: ''
     }

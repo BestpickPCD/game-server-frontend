@@ -27,7 +27,7 @@ const schema = yup.object().shape({
   rate: yup.number().required('Rate is required!'),
   currencyId: yup.number().required('Currency is required!'),
   username: yup.string().required('Username is required!'),
-  parentAgentId: yup.string().required('Parent Agent is required!')
+  parentAgentId: yup.string().nullable()
 });
 
 const UserModal = ({

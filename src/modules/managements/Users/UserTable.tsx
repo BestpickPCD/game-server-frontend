@@ -55,7 +55,7 @@ const UserTable = (): UserTableProps => {
             item === 'withdraw' ||
             item === 'user.add_balance'
         )
-        .reduce((acc: number, cur: string) => acc + item.balances[cur], 0)
+        .reduce((acc: number, cur: string) => acc + item.balances[cur] * -1, 0)
     );
 
   const tableBody = (item): TableBody[] => [
