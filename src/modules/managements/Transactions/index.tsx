@@ -85,7 +85,7 @@ const TransactionManagement = (): JSX.Element => {
   const onUpdate = async (value: string) => {
     try {
       const response = await getTransactionDetail({
-        id: Number(value)
+        id: value
       }).unwrap();
       show();
       setDetail(response.data);

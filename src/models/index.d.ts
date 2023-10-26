@@ -27,17 +27,24 @@ export interface ResponseType<T> {
   subMessage?: string;
 }
 export interface User {
-  id: number;
+  id: string;
   email: string;
   name: string;
   username: string;
   apiKey?: string;
   createdAt?: string;
+  parentAgentId: string | null;
+  agentParentName: string;
+  rate: number;
+  level: number;
+  name: string;
   currency?: {
     code: string;
+    id: number;
   };
   role?: {
     name: string;
+    id: number;
   };
   roleId?: number;
   currencyId?: number;
@@ -45,6 +52,7 @@ export interface User {
   currencyName?: string;
   roleName?: string;
   type?: string;
+  parent?: User;
 }
 
 export interface TransactionLimit {
@@ -56,12 +64,13 @@ export interface TransactionLimit {
 }
 
 export interface Agent extends User {
-  parentAgentId: number | null;
+  rate: number;
+  parentAgentId: string | null;
   level: number;
   agentParentName: string;
   Agents: {
     rate: number;
-    parentAgentId: number | null;
+    parentAgentId: string | null;
     level: number;
     parentAgent: User;
     name: string;
@@ -71,18 +80,17 @@ type transactionType =
   | 'win'
   | 'bet'
   | 'cancel'
-  | 'add'
-  | 'charge'
-  | 'adjust'
-  | 'promo_win'
-  | 'exceed_credit';
+  | 'deposit'
+  | 'withdraw'
+  | 'user.add_balance';
+
 export interface Transactions {
   id: number;
   amount: string | number;
   receiver?: User | Agent | null;
   sender?: User | Agent | null;
-  senderUsername?: number | string | null;
-  receiverUsername?: number | string | null;
+  username?: string | null;
+  agentUsername?: string | null;
   senderUser?: string;
   receiverUser?: string;
   type: transactionType;
@@ -118,8 +126,8 @@ export interface Transactions {
   amount: string | number;
   receiver?: User | Agent | null;
   sender?: User | Agent | null;
-  senderId?: number | string | null;
-  receiverId?: number | string | null;
+  senderId?: string;
+  receiverId?: string;
   senderName?: string;
   receiverName?: string;
   type: transactionType;
@@ -128,6 +136,7 @@ export interface Transactions {
   updatedAt: string;
   note?: string;
   token: string;
+  userId: string;
 }
 
 interface FeaturePermissions {

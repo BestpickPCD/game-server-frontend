@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQueryWithReAuth } from './baseQuery';
-import { Agent, ResponseType, ResponsePagination } from 'src/models';
+import { Agent, ResponseType, ResponsePagination, User } from 'src/models';
 
 export const AgentService = createApi({
   reducerPath: 'AgentService',
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({
-    getAgents: builder.query<ResponseType<ResponsePagination<Agent[]>>, any>({
+    getAgents: builder.query<ResponseType<ResponsePagination<User[]>>, any>({
       query: (params) => ({
         url: '/agents',
         params
       }),
       transformResponse: (
-        response: ResponseType<ResponsePagination<Agent[]>>
+        response: ResponseType<ResponsePagination<User[]>>
       ) => {
         const convertResponse = response?.data.data.map((item) => ({
           ...item,
-          agentParentId: item.Agents.parentAgentId,
-          level: item.Agents.level,
-          agentParentName: item.Agents.parentAgent.name
+          agentParentId: item.parentAgentId,
+          level: item.level,
+          agentParentName: item?.name
         }));
         return {
           ...response,
@@ -33,14 +33,14 @@ export const AgentService = createApi({
         params
       })
     }),
-    getAgentById: builder.mutation<ResponseType<Agent>, { id: number }>({
+    getAgentById: builder.mutation<ResponseType<Agent>, { id: string }>({
       query: ({ id }) => ({
         url: `/agents/${id}`
       })
     }),
     updateAgent: builder.mutation<
       ResponseType<Agent>,
-      { id: number; body: any }
+      { id: string; body: any }
     >({
       query: ({ id, body }) => ({
         url: `/agents/${id}`,
@@ -48,7 +48,7 @@ export const AgentService = createApi({
         body
       })
     }),
-    deleteAgent: builder.mutation<ResponseType<Agent>, { id: number }>({
+    deleteAgent: builder.mutation<ResponseType<Agent>, { id: string }>({
       query: ({ id }) => ({
         url: `/agents/${id}`,
         method: 'DELETE'

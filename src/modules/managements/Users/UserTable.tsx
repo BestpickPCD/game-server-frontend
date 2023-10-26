@@ -46,6 +46,18 @@ const UserTable = (): UserTableProps => {
     toggle();
   };
 
+  const onCalculate = (item) =>
+    Math.abs(
+      Object.keys(item?.balances)
+        .filter(
+          (item) =>
+            item === 'deposit' ||
+            item === 'withdraw' ||
+            item === 'user.add_balance'
+        )
+        .reduce((acc: number, cur: string) => acc + item.balances[cur] * -1, 0)
+    );
+
   const tableBody = (item): TableBody[] => [
     {
       align: 'inherit',
@@ -57,7 +69,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.user.name}
+            {item.name}
           </Typography>
         </>
       )
@@ -69,9 +81,9 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}`}
+            href={`transactions/${item.id}`}
           >
-            {item.user.balance}
+            {item.balance}
           </Button>
         </>
       )
@@ -83,9 +95,11 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}/betting-history`}
+            href={`transactions/${item.id}/betting-history`}
           >
-            {item.user.betGameAmount}
+            {(item?.balances?.win ?? 0) +
+              (item?.balances?.bet ?? 0) +
+              (item?.balances?.cancel ?? 0) ?? 0}
           </Button>
         </>
       )
@@ -97,9 +111,9 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}/recharge-history`}
+            href={`transactions/${item.id}/recharge-history`}
           >
-            {item.user.amountReceived}
+            {item?.balances && onCalculate(item)}
           </Button>
         </>
       )
@@ -114,7 +128,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.user.username}
+            {item.username}
           </Typography>
         </>
       )
@@ -129,8 +143,8 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item?.user.updatedAt &&
-              format(parseISO(item?.user.updatedAt), 'dd/MM/yyyy HH:mm')}
+            {item?.updatedAt &&
+              format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
           </Typography>
         </>
       )

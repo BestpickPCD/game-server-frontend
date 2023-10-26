@@ -40,11 +40,15 @@ const Header = (): JSX.Element => {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
   const [user, setUser] = useState<User>({
-    id: 0,
+    id: '',
     email: '',
     name: '',
     username: '',
-    type: ''
+    type: '',
+    parentAgentId: '',
+    agentParentName: '',
+    rate: 0,
+    level: 0
   });
 
   useEffect(() => {
@@ -86,7 +90,7 @@ const Header = (): JSX.Element => {
         width="100%"
       >
         <HeaderButtons />
-        <HeaderUserbox user={user} />
+        <HeaderUserbox user={user as User} />
         <Box
           component="span"
           sx={{

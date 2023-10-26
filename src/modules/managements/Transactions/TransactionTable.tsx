@@ -78,21 +78,8 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item.senderUsername}
+            {item.username}
           </Typography>
-        </>
-      )
-    },
-    {
-      align: 'inherit',
-      children: (
-        <>
-          <CustomLink
-            onClick={() => onRedirect(item.receiverUsername)}
-            color="text.primary"
-          >
-            {item.receiverUsername}
-          </CustomLink>
         </>
       )
     },
@@ -116,16 +103,7 @@ const TransactionTable = (): TransactionTableProps => {
         </>
       )
     },
-    {
-      align: 'right',
-      children: (
-        <>
-          <Typography variant="body1" color="text.primary" noWrap>
-            {getStatusLabel(item.status)}
-          </Typography>
-        </>
-      )
-    },
+
     {
       align: 'right',
       children: (
@@ -141,13 +119,8 @@ const TransactionTable = (): TransactionTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'label.sender.name',
-      name: 'senderName'
-    },
-    {
-      align: 'inherit',
-      title: 'label.receiver.name',
-      name: 'receiverName'
+      title: 'label.username',
+      name: 'username'
     },
     {
       align: 'right',
@@ -156,13 +129,8 @@ const TransactionTable = (): TransactionTableProps => {
     },
     {
       align: 'right',
-      title: 'label.title',
+      title: 'label.type',
       name: 'type'
-    },
-    {
-      align: 'right',
-      title: 'label.status',
-      name: 'status'
     },
     {
       align: 'right',

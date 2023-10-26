@@ -20,7 +20,8 @@ import UserTable from './BetLimitTable';
 import { FormattedMessage } from 'react-intl';
 
 interface UsersPagination extends PaginationAndSort {
-  status: string;
+  page: number;
+  type: string;
   dateFrom: string;
   dateTo: string;
 }
@@ -62,7 +63,7 @@ const BetLimitManagement = (): JSX.Element => {
     sortBy: -1,
     search: '',
     sortDirection: 'asc',
-    status: '',
+    type: '',
     dateFrom: '',
     dateTo: ''
   });
@@ -79,12 +80,10 @@ const BetLimitManagement = (): JSX.Element => {
     refetch
   } = useGetTransactionLimitQuery(
     // {
-    //   id: 1,
     //   page: pagination.page,
     //   size: pagination.size,
     //   search: pagination.search,
-    //   dateFrom: pagination.dateFrom,
-    //   dateTo: pagination.dateTo
+    //   type: pagination.type
     // },
     {
       refetchOnMountOrArgChange: true,
@@ -96,8 +95,7 @@ const BetLimitManagement = (): JSX.Element => {
     receiverUsername: '',
     amount: 0,
     type: 'add',
-    note: '',
-    status: 'pending'
+    note: ''
   });
 
   useEffect(() => {
@@ -178,25 +176,9 @@ const BetLimitManagement = (): JSX.Element => {
         pagination={pagination}
         onPagination={setPagination}
         tableFilter={tableFilter({
-          status: {
-            value: pagination.status,
-            onChange: (value) => setPagination({ ...pagination, status: value })
-          },
-          dateFrom: {
-            value: pagination.dateFrom,
-            onChange: (value) =>
-              setPagination({
-                ...pagination,
-                dateFrom: formatToISOString(value, 'from')
-              })
-          },
-          dateTo: {
-            value: pagination.dateTo,
-            onChange: (value) =>
-              setPagination({
-                ...pagination,
-                dateTo: formatToISOString(value, 'to')
-              })
+          type: {
+            value: pagination.type,
+            onChange: (value) => setPagination({ ...pagination, type: value })
           }
         })}
       />

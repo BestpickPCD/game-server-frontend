@@ -50,7 +50,7 @@ const GenerateApiKey = ({ data }: { data: ApiKeyGenerate }): JSX.Element => {
           label="API KEY"
           required
           autoComplete="off"
-          value={inputValues?.apiKey}
+          value={inputValues?.apiKey || ''}
         />
         <LoadingButton
           loading={isLoadingUpdate}

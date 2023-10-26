@@ -42,7 +42,7 @@ export const TransactionService = createApi({
     }),
     getTransactionById: builder.mutation<
       ResponseType<Transactions>,
-      { id: number }
+      { id: string }
     >({
       query: ({ id }) => ({
         url: `/transactions/${id}`
@@ -63,7 +63,7 @@ export const TransactionService = createApi({
         body
       })
     }),
-    getTransactionLimit: builder.query<any, unknown>({
+    getTransactionLimit: builder.query<any, any>({
       query: (params) => ({
         url: '/bet-limit',
         params

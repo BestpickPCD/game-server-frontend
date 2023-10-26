@@ -4,6 +4,7 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
 import { Select, TextField } from 'src/components/MUIComponents';
+import { InfinityAgent } from 'src/components/MUIComponents/InfinitySelect';
 import Modals from 'src/components/Modals';
 import { User } from 'src/models';
 import FormRegister from 'src/modules/Auth/Register/FormRegister';
@@ -22,10 +23,11 @@ interface UserModals {
 
 const schema = yup.object().shape({
   name: yup.string().required('Last name is required!'),
-  email: yup.string().required('email is required!'),
-  roleId: yup.number().required('email is required!'),
-  currencyId: yup.number().required('email is required!'),
-  username: yup.string().required('email is required!')
+  email: yup.string().required('Email is required!'),
+  roleId: yup.number().required('Role is required!'),
+  currencyId: yup.number().required('Currency is required!'),
+  username: yup.string().required('Username is required!'),
+  parentAgentId: yup.string().nullable()
 });
 
 const UserModal = ({
@@ -60,9 +62,10 @@ const UserModal = ({
     defaultValues: {
       name: '',
       email: '',
-      roleId: 0,
+      roleId: 2,
       username: '',
-      currencyId: 0
+      currencyId: 0,
+      parentAgentId: ''
     }
   });
 
@@ -71,8 +74,9 @@ const UserModal = ({
       setValue('name', detail.name);
       setValue('username', detail.username);
       setValue('email', detail.email);
-      setValue('roleId', detail.roleId);
-      setValue('currencyId', detail.currencyId);
+      setValue('roleId', detail?.role?.id);
+      setValue('currencyId', detail?.currency?.id);
+      setValue('parentAgentId', detail?.parentAgentId);
     } else {
       reset();
     }
@@ -84,6 +88,7 @@ const UserModal = ({
     type: string;
     roleId: number;
     currencyId: number;
+    parentAgentId: string | null;
   }) => {
     try {
       if (detail?.id) {
@@ -93,7 +98,8 @@ const UserModal = ({
             name: values.name,
             email: values.email,
             roleId: values.roleId,
-            currencyId: values.currencyId
+            currencyId: values.currencyId,
+            parentAgentId: values.parentAgentId
           }
         }).unwrap();
         notify({ message: message.UPDATED });
@@ -108,13 +114,14 @@ const UserModal = ({
 
   const roleOptions = useMemo(
     () =>
-      rolesData?.data?.data?.map((role) => ({
+      rolesData?.data?.map((role) => ({
         id: role.id,
         name: role.name,
         value: role.id
       })),
     [rolesData]
   );
+
   const currencyOptions = useMemo(
     () =>
       currenciesData?.map((role) => ({
@@ -124,6 +131,7 @@ const UserModal = ({
       })),
     [currenciesData]
   );
+  console.log(errors);
 
   return (
     <Modals
@@ -139,15 +147,15 @@ const UserModal = ({
             <TextField
               label={<FormattedMessage id="label.username" />}
               name="username"
-              sx={{ my: 2 }}
               errors={errors}
+              sx={{ my: 1 }}
               register={register}
               disabled={detail?.id ? true : false}
             />
             <TextField
               label={<FormattedMessage id="label.name" />}
               name="name"
-              sx={{ my: 2 }}
+              sx={{ mt: 1 }}
               errors={errors}
               register={register}
             />
@@ -158,14 +166,12 @@ const UserModal = ({
               errors={errors}
               register={register}
             />
-            <Box display={'flex'} gap="1rem">
-              <Select
-                label="Role"
-                name="roleId"
-                control={control}
-                options={roleOptions}
-                sx={{ my: 2 }}
-              />
+            <InfinityAgent
+              control={control}
+              name="parentAgentId"
+              errors={errors}
+            />
+            <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
               <Select
                 label="Currency"
                 name="currencyId"
@@ -173,23 +179,6 @@ const UserModal = ({
                 options={currencyOptions}
               />
             </Box>
-            {false && (
-              <Box display={'flex'} gap="1rem">
-                <Select
-                  label="Role"
-                  name="roleId"
-                  control={control}
-                  options={roleOptions}
-                  sx={{ my: 2 }}
-                />
-                <Select
-                  label="Currency"
-                  name="currencyId"
-                  control={control}
-                  options={currencyOptions}
-                />
-              </Box>
-            )}
           </div>
         </Box>
       ) : (
