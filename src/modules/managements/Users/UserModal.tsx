@@ -24,7 +24,7 @@ interface UserModals {
 const schema = yup.object().shape({
   name: yup.string().required('Last name is required!'),
   email: yup.string().required('Email is required!'),
-  roleId: yup.number().required('Role is required!'),
+  roleId: yup.number(),
   currencyId: yup.number().required('Currency is required!'),
   username: yup.string().required('Username is required!'),
   parentAgentId: yup.string().nullable()
@@ -131,7 +131,6 @@ const UserModal = ({
       })),
     [currenciesData]
   );
-  console.log(errors);
 
   return (
     <Modals
