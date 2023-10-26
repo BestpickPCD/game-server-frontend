@@ -126,7 +126,7 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
             <AccountBoxTwoToneIcon fontSize="small" />
             <ListItemText primary="My Profile" />
           </ListItem>
-          <ListItem
+          {/* <ListItem
             button
             to="/dashboards/messenger"
             component={NavLink}
@@ -134,8 +134,8 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
           >
             <InboxTwoToneIcon fontSize="small" />
             <ListItemText primary="Messenger" />
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             button
             to="/management/profile/settings"
             component={NavLink}
@@ -143,7 +143,7 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
           >
             <AccountTreeTwoToneIcon fontSize="small" />
             <ListItemText primary="Account Settings" />
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>

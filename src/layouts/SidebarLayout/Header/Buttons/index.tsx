@@ -40,7 +40,6 @@ const HeaderButtons = (): JSX.Element => {
     'user'
   )}`;
   ('_blank');
-  console.log(chatUrl);
 
   return (
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">

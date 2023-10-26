@@ -154,7 +154,7 @@ const AccountBalance = (): JSX.Element => {
               >
                 {data?.balance.balance} {data?.currency.code}
               </Typography>
-              <Box
+              {/* <Box
                 display="flex"
                 sx={{
                   py: 4
@@ -175,9 +175,9 @@ const AccountBalance = (): JSX.Element => {
                     this month
                   </Typography>
                 </Box>
-              </Box>
+              </Box> */}
             </Box>
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
               <Grid sm item>
                 <Button fullWidth variant="outlined">
                   Send
@@ -188,10 +188,10 @@ const AccountBalance = (): JSX.Element => {
                   Receive
                 </Button>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
         </Grid>
-        <Grid
+        {/* <Grid
           sx={{
             position: 'relative'
           }}
@@ -262,7 +262,7 @@ const AccountBalance = (): JSX.Element => {
               </Grid>
             </Grid>
           </Box>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Card>
   );
