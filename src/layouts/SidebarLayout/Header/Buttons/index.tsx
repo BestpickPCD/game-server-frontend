@@ -34,19 +34,20 @@ const HeaderButtons = (): JSX.Element => {
     return setLang('en');
   }, []);
 
-  const chatUrl = `${
-    process.env.REACT_APP_CHAT_URL
-  }/?token=${localStorage.getItem('tokens')}&user=${localStorage.getItem(
-    'user'
-  )}`;
-  ('_blank');
+  const handleClick = () => {
+    window.open(
+      `${process.env.REACT_APP_CHAT_URL}/?token=${localStorage.getItem(
+        'tokens'
+      )}&user=${localStorage.getItem('user')}`,
+      '_blank',
+      'location=yes,height=570,width=520,scrollbars=yes,status=yes'
+    );
+  };
 
   return (
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">
-      <Button variant="outlined">
-        <a target="_blank" href={chatUrl}>
-          Chat
-        </a>
+      <Button variant="outlined" onClick={handleClick}>
+        <a onClick={handleClick}>Chat</a>
       </Button>
       <HeaderSearch />
       <Box sx={{ mx: 0.5 }} component="span">
