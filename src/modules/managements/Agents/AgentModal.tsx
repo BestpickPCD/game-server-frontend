@@ -56,7 +56,6 @@ const UserModal = ({
     reset,
     handleSubmit,
     control,
-    getValues,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),
@@ -193,6 +192,7 @@ const UserModal = ({
           setIsSubmit={() => setIsRegister(false)}
           refetch={refetch}
           onClose={onClose}
+          isAgentRegister
         />
       )}
     </Modals>

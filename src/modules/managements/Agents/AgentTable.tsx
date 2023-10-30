@@ -54,6 +54,7 @@ const UserTable = (): UserTableProps => {
     setUser(user);
     toggle();
   };
+  console.log(localUser);
 
   const tableBody = (item): TableBody[] => [
     {
@@ -139,7 +140,7 @@ const UserTable = (): UserTableProps => {
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
             onClick={() => onClickButton(item)}
-            disabled={localUser?.level + 1 <= item.level}
+            disabled={localUser?.level + 1 !== item.level}
           >
             Payment
           </Button>

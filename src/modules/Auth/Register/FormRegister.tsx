@@ -45,6 +45,7 @@ const schema = yup.object().shape({
 });
 interface FormRegisterProps {
   isUserRegister?: boolean;
+  isAgentRegister?: boolean;
   isSubmit?: boolean;
   setIsSubmit?: () => void;
   refetch?: () => void;
@@ -52,6 +53,7 @@ interface FormRegisterProps {
 }
 const FormRegister = ({
   isUserRegister = false,
+  isAgentRegister = false,
   isSubmit = false,
   setIsSubmit,
   refetch,
@@ -83,8 +85,6 @@ const FormRegister = ({
     }
   });
 
-  console.log(isUserRegister);
-
   useEffect(() => {
     if (isSubmit) {
       handleSubmit(onSubmit)();
@@ -108,14 +108,12 @@ const FormRegister = ({
   );
 
   const onSubmit = async (values) => {
-    console.log(values);
-
     try {
       const response = await onRegister(values).unwrap();
       if (response && response.message === 'CREATED') {
         reset();
         notify({ message: 'Registered Successfully' });
-        if (!isUserRegister) {
+        if (!isUserRegister && !isAgentRegister) {
           navigate('/login');
         } else {
           refetch();
@@ -132,7 +130,6 @@ const FormRegister = ({
       return notify({ message: message.ERROR, type: 'error' });
     }
   };
-  console.log(errors);
 
   return (
     <Box
@@ -260,7 +257,7 @@ const FormRegister = ({
           </Grid>
         </Grid>
       </Grid>
-      {!isUserRegister && (
+      {!isUserRegister && !isAgentRegister && (
         <LoadingButton
           type="submit"
           fullWidth
