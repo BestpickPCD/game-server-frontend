@@ -6,7 +6,7 @@ export const CurrencyService = createApi({
   reducerPath: 'CurrencyService',
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({
-    getCurrencies: builder.query<any[], any>({
+    getCurrencies: builder.query<any, any>({
       query: (params) => ({
         url: '/currencies',
         params

@@ -74,7 +74,6 @@ const TransactionModal = ({
     reset,
     handleSubmit,
     clearErrors,
-    resetField,
     control,
     formState: { errors }
   } = useForm({
@@ -89,7 +88,6 @@ const TransactionModal = ({
     }
   });
   const [createTransaction] = useCreateTransactionMutation();
-  console.log(detail);
 
   useEffect(() => {
     if (!detail?.id) {
@@ -126,7 +124,7 @@ const TransactionModal = ({
     () =>
       currenciesData?.map((item) => ({
         id: String(item.id),
-        name: String(item.agentName),
+        name: String(item.name),
         value: String(item.id)
       })),
     [currenciesData]
