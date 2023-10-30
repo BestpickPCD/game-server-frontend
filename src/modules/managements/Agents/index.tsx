@@ -91,7 +91,6 @@ const AgentsManagement = (): JSX.Element => {
       skip: !checkPermission(permissions, 'get')
     }
   );
-  console.log(data);
 
   const [formData, setFormData] = useState({
     userId: '',
@@ -157,7 +156,7 @@ const AgentsManagement = (): JSX.Element => {
         reset();
       }
     } catch (error) {
-      notify({ message: message.ERROR, type: 'error' });
+      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
     }
   };
 

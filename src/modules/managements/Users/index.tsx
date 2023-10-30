@@ -155,7 +155,7 @@ const UsersManagement = (): JSX.Element => {
         reset();
       }
     } catch (error) {
-      notify({ message: message.ERROR, type: 'error' });
+      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
     }
   };
 
@@ -210,37 +210,31 @@ const UsersManagement = (): JSX.Element => {
         hide={hide}
       />
       <Dialog open={visibleTransaction} onClose={toggleTransaction}>
-        <Box component="form" padding={2}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography gutterBottom variant="h5" component="div">
-                Add transaction
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <TextField
-                label="Insert the amount here"
-                variant="outlined"
-                fullWidth
-                onInput={(event) =>
-                  onInput(
-                    Number((event.target as HTMLInputElement).value),
-                    'amount'
-                  )
-                }
-              />
-            </Grid>
-            <Grid item xs={4} sx={{ padding: 1 }}>
-              <LoadingButton
-                loading={isLoadingCreate}
-                onClick={handleSubmit}
-                size="large"
-                variant="contained"
-              >
-                + Add
-              </LoadingButton>
-            </Grid>
-          </Grid>
+        <Box component="form" padding={2} width="400px">
+          <Typography gutterBottom variant="h5" component="div">
+            Add transaction
+          </Typography>
+          <Box display="flex" alignItems="center" width="100%" gap={2} pt={2}>
+            <TextField
+              label="Insert the amount here"
+              variant="outlined"
+              fullWidth
+              onInput={(event) =>
+                onInput(
+                  Number((event.target as HTMLInputElement).value),
+                  'amount'
+                )
+              }
+            />
+            <LoadingButton
+              loading={isLoadingCreate}
+              onClick={handleSubmit}
+              size="large"
+              variant="contained"
+            >
+              <Typography whiteSpace="nowrap">+ Add</Typography>
+            </LoadingButton>
+          </Box>
         </Box>
       </Dialog>
     </>
