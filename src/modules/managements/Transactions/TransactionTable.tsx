@@ -1,5 +1,7 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
+  Button,
+  Container,
   FormControl,
   InputLabel,
   Link,
@@ -16,6 +18,7 @@ import { transactionTypes } from 'src/models/variables';
 import Label from 'src/components/MUIComponents/Label';
 import { useNavigate } from 'react-router';
 import { FormattedMessage } from 'react-intl';
+import { display } from '@mui/system';
 interface TransactionTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
@@ -69,6 +72,14 @@ const getStatusLabel = (status: string): JSX.Element => {
 const TransactionTable = (): TransactionTableProps => {
   const navigate = useNavigate();
 
+  const approveTransaction = (id) => {
+    console.log(id, 'approve');
+  };
+
+  const rejectTransaction = (id) => {
+    console.log(id, 'reject');
+  };
+
   const onRedirect = (id: number | string) => {
     navigate(`/management/transactions/${id}`);
   };
@@ -103,7 +114,6 @@ const TransactionTable = (): TransactionTableProps => {
         </>
       )
     },
-
     {
       align: 'right',
       children: (
@@ -113,6 +123,27 @@ const TransactionTable = (): TransactionTableProps => {
               format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
           </Typography>
         </>
+      )
+    },
+    {
+      align: 'center',
+      children: (
+        <Container>
+          <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
+            <Button
+              variant="contained"
+              onClick={() => approveTransaction(item?.id)}
+            >
+              {'Approve'}
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => rejectTransaction(item?.id)}
+            >
+              {'Reject'}
+            </Button>
+          </Container>
+        </Container>
       )
     }
   ];

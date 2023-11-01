@@ -69,7 +69,9 @@ const TransactionManagement = (): JSX.Element => {
   useEffect(() => {
     const queryParameters = new URLSearchParams(window.location.search);
     const type = queryParameters.get('type');
-    setPagination({ ...pagination, type: type });
+    if (type) {
+      setPagination({ ...pagination, type: type });
+    }
   }, []);
 
   useEffect(() => {

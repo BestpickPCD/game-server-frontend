@@ -284,6 +284,19 @@ const SidebarMenu = (): JSX.Element => {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
+                  to="/management/transactions?type=agent.add_balance"
+                  startIcon={<TransferWithinAStationOutlined />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  <FormattedMessage id="title.transactions-request" />
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
                   to="/management/bet-limit"
                   startIcon={<CreditCardOffIcon />}
                   fullWidth
@@ -335,7 +348,7 @@ const CustomAccordion = styled(Accordion)(
   .MuiSvgIcon-root{
     color: rgba(255, 255, 255, 0.7)
   }
- 
+
 `
 );
 const CustomList = styled(List)(
