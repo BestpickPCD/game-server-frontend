@@ -85,7 +85,7 @@ type transactionType =
   | 'user.add_balance';
 
 export interface Transactions {
-  id: number;
+  id: string;
   amount: string | number;
   receiver?: User | Agent | null;
   sender?: User | Agent | null;

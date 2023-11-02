@@ -93,8 +93,14 @@ export const TransactionService = createApi({
         url: `/bet-limit/${id}`,
         method: 'DELETE'
       })
+    }),
+    transactionAction: builder.mutation<any, unknown>({
+      query: ({ id, body }) => ({
+        url: `/transaction-action/${id}`,
+        method: 'PATCH',
+        body
+      })
     })
-    // transactionAction
   })
 });
 
@@ -107,5 +113,6 @@ export const {
   useGetTransactionLimitByIdMutation,
   useCreateTransactionLimitMutation,
   useDeleteTransactionLimitMutation,
-  useUpdateTransactionLimitMutation
+  useUpdateTransactionLimitMutation,
+  useTransactionActionMutation
 } = TransactionService;

@@ -19,6 +19,8 @@ import Label from 'src/components/MUIComponents/Label';
 import { useNavigate } from 'react-router';
 import { FormattedMessage } from 'react-intl';
 import { display } from '@mui/system';
+import StatusButtons from './StatusButtons';
+import { stringify } from 'uuid';
 interface TransactionTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
@@ -70,15 +72,20 @@ const getStatusLabel = (status: string): JSX.Element => {
 };
 
 const TransactionTable = (): TransactionTableProps => {
+  let seeRequest = false;
+  let backDefault = false;
+  const queryParameters = new URLSearchParams(window.location.search);
+  const type = queryParameters.get('type');
+  if (type === 'agent.add_balance') {
+    backDefault = true;
+  }
+
+  const { role } = JSON.parse(localStorage.getItem('user'));
+  if (role.name === 'admin') {
+    seeRequest = true;
+  }
+
   const navigate = useNavigate();
-
-  const approveTransaction = (id) => {
-    console.log(id, 'approve');
-  };
-
-  const rejectTransaction = (id) => {
-    console.log(id, 'reject');
-  };
 
   const onRedirect = (id: number | string) => {
     navigate(`/management/transactions/${id}`);
@@ -128,22 +135,9 @@ const TransactionTable = (): TransactionTableProps => {
     {
       align: 'center',
       children: (
-        <Container>
-          <Container sx={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Button
-              variant="contained"
-              onClick={() => approveTransaction(item?.id)}
-            >
-              {'Approve'}
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => rejectTransaction(item?.id)}
-            >
-              {'Reject'}
-            </Button>
-          </Container>
-        </Container>
+        <>
+          <StatusButtons id={item?.id} status={item?.status} />
+        </>
       )
     }
   ];
@@ -166,6 +160,11 @@ const TransactionTable = (): TransactionTableProps => {
     {
       align: 'right',
       title: 'label.updated.at',
+      name: 'updatedAt'
+    },
+    {
+      align: 'center',
+      title: 'label.status',
       name: 'updatedAt'
     },
     {
@@ -201,7 +200,22 @@ const TransactionTable = (): TransactionTableProps => {
           </MenuItem>
         ))}
       </Select>
-    </FormControl>
+    </FormControl>,
+    <>
+      {seeRequest && backDefault === false ? (
+        <Container>
+          <Button href={'?type=agent.add_balance'} variant="outlined">
+            {'See Requests'}
+          </Button>
+        </Container>
+      ) : backDefault && seeRequest === true ? (
+        <Container>
+          <Button href={'?type='} variant="outlined" color="secondary">
+            {'See All'}
+          </Button>
+        </Container>
+      ) : null}
+    </>
   ];
 
   return { tableBody, tableHeader, tableFilter };

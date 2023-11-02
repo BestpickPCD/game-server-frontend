@@ -284,19 +284,6 @@ const SidebarMenu = (): JSX.Element => {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/transactions?type=agent.add_balance"
-                  startIcon={<TransferWithinAStationOutlined />}
-                  fullWidth
-                  sx={{ justifyContent: 'flex-start' }}
-                >
-                  <FormattedMessage id="title.transactions-request" />
-                </Button>
-              </ListItem>
-              <ListItem>
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
                   to="/management/bet-limit"
                   startIcon={<CreditCardOffIcon />}
                   fullWidth
