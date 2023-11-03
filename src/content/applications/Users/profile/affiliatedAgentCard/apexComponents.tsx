@@ -40,7 +40,7 @@ const ApexChartOptions: ApexOptions = {
     enabled: true
   },
   xaxis: {
-    categories: ['Sent', 'Received', 'lost', 'Won', 'Bet']
+    categories: ['Depo.', 'Withd.', 'AAB.', 'UAB.', 'Bet', 'Win', 'Canc.']
   },
   yaxis: {
     show: false
