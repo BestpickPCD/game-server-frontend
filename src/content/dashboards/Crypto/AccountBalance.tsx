@@ -59,7 +59,7 @@ const ListItemAvatarWrapper = styled(ListItemAvatar)(
 const AccountBalance = (): JSX.Element => {
   const theme = useTheme();
 
-  const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true }); 
+  const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
   const chartOptions: ApexOptions = {
     chart: {
       background: 'transparent',

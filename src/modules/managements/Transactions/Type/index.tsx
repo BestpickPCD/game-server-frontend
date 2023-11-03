@@ -22,7 +22,7 @@ const columns: GridColDef[] = [
 
 let rows = [];
 const showRows = async (data) => {
-  const { data: rowData } = data 
+  const { data: rowData } = data;
   rows = rowData;
 };
 

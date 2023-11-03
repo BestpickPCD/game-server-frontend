@@ -14,7 +14,15 @@ const AffiliatedAgentCard = ({ data }: { data }): JSX.Element => {
   const options = ApexChartOptions;
   const series = [
     {
-      data: [deposit, withdraw, agentAddBalance, userAddBalance, bet, win, cancel]
+      data: [
+        deposit,
+        withdraw,
+        agentAddBalance,
+        userAddBalance,
+        bet,
+        win,
+        cancel
+      ]
     }
   ];
 
