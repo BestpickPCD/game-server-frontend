@@ -67,7 +67,7 @@ export const UserService = createApi({
     >({
       query: (body) => ({
         url: `/user`,
-        method: 'patch',
+        method: 'PATCH',
         body
       })
     }),

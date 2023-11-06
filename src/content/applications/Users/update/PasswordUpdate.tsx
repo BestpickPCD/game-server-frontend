@@ -40,45 +40,30 @@ interface ProfileCoverProps {
 }
 
 const schema = yup.object().shape({
-  oldPassword: yup
-    .string()
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(
-      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).+$/,
-      'Password contains characters, numbers and at least one special character'
-    )
-    .required('Password is required'),
-  password: yup
-    .string()
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(
-      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).+$/,
-      'Password contains characters, numbers and at least one special character'
-    )
-    .required('Password is required'),
-  passwordConfirm: yup
-    .string()
-    .min(8, 'Password is too short - should be 8 chars minimum.')
-    .matches(
-      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).+$/,
-      'Password contains characters, numbers and at least one special character'
-    )
-    .required('Password is required')
+  oldPassword: yup.string().required('Password is required'),
+  password: yup.string().required('Password is required'),
+  confirmPassword: yup.string().required('Password is required')
 });
 
 const passwordUpdate = (): JSX.Element => {
   const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
   const { notify, message } = useToast();
   const navigate = useNavigate();
+
+  const defaultValues = {
+    oldPassword: '',
+    password: '',
+    confirmPassword: ''
+  };
+
   const {
+    register,
     handleSubmit,
     reset,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      password: ''
-    }
+    defaultValues // Use the updated defaultValues here
   });
 
   const onSubmit = async (values) => {
@@ -104,7 +89,12 @@ const passwordUpdate = (): JSX.Element => {
 
   return (
     <>
-      <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{ mt: 1 }}
+      >
         <Card>
           {/* <CardHeader title={user.name} /> */}
           <Divider />
@@ -118,9 +108,12 @@ const passwordUpdate = (): JSX.Element => {
                 >
                   <TableCell align="left">
                     <TextField
+                      type="text"
                       fullWidth
                       label="Old Password"
+                      name="oldPassword"
                       required
+                      {...register('oldPassword')}
                       helperText={'error'}
                       autoComplete="off"
                     />
@@ -131,9 +124,12 @@ const passwordUpdate = (): JSX.Element => {
                 >
                   <TableCell align="left">
                     <TextField
+                      type="password"
                       fullWidth
                       label="New Passoword"
+                      name="password"
                       required
+                      {...register('password')}
                       helperText={'error'}
                       autoComplete="off"
                     />
@@ -145,26 +141,29 @@ const passwordUpdate = (): JSX.Element => {
                 >
                   <TableCell align="left">
                     <TextField
+                      type="password"
                       fullWidth
-                      label="Passowrd Confirm"
+                      label="PConfirm Password"
+                      name="confirmPassword"
                       required
+                      {...register('confirmPassword')}
                       helperText={'error'}
                       autoComplete="off"
                     />
                   </TableCell>
                 </TableRow>
-                <div>
-                  <LoadingButton
-                    type="submit"
-                    variant="outlined"
-                    sx={{ marginLeft: 2, padding: 1.5 }}
-                    loading={isLoading}
-                  >
-                    {'Update'}
-                  </LoadingButton>
-                </div>
               </TableBody>
             </Table>
+            <div>
+              <LoadingButton
+                type="submit"
+                variant="outlined"
+                sx={{ marginLeft: 2, padding: 1.5 }}
+                loading={isLoading}
+              >
+                {'Update'}
+              </LoadingButton>
+            </div>
           </TableContainer>
           <Divider />
         </Card>
