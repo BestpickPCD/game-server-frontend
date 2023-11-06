@@ -83,13 +83,14 @@ const passwordUpdate = (): JSX.Element => {
 
   const onSubmit = async (values) => {
     try {
-      console.log('aa');
+      console.log(values);
       const response = await updatePassword(values).unwrap();
-      if (response.message === 'SUCCESS') {
-        reset();
-        notify({ message: 'update Successfully' });
-        navigate('/dashboards');
-      }
+      console.log(response)
+      // if (response.message === 'SUCCESS') {
+      //   reset();
+      //   notify({ message: 'update Successfully' });
+      //   navigate('/dashboards');
+      // }
     } catch (error) {
       if ((error.data.message as ResponseMessage) === 'NOT_FOUND') {
         return notify({
@@ -106,13 +107,13 @@ const passwordUpdate = (): JSX.Element => {
       <Box
         component="form"
         noValidate
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={onSubmit}
         sx={{ mt: 1 }}
       >
         <Card>
           {/* <CardHeader title={user.name} /> */}
           <Divider />
-          <CardHeader title={'Password Update'} />
+          <CardHeader title={'Change Password'} />
           <Divider />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
