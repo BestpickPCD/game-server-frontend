@@ -1,16 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Grid, TextField } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import { useRegisterMutation } from 'src/services/authService';
-import { useToast } from 'src/utils/hooks';
-import { Select } from 'src/components/MUIComponents';
 import { LoadingButton } from '@mui/lab';
-import * as yup from 'yup';
+import { Box, Grid, TextField } from '@mui/material';
 import { useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
+import { useNavigate } from 'react-router';
+import { Select } from 'src/components/MUIComponents';
+import { InfinityAgent } from 'src/components/MUIComponents/InfinitySelect';
+import { useRegisterMutation } from 'src/services/authService';
 import { useRolesQuery } from 'src/services/commonServices';
-import { useGetAffiliatedAgentsQuery } from 'src/services/agentService';
+import { useToast } from 'src/utils/hooks';
+import * as yup from 'yup';
 
 const schema = yup.object().shape({
   username: yup
@@ -22,9 +22,10 @@ const schema = yup.object().shape({
     .string()
     .matches(/[a-zA-Z]/, 'Name can only contain letters.')
     .required('First name is required'),
-  type: yup.string().required('Type is required'),
-  rate: yup.number().required('Rate is required'),
-  parentAgentId: yup.number().required('Rate is required'),
+  type: yup.string().nullable(),
+  rate: yup.number().positive().moreThan(0, 'Rate is required').nullable(),
+  roleId: yup.number().positive().moreThan(0, 'Role is required').nullable(),
+  parentAgentId: yup.string().required('Parent Agent is required'),
   email: yup
     .string()
     .email('Invalid email format')
@@ -44,6 +45,7 @@ const schema = yup.object().shape({
 });
 interface FormRegisterProps {
   isUserRegister?: boolean;
+  isAgentRegister?: boolean;
   isSubmit?: boolean;
   setIsSubmit?: () => void;
   refetch?: () => void;
@@ -51,16 +53,13 @@ interface FormRegisterProps {
 }
 const FormRegister = ({
   isUserRegister = false,
+  isAgentRegister = false,
   isSubmit = false,
   setIsSubmit,
   refetch,
   onClose
 }: FormRegisterProps): JSX.Element => {
   const [onRegister, { isLoading }] = useRegisterMutation();
-
-  const { data: affAgentData } = useGetAffiliatedAgentsQuery({
-    refetchOnMountOrArgChange: true
-  });
 
   const { notify, message } = useToast();
   const navigate = useNavigate();
@@ -75,11 +74,12 @@ const FormRegister = ({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',
-      rate: 0,
+      rate: isUserRegister ? null : 0,
       email: '',
       username: '',
-      parentAgentId: 0,
-      type: 'agent',
+      parentAgentId: isUserRegister ? null : '',
+      type: isUserRegister ? 'player' : 'agent',
+      roleId: isUserRegister ? 2 : 0,
       password: '',
       confirmPassword: ''
     }
@@ -97,22 +97,9 @@ const FormRegister = ({
     { refetchOnMountOrArgChange: true }
   );
 
-  const isRoleArray = Array.isArray(affAgentData);
-
-  const affAgentOptions = useMemo(() => {
-    if (isRoleArray) {
-      return affAgentData.map((role) => ({
-        id: role.id,
-        name: role.name,
-        value: role.id
-      }));
-    }
-    return [];
-  }, [affAgentData]);
-
   const roleOptions = useMemo(
     () =>
-      rolesData?.data?.data?.map((role) => ({
+      rolesData?.data?.map((role) => ({
         id: role.id,
         name: role.name,
         value: role.id
@@ -126,7 +113,7 @@ const FormRegister = ({
       if (response && response.message === 'CREATED') {
         reset();
         notify({ message: 'Registered Successfully' });
-        if (!isUserRegister) {
+        if (!isUserRegister && !isAgentRegister) {
           navigate('/login');
         } else {
           refetch();
@@ -143,6 +130,7 @@ const FormRegister = ({
       return notify({ message: message.ERROR, type: 'error' });
     }
   };
+
   return (
     <Box
       component="form"
@@ -157,57 +145,69 @@ const FormRegister = ({
             fullWidth
             label="Name"
             autoFocus
-            sx={{ my: 1 }}
             error={!!errors['name']}
             helperText={errors['name'] ? errors['name'].message : ''}
             {...register('name')}
             onBlur={(e) => setValue('name', e.target.value.trim())}
           />
         </Grid>
-        <Grid item xs={8}>
-          <Select
-            label="Agent"
-            name="parentAgentId"
-            control={control}
-            options={affAgentOptions}
-            sx={{ my: 2 }}
-          />
+
+        <Grid item xs={12} marginY={1}>
+          <Grid container columnSpacing={{ xs: 1 }} rowSpacing={2}>
+            <Grid item xs={!isUserRegister ? 8 : 12}>
+              <InfinityAgent
+                control={control}
+                name="parentAgentId"
+                errors={errors}
+              />
+            </Grid>
+            {!isUserRegister && (
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  fullWidth
+                  label="Rate"
+                  autoFocus
+                  error={!!errors['rate']}
+                  helperText={errors['rate'] ? errors['rate'].message : ''}
+                  {...register('rate')}
+                  onBlur={(e) =>
+                    setValue('rate', parseFloat(e.target.value.trim()))
+                  }
+                />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <TextField
-            required
-            fullWidth
-            label="Rate"
-            autoFocus
-            sx={{ my: 1 }}
-            error={!!errors['rate']}
-            helperText={errors['rate'] ? errors['rate'].message : ''}
-            {...register('rate')}
-            onBlur={(e) => setValue('rate', parseFloat(e.target.value.trim()))}
-          />
+
+        <Grid item xs={12}>
+          <Grid container columnSpacing={{ xs: 1 }} rowSpacing={2}>
+            <Grid item xs={!isUserRegister ? 8 : 12}>
+              <TextField
+                required
+                fullWidth
+                label="Email"
+                type="email"
+                error={!!errors['email']}
+                helperText={errors['email'] ? errors['email'].message : ''}
+                {...register('email')}
+                onBlur={(e) => setValue('email', e.target.value.trim())}
+              />
+            </Grid>
+            {!isUserRegister && (
+              <Grid item xs={4}>
+                <Select
+                  label="Role"
+                  name="roleId"
+                  options={roleOptions}
+                  errors={errors}
+                  control={control}
+                />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={8}>
-          <TextField
-            required
-            fullWidth
-            label="Email"
-            type="email"
-            sx={{ my: 1 }}
-            error={!!errors['email']}
-            helperText={errors['email'] ? errors['email'].message : ''}
-            {...register('email')}
-            onBlur={(e) => setValue('email', e.target.value.trim())}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <Select
-            label="Role"
-            name="roleId"
-            control={control}
-            options={roleOptions}
-            sx={{ my: 2 }}
-          />
-        </Grid>
+
         <Grid item xs={12}>
           <TextField
             required
@@ -220,36 +220,44 @@ const FormRegister = ({
             onBlur={(e) => setValue('username', e.target.value.trim())}
           />
         </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            fullWidth
-            label="Password"
-            type="password"
-            sx={{ my: 1 }}
-            error={!!errors['password']}
-            helperText={errors['password'] ? errors['password'].message : ''}
-            {...register('password')}
-            onBlur={(e) => setValue('password', e.target.value.trim())}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            fullWidth
-            label="Confirm Password"
-            type="password"
-            sx={{ my: 1 }}
-            error={!!errors['confirmPassword']}
-            helperText={
-              errors['confirmPassword'] ? errors['confirmPassword'].message : ''
-            }
-            {...register('confirmPassword')}
-            onBlur={(e) => setValue('confirmPassword', e.target.value.trim())}
-          />
+        <Grid item xs={12}>
+          <Grid container columnSpacing={{ xs: 1 }}>
+            <Grid item xs={6}>
+              <TextField
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                error={!!errors['password']}
+                helperText={
+                  errors['password'] ? errors['password'].message : ''
+                }
+                {...register('password')}
+                onBlur={(e) => setValue('password', e.target.value.trim())}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                required
+                fullWidth
+                label="Confirm Password"
+                type="password"
+                error={!!errors['confirmPassword']}
+                helperText={
+                  errors['confirmPassword']
+                    ? errors['confirmPassword'].message
+                    : ''
+                }
+                {...register('confirmPassword')}
+                onBlur={(e) =>
+                  setValue('confirmPassword', e.target.value.trim())
+                }
+              />
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
-      {!isUserRegister && (
+      {!isUserRegister && !isAgentRegister && (
         <LoadingButton
           type="submit"
           fullWidth

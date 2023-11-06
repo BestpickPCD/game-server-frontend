@@ -78,6 +78,8 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
   const handleSignOut = (): void => {
     navigate('/');
     localStorage.removeItem('tokens');
+    localStorage.removeItem('user');
+    localStorage.removeItem('permissions');
   };
   return (
     <>
@@ -124,7 +126,7 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
             <AccountBoxTwoToneIcon fontSize="small" />
             <ListItemText primary="My Profile" />
           </ListItem>
-          <ListItem
+          {/* <ListItem
             button
             to="/dashboards/messenger"
             component={NavLink}
@@ -132,8 +134,8 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
           >
             <InboxTwoToneIcon fontSize="small" />
             <ListItemText primary="Messenger" />
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             button
             to="/management/profile/settings"
             component={NavLink}
@@ -141,17 +143,7 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
           >
             <AccountTreeTwoToneIcon fontSize="small" />
             <ListItemText primary="Account Settings" />
-          </ListItem>
-
-          <ListItem
-            button
-            to="/management/profile/update"
-            component={NavLink}
-            onClick={handleClose}
-          >
-            <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary="Passowrd update" />
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>

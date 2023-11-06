@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { format, parseISO } from 'date-fns';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import { User } from 'src/models';
 import { useModal } from 'src/utils/hooks';
@@ -41,11 +41,20 @@ interface TableFilterProps {
 const UserTable = (): UserTableProps => {
   const { visible, toggle } = useModal();
   const [user, setUser] = useState<User>();
+  const [localUser, setUserLocal] = useState<User>();
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      setUserLocal(JSON.parse(user));
+    }
+  }, []);
 
   const onClickButton = (user) => {
     setUser(user);
     toggle();
   };
+  console.log(localUser);
 
   const tableBody = (item): TableBody[] => [
     {
@@ -73,7 +82,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item.agentParentName}
+            {item?.parent?.name ?? '-'}
           </Typography>
         </>
       )
@@ -88,7 +97,7 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {parseFloat(item.Agents.rate).toFixed(2)}%
+            {parseFloat(item.rate).toFixed(2)}%
           </Typography>
         </>
       )
@@ -100,7 +109,7 @@ const UserTable = (): UserTableProps => {
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
-            href={`transactions/${item.username}`}
+            href={`transactions/${item.id}`}
           >
             {item.balance}
           </Button>
@@ -131,6 +140,7 @@ const UserTable = (): UserTableProps => {
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
             onClick={() => onClickButton(item)}
+            disabled={localUser?.level + 1 !== item.level}
           >
             Payment
           </Button>
@@ -151,7 +161,7 @@ const UserTable = (): UserTableProps => {
     },
     {
       align: 'inherit',
-      title: 'Rate',
+      title: 'label.rate',
       name: 'rate'
     },
     {

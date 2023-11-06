@@ -134,6 +134,11 @@ const Table = ({
     setRowId(id);
   };
 
+  const handleDeleteItem = (id) => {
+    onDelete(id);
+    hide();
+  };
+
   const onSort = (index: number) => {
     const newPagination = {
       ...pagination,
@@ -182,7 +187,7 @@ const Table = ({
               No
             </Button>
             <LoadingButtonCustom
-              onClick={() => onDelete(item.id)}
+              onClick={() => handleDeleteItem(item.id)}
               loading={isLoading}
               loadingPosition="start"
               startIcon={<SendIcon />}

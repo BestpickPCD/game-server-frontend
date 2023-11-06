@@ -14,23 +14,13 @@ export const CommonServices = createApi({
   reducerPath: 'CommonServices',
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({
-    roles: builder.query<ResponseType<ResponsePagination<Permissions[]>>, any>({
+    roles: builder.query<{ data: Permissions[] }, any>({
       query: (params) => ({
         url: '/roles',
         params
       }),
-      transformResponse: ({
-        data: { data, ...restChild },
-        ...rest
-      }: ResponseType<ResponsePagination<Permissions[]>>) => ({
-        data: {
-          data: data.map((item: any) => ({
-            ...item,
-            name: item.name.slice(0, 1).toUpperCase() + item.name.slice(1)
-          })),
-          ...restChild
-        },
-        ...rest
+      transformResponse: ({ data }: { data: Permissions[] }) => ({
+        data
       })
     }),
     rolesById: builder.query<ResponseType<Permissions>, { id?: number }>({

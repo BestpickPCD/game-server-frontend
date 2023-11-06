@@ -47,13 +47,16 @@ export const baseQueryWithReAuth: BaseQueryFn<
           JSON.stringify({ token: refreshResult.data })
         );
         result = await baseQuery(args, api, extraOptions);
-        console.log(result);
       } else {
         window.location.href = '/';
         localStorage.removeItem('tokens');
+        localStorage.removeItem('user');
+        localStorage.removeItem('permissions');
       }
     } catch (error) {
-      console.log(error);
+      localStorage.removeItem('tokens');
+      localStorage.removeItem('user');
+      localStorage.removeItem('permissions');
     }
   }
   return result;

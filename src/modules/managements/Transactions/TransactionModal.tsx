@@ -31,12 +31,7 @@ const statusOptions = transactionStatus.map((item) => ({
 }));
 
 const schema = yup.object().shape({
-  receiverId: yup
-    .number()
-    .moreThan(0, 'Receiver is required!')
-    .typeError('Receiver is required!')
-    .required('Receiver is required!'),
-  senderId: yup.number(),
+  userId: yup.string().required('Users is required!'),
   currencyId: yup
     .number()
     .moreThan(0, 'Currency is required!')
@@ -49,12 +44,11 @@ const schema = yup.object().shape({
     .required('Amount is required!'),
   token: yup.string(),
   note: yup.string(),
-  type: yup.string().required('Type is required!'),
-  status: yup.string().required('Status is required!')
+  type: yup.string().required('Type is required!')
 });
 
 type CreateTransactionBody = {
-  receiverId: number;
+  userId: number;
   type: string;
   note: string;
   token: string;
@@ -85,14 +79,12 @@ const TransactionModal = ({
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      senderId: 0,
-      receiverId: 0,
+      userId: '',
       amount: 0,
       currencyId: 0,
       token: '',
       note: '',
-      type: '',
-      status: ''
+      type: ''
     }
   });
   const [createTransaction] = useCreateTransactionMutation();
@@ -101,14 +93,12 @@ const TransactionModal = ({
     if (!detail?.id) {
       return reset();
     }
-    setValue('senderId', Number(detail?.senderId));
-    setValue('receiverId', Number(detail?.receiverId));
+    setValue('userId', detail?.userId);
     setValue('amount', Number(detail?.amount));
     setValue('currencyId', Number(detail?.currencyId));
     setValue('token', detail?.token);
     setValue('note', detail?.note);
     setValue('type', detail?.type);
-    setValue('status', detail?.status);
   }, [detail]);
 
   const onSubmit = async (values: CreateTransactionBody) => {
@@ -118,6 +108,7 @@ const TransactionModal = ({
         notify({
           message: message.CREATED
         });
+        reset();
         onClose();
         refetch();
       }
@@ -155,29 +146,15 @@ const TransactionModal = ({
       <Box component={'form'} id="form-transaction">
         <div className="block">
           <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
-            {detail?.id && (
-              <InfinityAgent
-                name="senderId"
-                control={control}
-                label="Sender"
-                parent={{
-                  id: detail.senderId,
-                  name: detail.sender?.name,
-                  value: detail.senderId
-                }}
-                readOnly={!!detail?.id}
-                errors={errors}
-              />
-            )}
             <InfinityAgent
-              name="receiverId"
+              name="userId"
               control={control}
-              label="Receiver"
+              label="User"
               {...(detail?.id && {
                 parent: {
-                  id: detail?.receiverId,
-                  name: detail?.receiver.name,
-                  value: detail?.receiverId
+                  id: detail?.userId as string,
+                  name: detail?.username,
+                  value: detail?.userId as string
                 }
               })}
               readOnly={!!detail?.id}
@@ -210,14 +187,6 @@ const TransactionModal = ({
               label={<FormattedMessage id="label.type" />}
               control={control}
               options={typeOptions}
-              readOnly={!!detail?.id}
-              errors={errors}
-            />
-            <Select
-              label={<FormattedMessage id="label.status" />}
-              name="status"
-              control={control}
-              options={statusOptions}
               readOnly={!!detail?.id}
               errors={errors}
             />

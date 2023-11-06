@@ -1,33 +1,22 @@
 import {
-  Avatar,
   Box,
   Card,
   CardHeader,
-  CardMedia,
   Divider,
-  IconButton,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
-  Tooltip
+  TextField
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 
-import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
-import { UserDashboard } from '.';
 import { useEffect, useState } from 'react';
-import {
-  useGetUserByIdMutation,
-  useGetApiKeyMutation
-} from 'src/services/userService';
-import { width } from '@mui/system';
-import { LoadingButton } from '@mui/lab';
-import ProfileFormSubmit from './profileFormSubmit';
+import { useGetUserByIdMutation } from 'src/services/userService';
+import { UserDashboard } from '.';
 import GenerateApi from './generateApi';
+import ProfileFormSubmit from './profileFormSubmit';
 
 interface ProfileCoverProps {
   user: UserDashboard;
@@ -46,9 +35,10 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
         console.log(error);
       }
     }
-
-    fetchUserDetail();
-  }, []);
+    if (user?.id) {
+      fetchUserDetail();
+    }
+  }, [user]);
 
   const { data } = response || {};
 

@@ -5,6 +5,7 @@
   "title.roles-management": "역할 관리",
   "title.users-management": "사용자 관리",
   "title.transactions-management": "거래 관리",
+  "title.transactions-request": "거래 관리",
   "title.currencies-management": "통화 관리",
   "title.vendors-management": "공급업체 관리",
   "title.managements": "관리",
@@ -34,5 +35,6 @@
   "label.search.term": "여기에 검색어 입력",
   "label.languages": "언어",
   "label.from": "시작",
-  "label.to": "종료"
+  "label.to": "종료",
+  "label.rate": "평가"
 }

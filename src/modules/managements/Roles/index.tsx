@@ -60,7 +60,7 @@ const RolesManagement = (): JSX.Element => {
     if (rolesData) {
       setData(() =>
         onSortTable(
-          rolesData.data.data,
+          rolesData.data,
           tableHeader[pagination.sortBy]?.name,
           pagination.sortDirection
         )
@@ -85,13 +85,14 @@ const RolesManagement = (): JSX.Element => {
   const onUpdate = async (value) => {
     setOpen({ id: value, open: true });
   };
+  console.log(data);
 
   return (
     <>
       <TableComponent
         title={pageName}
         data={data}
-        totalItems={rolesData?.data.totalItems}
+        totalItems={rolesData?.data.length}
         tableHeader={tableHeader}
         tableBody={tableBody}
         headerTitle={pageName}

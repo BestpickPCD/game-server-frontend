@@ -42,7 +42,7 @@ export const TransactionService = createApi({
     }),
     getTransactionById: builder.mutation<
       ResponseType<Transactions>,
-      { id: number }
+      { id: string }
     >({
       query: ({ id }) => ({
         url: `/transactions/${id}`
@@ -62,6 +62,44 @@ export const TransactionService = createApi({
         method: 'POST',
         body
       })
+    }),
+    getTransactionLimit: builder.query<any, any>({
+      query: (params) => ({
+        url: '/bet-limit',
+        params
+      })
+    }),
+    getTransactionLimitById: builder.mutation<any, unknown>({
+      query: ({ id }) => ({
+        url: `/bet-limit/${id}`
+      })
+    }),
+    createTransactionLimit: builder.mutation<any, unknown>({
+      query: (body) => ({
+        url: `/bet-limit`,
+        method: 'POST',
+        body
+      })
+    }),
+    updateTransactionLimit: builder.mutation<unknown, any>({
+      query: ({ id, body }) => ({
+        url: `/bet-limit/${id}`,
+        method: 'PATCH',
+        body
+      })
+    }),
+    deleteTransactionLimit: builder.mutation<any, unknown>({
+      query: ({ id }) => ({
+        url: `/bet-limit/${id}`,
+        method: 'DELETE'
+      })
+    }),
+    transactionAction: builder.mutation<any, unknown>({
+      query: ({ id, body }) => ({
+        url: `/transaction-action/${id}`,
+        method: 'PATCH',
+        body
+      })
     })
   })
 });
@@ -70,5 +108,11 @@ export const {
   useGetTransactionQuery,
   useGetTransactionByIdMutation,
   useCreateTransactionMutation,
-  useGetUserTransactionByIdQuery
+  useGetUserTransactionByIdQuery,
+  useGetTransactionLimitQuery,
+  useGetTransactionLimitByIdMutation,
+  useCreateTransactionLimitMutation,
+  useDeleteTransactionLimitMutation,
+  useUpdateTransactionLimitMutation,
+  useTransactionActionMutation
 } = TransactionService;

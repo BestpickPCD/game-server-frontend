@@ -45,6 +45,7 @@ const Select = ({
   const onSelected = (value) => {
     setSelected?.(value);
   };
+
   return control ? (
     <Controller
       control={control}

@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
+import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import SupportAgentRounded from '@mui/icons-material/SupportAgentRounded';
@@ -283,6 +284,19 @@ const SidebarMenu = (): JSX.Element => {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
+                  to="/management/bet-limit"
+                  startIcon={<CreditCardOffIcon />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  {'Set Maximum Bet Limit'}
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
                   to="/management/roles"
                   startIcon={<StarTwoTone />}
                   fullWidth
@@ -321,7 +335,7 @@ const CustomAccordion = styled(Accordion)(
   .MuiSvgIcon-root{
     color: rgba(255, 255, 255, 0.7)
   }
- 
+
 `
 );
 const CustomList = styled(List)(

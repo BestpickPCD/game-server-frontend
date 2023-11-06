@@ -15,6 +15,8 @@ import { User } from 'src/models';
 import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
 import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { LoadingButton } from '@mui/lab';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/app/store';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
@@ -48,9 +50,9 @@ const UsersManagement = (): JSX.Element => {
   } = UserTable();
 
   const [formData, setFormData] = useState({
-    receiverUsername: '',
+    userId: '',
     amount: 0,
-    type: 'add',
+    type: 'user.add_balance',
     note: '',
     status: 'pending'
   });
@@ -75,6 +77,10 @@ const UsersManagement = (): JSX.Element => {
   const [deleteUser, { isLoading: isLoadingDelete }] = useDeleteUserMutation();
   const [createTransaction, { isLoading: isLoadingCreate }] =
     useCreateTransactionMutation();
+
+  const checkPermission = (permissionArray: string[], permission: string) =>
+    permissionArray?.includes(permission);
+  const { permissions } = useSelector((state: RootState) => state.common);
 
   const {
     data: userData,
@@ -104,8 +110,12 @@ const UsersManagement = (): JSX.Element => {
   }, [userData, pagination.sortBy, pagination.sortDirection]);
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, receiverUsername: user?.username }));
-    setFormData((prev) => ({ ...prev, status: 'success' }));
+    user &&
+      setFormData((prev) => ({
+        ...prev,
+        userId: user?.id,
+        amount: Number(prev.amount)
+      }));
   }, [user]);
 
   const onAdd = () => {
@@ -119,7 +129,7 @@ const UsersManagement = (): JSX.Element => {
       notify({ message: message.DELETED });
       refetch();
     } catch (error) {
-      notify({ message: message.ERROR, type: 'error' });
+      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
     }
   };
 
@@ -145,8 +155,7 @@ const UsersManagement = (): JSX.Element => {
         reset();
       }
     } catch (error) {
-      console.log(error);
-      notify({ message: message.ERROR, type: 'error' });
+      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
     }
   };
 
@@ -169,6 +178,7 @@ const UsersManagement = (): JSX.Element => {
         onUpdate={onUpdate}
         pagination={pagination}
         onPagination={setPagination}
+        onOpenModal={checkPermission(permissions, 'create') && onAdd}
         tableFilter={tableFilter({
           status: {
             value: pagination.status,
@@ -200,34 +210,31 @@ const UsersManagement = (): JSX.Element => {
         hide={hide}
       />
       <Dialog open={visibleTransaction} onClose={toggleTransaction}>
-        <Box component="form" padding={2}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography gutterBottom variant="h5" component="div">
-                Add transaction
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <TextField
-                label="Insert the amount here"
-                variant="outlined"
-                fullWidth
-                onInput={(event) =>
-                  onInput((event.target as HTMLInputElement).value, 'amount')
-                }
-              />
-            </Grid>
-            <Grid item xs={4} sx={{ padding: 1 }}>
-              <LoadingButton
-                loading={isLoadingCreate}
-                onClick={handleSubmit}
-                size="large"
-                variant="contained"
-              >
-                + Add
-              </LoadingButton>
-            </Grid>
-          </Grid>
+        <Box component="form" padding={2} width="400px">
+          <Typography gutterBottom variant="h5" component="div">
+            Add transaction
+          </Typography>
+          <Box display="flex" alignItems="center" width="100%" gap={2} pt={2}>
+            <TextField
+              label="Insert the amount here"
+              variant="outlined"
+              fullWidth
+              onInput={(event) =>
+                onInput(
+                  Number((event.target as HTMLInputElement).value),
+                  'amount'
+                )
+              }
+            />
+            <LoadingButton
+              loading={isLoadingCreate}
+              onClick={handleSubmit}
+              size="large"
+              variant="contained"
+            >
+              <Typography whiteSpace="nowrap">+ Add</Typography>
+            </LoadingButton>
+          </Box>
         </Box>
       </Dialog>
     </>

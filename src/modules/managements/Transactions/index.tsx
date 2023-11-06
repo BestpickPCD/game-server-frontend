@@ -10,9 +10,11 @@ import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import TransactionModal from './TransactionModal';
 import UserTable from './TransactionTable';
+import { Button } from '@mui/base';
 
 interface TransactionPagination extends PaginationAndSort {
   type: string;
+  status: string;
   dateFrom: string;
   dateTo: string;
 }
@@ -38,6 +40,7 @@ const TransactionManagement = (): JSX.Element => {
   const [pagination, setPagination] = useState<TransactionPagination>({
     page: 0,
     size: 10,
+    status: '',
     totalPage: 1,
     totalItems: 10,
     sortBy: -1,
@@ -61,10 +64,19 @@ const TransactionManagement = (): JSX.Element => {
       search: pagination.search,
       dateFrom: pagination.dateFrom,
       dateTo: pagination.dateTo,
+      status: pagination.status,
       type: pagination.type
     },
     { refetchOnMountOrArgChange: true }
   );
+
+  useEffect(() => {
+    const queryParameters = new URLSearchParams(window.location.search);
+    const type = queryParameters.get('type');
+    if (type === 'agent.add_balance') {
+      setPagination({ ...pagination, type: type, status: 'pending' });
+    }
+  }, []);
 
   useEffect(() => {
     if (transactionData) {
@@ -85,7 +97,7 @@ const TransactionManagement = (): JSX.Element => {
   const onUpdate = async (value: string) => {
     try {
       const response = await getTransactionDetail({
-        id: Number(value)
+        id: value
       }).unwrap();
       show();
       setDetail(response.data);

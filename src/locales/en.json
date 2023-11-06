@@ -5,6 +5,7 @@
   "title.roles-management": "Roles Management",
   "title.users-management": "Users Management",
   "title.transactions-management": "Transactions Management",
+  "title.transactions-request": "Transactions Request",
   "title.currencies-management": "Currencies Management",
   "title.vendors-management": "Vendors Management",
   "title.managements": "Managements",
@@ -34,5 +35,6 @@
   "label.search.term": "Search term here",
   "label.languages": "Languages",
   "label.from": "From",
-  "label.to": "To"
+  "label.to": "To",
+  "label.rate": "Rate"
 }

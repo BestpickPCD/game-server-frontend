@@ -6,30 +6,31 @@ import { useForm } from 'react-hook-form';
 import { RootState } from 'src/app/store';
 import TableComponent from 'src/components/Table';
 import { PaginationAndSort } from 'src/components/Table/tableType';
-import { Agent } from 'src/models';
+import { TransactionLimit } from 'src/models';
 import {
-  useDeleteAgentMutation,
-  useGetAgentByIdMutation,
-  useGetAgentsQuery
-} from 'src/services/agentService';
+  useDeleteTransactionLimitMutation,
+  useGetTransactionLimitByIdMutation,
+  useGetTransactionLimitQuery
+} from 'src/services/transactionService';
 import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
-import AgentModal from './AgentModal';
-import UserTable from './AgentTable';
+import UserModal from './BetLimitModal';
+import UserTable from './BetLimitTable';
 import { FormattedMessage } from 'react-intl';
 
 interface UsersPagination extends PaginationAndSort {
-  status: string;
+  page: number;
+  type: string;
   dateFrom: string;
   dateTo: string;
 }
 
-const pageName = 'title.agents-management';
+const pageName = 'Set Bet Limits';
 const checkPermission = (permissionArray: string[], permission: string) =>
   permissionArray?.includes(permission);
 
-const AgentsManagement = (): JSX.Element => {
+const BetLimitManagement = (): JSX.Element => {
   const breadcrumbs = [
     {
       link: '/dashboards',
@@ -52,8 +53,8 @@ const AgentsManagement = (): JSX.Element => {
   } = UserTable();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [data, setData] = useState<Agent[]>([]);
-  const [detail, setDetail] = useState<Agent>();
+  const [data, setData] = useState<TransactionLimit[]>([]);
+  const [detail, setDetail] = useState<TransactionLimit>();
   const [pagination, setPagination] = useState<UsersPagination>({
     page: 0,
     size: 10,
@@ -62,30 +63,28 @@ const AgentsManagement = (): JSX.Element => {
     sortBy: -1,
     search: '',
     sortDirection: 'asc',
-    status: '',
+    type: '',
     dateFrom: '',
     dateTo: ''
   });
   const { permissions } = useSelector((state: RootState) => state.common);
 
-  const [getAgentDetail] = useGetAgentByIdMutation();
-  const [deleteAgent, { isLoading: isLoadingDelete }] =
-    useDeleteAgentMutation();
+  const [getBetLimitDetail] = useGetTransactionLimitByIdMutation();
+  const [deleteBetLimit, { isLoading: isLoadingDelete }] =
+    useDeleteTransactionLimitMutation();
   const [createTransaction, { isLoading: isLoadingCreate }] =
     useCreateTransactionMutation({});
   const {
-    data: agentData,
+    data: betLimitData,
     isFetching,
     refetch
-  } = useGetAgentsQuery(
-    {
-      id: 1,
-      page: pagination.page,
-      size: pagination.size,
-      search: pagination.search,
-      dateFrom: pagination.dateFrom,
-      dateTo: pagination.dateTo
-    },
+  } = useGetTransactionLimitQuery(
+    // {
+    //   page: pagination.page,
+    //   size: pagination.size,
+    //   search: pagination.search,
+    //   type: pagination.type
+    // },
     {
       refetchOnMountOrArgChange: true,
       skip: !checkPermission(permissions, 'get')
@@ -93,29 +92,28 @@ const AgentsManagement = (): JSX.Element => {
   );
 
   const [formData, setFormData] = useState({
-    userId: '',
+    receiverUsername: '',
     amount: 0,
-    type: 'user.add_balance',
-    note: '',
-    token: ''
+    type: 'add',
+    note: ''
   });
 
   useEffect(() => {
-    formData.userId = user?.id;
+    formData.receiverUsername = user?.username;
     setFormData((prev) => ({ ...prev, status: 'success' }));
   }, [user]);
 
   useEffect(() => {
-    if (agentData) {
+    if (betLimitData) {
       setData(() =>
         onSortTable(
-          agentData.data.data,
+          betLimitData.data,
           tableHeader[pagination.sortBy]?.name,
           pagination.sortDirection
         )
       );
     }
-  }, [agentData, pagination]);
+  }, [betLimitData, pagination]);
 
   const onAdd = () => {
     show();
@@ -124,17 +122,17 @@ const AgentsManagement = (): JSX.Element => {
 
   const onDelete = async (id: string) => {
     try {
-      await deleteAgent({ id }).unwrap();
+      await deleteBetLimit({ id: Number(id) }).unwrap();
       notify({ message: message.DELETED });
       refetch();
     } catch (error) {
-      notify({ message: error.data.message || message.ERROR, type: 'error' });
+      notify({ message: message.ERROR, type: 'error' });
     }
   };
 
   const onUpdate = async (value: string) => {
     try {
-      const response = await getAgentDetail({ id: value }).unwrap();
+      const response = await getBetLimitDetail({ id: Number(value) }).unwrap();
       show();
       setDetail(response.data);
     } catch (error) {
@@ -144,10 +142,7 @@ const AgentsManagement = (): JSX.Element => {
 
   const handleSubmit = async () => {
     try {
-      const response = await createTransaction({
-        ...formData,
-        currencyId: user.currencyId
-      }).unwrap();
+      const response = await createTransaction(formData).unwrap();
       if (response) {
         toggleTransaction();
         notify({ message: message.UPDATED });
@@ -156,53 +151,38 @@ const AgentsManagement = (): JSX.Element => {
         reset();
       }
     } catch (error) {
-      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
+      notify({ message: message.ERROR, type: 'error' });
     }
   };
 
   const onInput = (value, inputName) => {
     setFormData((prev) => ({ ...prev, [`${inputName}`]: value }));
   };
+
   return (
     <>
       <TableComponent
         title={pageName}
         data={data}
-        totalItems={agentData?.data.totalItems}
+        totalItems={betLimitData?.data.totalItems}
         tableHeader={tableHeader}
         tableBody={tableBody}
         headerTitle={pageName}
         breadcrumbs={breadcrumbs}
-        onOpenModal={checkPermission(permissions, 'create') && onAdd}
+        onOpenModal={onAdd}
         isLoading={isFetching || isLoadingDelete}
-        onDelete={checkPermission(permissions, 'delete') && onDelete}
-        onUpdate={checkPermission(permissions, 'update') && onUpdate}
+        onDelete={onDelete}
+        onUpdate={onUpdate}
         pagination={pagination}
         onPagination={setPagination}
         tableFilter={tableFilter({
-          status: {
-            value: pagination.status,
-            onChange: (value) => setPagination({ ...pagination, status: value })
-          },
-          dateFrom: {
-            value: pagination.dateFrom,
-            onChange: (value) =>
-              setPagination({
-                ...pagination,
-                dateFrom: formatToISOString(value, 'from')
-              })
-          },
-          dateTo: {
-            value: pagination.dateTo,
-            onChange: (value) =>
-              setPagination({
-                ...pagination,
-                dateTo: formatToISOString(value, 'to')
-              })
+          type: {
+            value: pagination.type,
+            onChange: (value) => setPagination({ ...pagination, type: value })
           }
         })}
       />
-      <AgentModal
+      <UserModal
         open={visible}
         detail={detail}
         onClose={hide}
@@ -230,10 +210,7 @@ const AgentsManagement = (): JSX.Element => {
                 variant="outlined"
                 fullWidth
                 onInput={(event) =>
-                  onInput(
-                    Number((event.target as HTMLInputElement).value),
-                    'amount'
-                  )
+                  onInput((event.target as HTMLInputElement).value, 'amount')
                 }
               />
               <LoadingButton
@@ -256,4 +233,4 @@ const AgentsManagement = (): JSX.Element => {
   );
 };
 
-export default AgentsManagement;
+export default BetLimitManagement;

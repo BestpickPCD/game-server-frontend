@@ -1,5 +1,7 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
+  Button,
+  Container,
   FormControl,
   InputLabel,
   Link,
@@ -16,6 +18,9 @@ import { transactionTypes } from 'src/models/variables';
 import Label from 'src/components/MUIComponents/Label';
 import { useNavigate } from 'react-router';
 import { FormattedMessage } from 'react-intl';
+import { display } from '@mui/system';
+import StatusButtons from './StatusButtons';
+import { stringify } from 'uuid';
 interface TransactionTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
@@ -67,6 +72,19 @@ const getStatusLabel = (status: string): JSX.Element => {
 };
 
 const TransactionTable = (): TransactionTableProps => {
+  let seeRequest = false;
+  let backDefault = false;
+  const queryParameters = new URLSearchParams(window.location.search);
+  const type = queryParameters.get('type');
+  if (type === 'agent.add_balance') {
+    backDefault = true;
+  }
+
+  const { role } = JSON.parse(localStorage.getItem('user'));
+  if (role.name === 'admin') {
+    seeRequest = true;
+  }
+
   const navigate = useNavigate();
 
   const onRedirect = (id: number | string) => {
@@ -78,21 +96,8 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item.senderUsername}
+            {item.username}
           </Typography>
-        </>
-      )
-    },
-    {
-      align: 'inherit',
-      children: (
-        <>
-          <CustomLink
-            onClick={() => onRedirect(item.receiverUsername)}
-            color="text.primary"
-          >
-            {item.receiverUsername}
-          </CustomLink>
         </>
       )
     },
@@ -121,19 +126,17 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {getStatusLabel(item.status)}
+            {item?.updatedAt &&
+              format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
           </Typography>
         </>
       )
     },
     {
-      align: 'right',
+      align: 'center',
       children: (
         <>
-          <Typography variant="body1" color="text.primary" noWrap>
-            {item?.updatedAt &&
-              format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
-          </Typography>
+          <StatusButtons id={item?.id} status={item?.status} />
         </>
       )
     }
@@ -141,13 +144,8 @@ const TransactionTable = (): TransactionTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'label.sender.name',
-      name: 'senderName'
-    },
-    {
-      align: 'inherit',
-      title: 'label.receiver.name',
-      name: 'receiverName'
+      title: 'label.username',
+      name: 'username'
     },
     {
       align: 'right',
@@ -156,17 +154,17 @@ const TransactionTable = (): TransactionTableProps => {
     },
     {
       align: 'right',
-      title: 'label.title',
+      title: 'label.type',
       name: 'type'
     },
     {
       align: 'right',
-      title: 'label.status',
-      name: 'status'
+      title: 'label.updated.at',
+      name: 'updatedAt'
     },
     {
-      align: 'right',
-      title: 'label.updated.at',
+      align: 'center',
+      title: 'label.status',
       name: 'updatedAt'
     },
     {
@@ -202,7 +200,22 @@ const TransactionTable = (): TransactionTableProps => {
           </MenuItem>
         ))}
       </Select>
-    </FormControl>
+    </FormControl>,
+    <>
+      {seeRequest && backDefault === false ? (
+        <Container>
+          <Button href={'?type=agent.add_balance'} variant="outlined">
+            {'See Requests'}
+          </Button>
+        </Container>
+      ) : backDefault && seeRequest === true ? (
+        <Container>
+          <Button href={'?type='} variant="outlined" color="secondary">
+            {'See All'}
+          </Button>
+        </Container>
+      ) : null}
+    </>
   ];
 
   return { tableBody, tableHeader, tableFilter };
