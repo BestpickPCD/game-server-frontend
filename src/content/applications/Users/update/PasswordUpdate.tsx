@@ -85,7 +85,7 @@ const passwordUpdate = (): JSX.Element => {
     try {
       console.log(values);
       const response = await updatePassword(values).unwrap();
-      console.log(response)
+      console.log(response);
       // if (response.message === 'SUCCESS') {
       //   reset();
       //   notify({ message: 'update Successfully' });
@@ -104,12 +104,7 @@ const passwordUpdate = (): JSX.Element => {
 
   return (
     <>
-      <Box
-        component="form"
-        noValidate
-        onSubmit={onSubmit}
-        sx={{ mt: 1 }}
-      >
+      <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 1 }}>
         <Card>
           {/* <CardHeader title={user.name} /> */}
           <Divider />
