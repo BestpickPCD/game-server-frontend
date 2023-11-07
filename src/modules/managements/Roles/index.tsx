@@ -85,7 +85,6 @@ const RolesManagement = (): JSX.Element => {
   const onUpdate = async (value) => {
     setOpen({ id: value, open: true });
   };
-  console.log(data);
 
   return (
     <>

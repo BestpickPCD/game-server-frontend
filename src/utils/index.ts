@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const trimInput = (value: string | number): string | number => {
-  console.log(value);
+  true;
   return typeof value === 'string' ? value.trim() : value;
 };
 

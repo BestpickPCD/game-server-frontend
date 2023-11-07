@@ -8,7 +8,7 @@ import Feed from './Feed';
 import UserInfo from './UserInfo';
 
 export interface UserDashboard {
-  id: number;
+  id: string;
   name: string;
   username: string;
   currency: {
@@ -24,11 +24,21 @@ export interface UserDashboard {
   parentAgentId: number;
   balance: {
     balance: number;
-    calculatedBalance: number;
-    sendOut: number;
-    receive: number;
+    win: number;
     bet: number;
-    charge: number;
+    deposit: number;
+    withdraw: number;
+    'user.add_balance': number;
+    'agent.add_balance': number;
+  };
+  balanceAsAgent: {
+    balance: number;
+    win: number;
+    bet: number;
+    deposit: number;
+    withdraw: number;
+    'user.add_balance': number;
+    'agent.add_balance': number;
   };
   avatar: string;
   jobTitle: string;
@@ -51,6 +61,7 @@ const ManagementUserProfile = (): JSX.Element => {
     subAgent: data?.subAgent,
     parentAgentId: data?.parentAgentId,
     balance: data?.balance,
+    balanceAsAgent: data?.balanceAsAgent,
     avatar: '/static/images/avatars/4.jpg',
     jobTitle: data?.type,
     coverImg: '/static/images/placeholders/covers/5.jpg'

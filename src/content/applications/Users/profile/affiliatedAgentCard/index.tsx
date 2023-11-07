@@ -3,16 +3,26 @@ import Chart from 'react-apexcharts';
 import ApexChartOptions from './apexComponents';
 
 const AffiliatedAgentCard = ({ data }: { data }): JSX.Element => {
-  const sent = data?.allSums?.sentOut?._sum?.amount ?? 0;
-  const received = data?.allSums?.received?._sum?.amount ?? 0;
-  const lost = data?.allSums?.winGame?._sum?.amount ?? 0;
-  const won = data?.allSums?.betGame?._sum?.amount ?? 0;
-  const bet = data?.allSums?.chargeGame?._sum?.amount ?? 0;
+  const deposit = -data?.allSums?.deposit ?? 0;
+  const withdraw = data?.allSums?.withdraw ?? 0;
+  const agentAddBalance = data?.allSums?.['agent.add_balance'] ?? 0;
+  const userAddBalance = -data?.allSums?.['user.add_balance'] ?? 0;
+  const bet = -data?.allSums?.bet ?? 0;
+  const win = data?.allSums?.win ?? 0;
+  const cancel = data?.allSums?.cancel ?? 0;
 
   const options = ApexChartOptions;
   const series = [
     {
-      data: [sent, received, lost, won, bet]
+      data: [
+        deposit,
+        withdraw,
+        agentAddBalance,
+        userAddBalance,
+        bet,
+        win,
+        cancel
+      ]
     }
   ];
 

@@ -59,8 +59,6 @@ const Login = (): JSX.Element => {
         notify({ message: 'Login Successfully' });
         navigate('/dashboards');
         const { tokens, ...rest } = response.data;
-        console.log(response.data);
-
         localStorage.setItem(
           'tokens',
           JSON.stringify({

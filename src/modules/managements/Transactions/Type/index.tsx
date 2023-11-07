@@ -22,7 +22,8 @@ const columns: GridColDef[] = [
 
 let rows = [];
 const showRows = async (data) => {
-  rows = data;
+  const { data: rowData } = data;
+  rows = rowData;
 };
 
 export default function name(): JSX.Element {
