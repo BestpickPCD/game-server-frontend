@@ -1,32 +1,33 @@
 import { Box, Card, CardHeader, Divider, Grid } from '@mui/material';
 import AffiliatedAgentCard from './affiliatedAgentCard';
+
 interface AffiliatedAgent {
   id: number;
   name: string;
   username: string;
   email: string;
   allSums: {
-    winGame: {
+    winGame?: {
       _sum: {
         amount: number;
       };
     };
-    betGame: {
+    betGame?: {
       _sum: {
         amount: number;
       };
     };
-    chargeGame: {
+    chargeGame?: {
       _sum: {
         amount: number;
       };
     };
-    sentOut: {
+    sentOut?: {
       _sum: {
         amount: number;
       };
     };
-    received: {
+    received?: {
       _sum: {
         amount: number;
       };
@@ -34,7 +35,11 @@ interface AffiliatedAgent {
   };
 }
 
-const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
+const Feed = ({
+  users
+}: {
+  users: (AffiliatedAgent | null)[];
+}): JSX.Element => {
   const a = 1;
 
   return (
@@ -49,11 +54,15 @@ const Feed = ({ users }: { users: AffiliatedAgent[] }): JSX.Element => {
         }}
       >
         <Grid container spacing={0}>
-          {users.map((data) =>
-            !Object.keys(data.allSums).length === 0 > 0 ? (
-              <AffiliatedAgentCard data={data} />
-            ) : null
-          )}
+          {users
+            .filter((data) => data?.allSums)
+            .map((data) =>
+              Object.keys(data?.allSums).length > 0 ? (
+                <AffiliatedAgentCard data={data} key={data?.id} />
+              ) : (
+                <></>
+              )
+            )}
         </Grid>
       </Box>
     </Card>

@@ -15,7 +15,7 @@ import { useUpdateUserMutation } from 'src/services/userService';
 import { useToast } from 'src/utils/hooks';
 
 interface ProfileSetting {
-  userId: number;
+  userId: string;
   accountNumber: string;
   callbackUrl: string;
   apiCall: string;
@@ -35,7 +35,6 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
       console.log(error);
     }
   };
-  console.log(data);
 
   const [inputValues, setInputValues] = useState<ProfileSetting>({
     userId: data.userId,

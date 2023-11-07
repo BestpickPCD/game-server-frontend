@@ -31,8 +31,6 @@ export default function Games(): JSX.Element {
     vendors: ['evolution']
   });
 
-  console.log(data, isError, error);
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

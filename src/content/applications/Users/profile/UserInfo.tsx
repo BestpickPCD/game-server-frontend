@@ -17,6 +17,7 @@ import { useGetUserByIdMutation } from 'src/services/userService';
 import { UserDashboard } from '.';
 import GenerateApi from './generateApi';
 import ProfileFormSubmit from './profileFormSubmit';
+import BalanceSummary from './balanceSummary/indes';
 
 interface ProfileCoverProps {
   user: UserDashboard;
@@ -26,6 +27,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
   const [getUserDetail] = useGetUserByIdMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [response, setResponse] = useState<any | null>(null);
+
   useEffect(() => {
     async function fetchUserDetail() {
       try {
@@ -111,102 +113,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
               </TableBody>
             </Table>
           </TableContainer>
-          <CardHeader title={'Balance Summaries'} />
-          <Divider />
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableBody>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Current holding amount"
-                      required
-                      autoComplete="off"
-                      value={user?.balance?.balance ?? 0}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Subagent current total holding amount"
-                      required
-                      autoComplete="off"
-                      value={user?.balance?.balance ?? 0}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Current total amount held by sub-users"
-                      required
-                      autoComplete="off"
-                      value={user?.balance?.balance ?? 0}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Rate"
-                      required
-                      autoComplete="off"
-                      value={data?.rate ?? ''}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Total amount paid"
-                      required
-                      autoComplete="off"
-                      value={user?.balance?.sendOut ?? ''}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Total recharged amount"
-                      required
-                      autoComplete="off"
-                      value={user?.balance?.balance ?? 0}
-                    />
-                  </TableCell>
-                </TableRow>
-                <TableRow
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Number of sub-agents"
-                      required
-                      autoComplete="off"
-                      value={user?.balance?.balance ?? 0}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <TextField
-                      fullWidth
-                      label="Number of lower users"
-                      required
-                      autoComplete="off"
-                      value={user?.balance?.balance ?? 0}
-                    />
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <BalanceSummary user={user} />
           <ProfileFormSubmit
             data={{
               userId: user?.id,

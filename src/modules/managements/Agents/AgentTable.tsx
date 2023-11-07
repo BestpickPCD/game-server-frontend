@@ -54,8 +54,6 @@ const UserTable = (): UserTableProps => {
     setUser(user);
     toggle();
   };
-  console.log(localUser);
-
   const tableBody = (item): TableBody[] => [
     {
       align: 'inherit',
