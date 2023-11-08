@@ -26,6 +26,13 @@ export interface ResponseType<T> {
   error?: string;
   subMessage?: string;
 }
+
+export interface CallbackTransaction {
+  id: string;
+  username: string;
+  amount: number;
+  transaction: object;
+}
 export interface User {
   id: string;
   email: string;
@@ -91,11 +98,13 @@ export interface Transactions {
   sender?: User | Agent | null;
   username?: string | null;
   agentUsername?: string | null;
+  callbackId?: string | null;
   senderUser?: string;
   receiverUser?: string;
   type: transactionType;
   currencyId: number;
   status: string;
+  method: string;
   updatedAt: string;
   note?: string;
   token: string;

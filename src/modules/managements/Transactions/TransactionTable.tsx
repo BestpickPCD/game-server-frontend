@@ -126,6 +126,16 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
+            {item.method}
+          </Typography>
+        </>
+      )
+    },
+    {
+      align: 'right',
+      children: (
+        <>
+          <Typography variant="body1" color="text.primary" noWrap>
             {item?.updatedAt &&
               format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
           </Typography>
@@ -136,7 +146,12 @@ const TransactionTable = (): TransactionTableProps => {
       align: 'center',
       children: (
         <>
-          <StatusButtons id={item?.id} status={item?.status} />
+          <StatusButtons
+            id={item?.id}
+            status={item?.status}
+            method={item?.method}
+            callbackId={item?.callbackId}
+          />
         </>
       )
     }
@@ -156,6 +171,11 @@ const TransactionTable = (): TransactionTableProps => {
       align: 'right',
       title: 'label.type',
       name: 'type'
+    },
+    {
+      align: 'right',
+      title: 'label.method',
+      name: 'method'
     },
     {
       align: 'right',

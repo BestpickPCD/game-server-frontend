@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQueryWithReAuth } from './baseQuery';
-import { Transactions, ResponseType, ResponsePagination } from 'src/models';
+import {
+  Transactions,
+  ResponseType,
+  ResponsePagination,
+  CallbackTransaction
+} from 'src/models';
 
 interface PostBody {
   receiverId?: number;
@@ -100,6 +105,15 @@ export const TransactionService = createApi({
         method: 'PATCH',
         body
       })
+    }),
+    getCallbackTransactionDetails: builder.mutation<
+      ResponseType<CallbackTransaction>,
+      unknown
+    >({
+      query: ({ id }) => ({
+        url: `/callback-transaction/${id}`,
+        method: 'GET'
+      })
     })
   })
 });
@@ -114,5 +128,6 @@ export const {
   useCreateTransactionLimitMutation,
   useDeleteTransactionLimitMutation,
   useUpdateTransactionLimitMutation,
-  useTransactionActionMutation
+  useTransactionActionMutation,
+  useGetCallbackTransactionDetailsMutation
 } = TransactionService;
