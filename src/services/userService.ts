@@ -60,6 +60,23 @@ export const UserService = createApi({
         method: 'GET'
       })
     }),
+    updatePassword: builder.mutation<
+      ResponseType<{
+        userId: string;
+        username: string;
+      }>,
+      {
+        oldPassword: string;
+        password: string;
+        passwordConfirm: string;
+      }
+    >({
+      query: (body) => ({
+        url: `/user`,
+        method: 'patch',
+        body
+      })
+    }),
     getDashboard: builder.query<any, any>({
       query: (params) => ({
         url: '/dashboard',
@@ -76,5 +93,6 @@ export const {
   useGetUserByIdMutation,
   useCreateUserMutation,
   useGetDashboardQuery,
+  useUpdatePasswordMutation,
   useGetApiKeyMutation
 } = UserService;

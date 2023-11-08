@@ -144,6 +144,15 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
             <AccountTreeTwoToneIcon fontSize="small" />
             <ListItemText primary="Account Settings" />
           </ListItem> */}
+          <ListItem
+            button
+            to="/management/profile/update"
+            component={NavLink}
+            onClick={handleClose}
+          >
+            <AccountTreeTwoToneIcon fontSize="small" />
+            <ListItemText primary="Passowrd update" />
+          </ListItem>
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
