@@ -191,7 +191,7 @@ const StatusButtons = (data: data): JSX.Element => {
                 value={callbackData.username}
               />
               <TextField
-                label="Number"
+                label="Amount"
                 variant="outlined"
                 fullWidth
                 value={callbackData.amount}
