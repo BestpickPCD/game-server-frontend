@@ -89,7 +89,7 @@ const Header = (): JSX.Element => {
         justifyContent="flex-end"
         width="100%"
       >
-        <HeaderButtons />
+        <HeaderButtons user={user as User} />
         <HeaderUserbox user={user as User} />
         <Box
           component="span"
