@@ -101,7 +101,7 @@ const passwordUpdate = (): JSX.Element => {
           <CardHeader title={'Change Password'} />
           <Divider />
           <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <Table sx={{ minWidth: 350 }} aria-label="simple table">
               <TableBody>
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -114,7 +114,6 @@ const passwordUpdate = (): JSX.Element => {
                       name="oldPassword"
                       required
                       {...register('oldPassword')}
-                      helperText={'error'}
                       autoComplete="off"
                     />
                   </TableCell>
@@ -130,7 +129,6 @@ const passwordUpdate = (): JSX.Element => {
                       name="password"
                       required
                       {...register('password')}
-                      helperText={'error'}
                       autoComplete="off"
                     />
                   </TableCell>
@@ -147,7 +145,6 @@ const passwordUpdate = (): JSX.Element => {
                       name="confirmPassword"
                       required
                       {...register('confirmPassword')}
-                      helperText={'error'}
                       autoComplete="off"
                     />
                   </TableCell>
@@ -158,7 +155,7 @@ const passwordUpdate = (): JSX.Element => {
               <LoadingButton
                 type="submit"
                 variant="outlined"
-                sx={{ marginLeft: 2, padding: 1.5 }}
+                sx={{ marginLeft: 2}}
                 loading={isLoading}
               >
                 {'Update'}
