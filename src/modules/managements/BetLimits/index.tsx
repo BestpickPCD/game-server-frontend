@@ -26,7 +26,7 @@ interface UsersPagination extends PaginationAndSort {
   dateTo: string;
 }
 
-const pageName = 'Set Bet Limits';
+const pageName = 'title.bet-set';
 const checkPermission = (permissionArray: string[], permission: string) =>
   permissionArray?.includes(permission);
 

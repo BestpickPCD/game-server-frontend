@@ -1,4 +1,5 @@
 import { Box, Container, Typography, styled } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 
 const FooterWrapper = styled(Container)(
   ({ theme }) => `
@@ -16,7 +17,9 @@ const Footer = (): JSX.Element => (
       justifyContent="space-between"
     >
       <Box>
-        <Typography variant="subtitle1">&copy;Admin Dashboard</Typography>
+        <Typography variant="subtitle1">&copy;
+          <FormattedMessage id="footer.admin" />
+        </Typography>
       </Box>
       <Typography
         sx={{

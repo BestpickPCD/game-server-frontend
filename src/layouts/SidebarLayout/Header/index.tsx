@@ -12,6 +12,7 @@ import {
   useTheme
 } from '@mui/material';
 import { SidebarContext } from 'src/contexts/SidebarContext';
+import { FormattedMessage } from 'react-intl';
 
 import { User } from 'src/models';
 import HeaderButtons from './Buttons';
@@ -98,7 +99,7 @@ const Header = (): JSX.Element => {
             display: { lg: 'none', xs: 'inline-block' }
           }}
         >
-          <Tooltip arrow title="Toggle Menu">
+          <Tooltip arrow title={<FormattedMessage id="label.menu" />}>
             <IconButton color="primary" onClick={toggleSidebar}>
               {!sidebarToggle ? (
                 <MenuTwoToneIcon fontSize="small" />

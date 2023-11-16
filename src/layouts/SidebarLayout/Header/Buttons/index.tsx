@@ -49,6 +49,11 @@ const HeaderButtons = ({ user }: { user: User }): JSX.Element => {
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">
       <Button variant="outlined" onClick={handleClick}>
         <Typography>Chat</Typography>
+
+        <a onClick={handleClick}>
+          <FormattedMessage id="label.chat" />
+        </a>
+
       </Button>
       <HeaderSearch />
       <Box sx={{ mx: 0.5 }} component="span">
@@ -65,8 +70,12 @@ const HeaderButtons = ({ user }: { user: User }): JSX.Element => {
           label={<FormattedMessage id="label.languages" />}
           onChange={onChangeLanguage}
         >
-          <MenuItem value="en">English</MenuItem>
-          <MenuItem value="ko">Korean</MenuItem>
+          <MenuItem value="en">
+            <FormattedMessage id="label.en" />
+          </MenuItem>
+          <MenuItem value="ko">
+            <FormattedMessage id="label.ko" />
+          </MenuItem>
         </Select>
       </FormControl>
     </Box>
