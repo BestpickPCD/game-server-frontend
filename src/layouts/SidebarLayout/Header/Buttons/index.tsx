@@ -48,13 +48,15 @@ const HeaderButtons = ({ user }: { user: User }): JSX.Element => {
   return (
     <Box sx={{ mr: 1 }} display="flex" alignItems="center" gap="2px">
       <Button variant="outlined" onClick={handleClick}>
-        <Typography>Chat</Typography>
-
-        <a onClick={handleClick}>
+        <Typography>
           <FormattedMessage id="label.chat" />
-        </a>
+        </Typography>
+
+        
 
       </Button>
+
+      
       <HeaderSearch />
       <Box sx={{ mx: 0.5 }} component="span">
         <HeaderNotifications />
