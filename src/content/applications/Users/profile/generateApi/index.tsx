@@ -3,6 +3,7 @@ import { TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useGetApiKeyMutation } from 'src/services/userService';
 import { useToast } from 'src/utils/hooks';
+import { FormattedMessage } from 'react-intl';
 
 interface ApiKeyGenerate {
   apiKey: string;
@@ -58,7 +59,7 @@ const GenerateApiKey = ({ data }: { data: ApiKeyGenerate }): JSX.Element => {
           sx={{ marginLeft: 2, padding: 1.5 }}
           onClick={generateApiKey}
         >
-          {'Generate'}
+          <FormattedMessage id="label.create" />
         </LoadingButton>
       </div>
     </>

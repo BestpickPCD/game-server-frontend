@@ -1,5 +1,6 @@
 import { Box, Card, CardHeader, Divider, Grid } from '@mui/material';
 import AffiliatedAgentCard from './affiliatedAgentCard';
+import { FormattedMessage } from 'react-intl';
 
 interface AffiliatedAgent {
   id: number;
@@ -44,7 +45,7 @@ const Feed = ({
 
   return (
     <Card>
-      <CardHeader title="Affiliated Agents" />
+      <CardHeader title={<FormattedMessage id="label.affiliated-agent" />}  />
       <Divider />
       <Box
         p={2}

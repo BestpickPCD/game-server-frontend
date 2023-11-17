@@ -13,6 +13,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useUpdateUserMutation } from 'src/services/userService';
 import { useToast } from 'src/utils/hooks';
+import { FormattedMessage } from 'react-intl';
 
 interface ProfileSetting {
   userId: string;
@@ -74,7 +75,7 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
 
   return (
     <>
-      <CardHeader title={'Account and API Settings'} />
+      <CardHeader title={<FormattedMessage id="label.set-api" />}  />
       <Divider />
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -86,7 +87,7 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
                 <TextField
                   fullWidth
                   name="accountNumber"
-                  label="Account number"
+                  label={<FormattedMessage id="label.account-number" />}
                   required
                   helperText={''}
                   onChange={changeValue}
@@ -101,7 +102,7 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
                 <TextField
                   fullWidth
                   name="apiCall"
-                  label="API call allowed IP settings"
+                  label={<FormattedMessage id="label.apicall-setting" />}
                   required
                   helperText={''}
                   onChange={changeValue}
@@ -130,7 +131,7 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
                   variant="outlined"
                   onClick={updateSetting}
                 >
-                  {'Update'}
+                  <FormattedMessage id="label.edit" />
                 </LoadingButton>
               </TableCell>
             </TableRow>
