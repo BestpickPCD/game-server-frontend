@@ -1,43 +1,26 @@
 import {
-  Avatar,
   Box,
   Card,
   CardHeader,
-  CardMedia,
   Divider,
-  IconButton,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  TextField,
-  Tooltip
+  TextField
 } from '@mui/material';
 import { ResponseMessage } from 'src/models';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
-import { styled } from '@mui/material/styles';
-import { FormattedMessage } from 'react-intl';
-
-import ArrowBackTwoToneIcon from '@mui/icons-material/ArrowBackTwoTone';
-import { UserDashboard } from '.';
-import { useEffect, useState } from 'react';
 import {
-  useGetUserByIdMutation,
-  useGetApiKeyMutation,
   useUpdatePasswordMutation
 } from 'src/services/userService';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
-import { width } from '@mui/system';
 import { LoadingButton } from '@mui/lab';
-
-interface ProfileCoverProps {
-  user: UserDashboard;
-}
 
 const schema = yup.object().shape({
   oldPassword: yup.string().required('Password is required'),
@@ -96,9 +79,16 @@ const passwordUpdate = (): JSX.Element => {
         sx={{ mt: 1 }}
       >
         <Card>
-          {/* <CardHeader title={user.name} /> */}
           <Divider />
           <CardHeader title={'Change Password'} />
+            <LoadingButton
+              type="submit"
+              variant="outlined"
+              sx={{ marginLeft: 2 }}
+              loading={isLoading}
+            >
+              {'Update'}
+            </LoadingButton>
           <Divider />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 350 }} aria-label="simple table">
@@ -133,7 +123,6 @@ const passwordUpdate = (): JSX.Element => {
                     />
                   </TableCell>
                 </TableRow>
-
                 <TableRow
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
@@ -141,7 +130,7 @@ const passwordUpdate = (): JSX.Element => {
                     <TextField
                       type="password"
                       fullWidth
-                      label="PConfirm Password"
+                      label="Confirm Password"
                       name="confirmPassword"
                       required
                       {...register('confirmPassword')}
@@ -151,18 +140,7 @@ const passwordUpdate = (): JSX.Element => {
                 </TableRow>
               </TableBody>
             </Table>
-            <div>
-              <LoadingButton
-                type="submit"
-                variant="outlined"
-                sx={{ marginLeft: 2}}
-                loading={isLoading}
-              >
-                {'Update'}
-              </LoadingButton>
-            </div>
-          </TableContainer>
-          <Divider />
+          </TableContainer>  
         </Card>
       </Box>
     </>
