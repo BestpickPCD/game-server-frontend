@@ -15,9 +15,7 @@ import { ResponseMessage } from 'src/models';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
-import {
-  useUpdatePasswordMutation
-} from 'src/services/userService';
+import { useUpdatePasswordMutation } from 'src/services/userService';
 import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
 import { LoadingButton } from '@mui/lab';
@@ -81,14 +79,14 @@ const passwordUpdate = (): JSX.Element => {
         <Card>
           <Divider />
           <CardHeader title={'Change Password'} />
-            <LoadingButton
-              type="submit"
-              variant="outlined"
-              sx={{ marginLeft: 2 }}
-              loading={isLoading}
-            >
-              {'Update'}
-            </LoadingButton>
+          <LoadingButton
+            type="submit"
+            variant="outlined"
+            sx={{ marginLeft: 2 }}
+            loading={isLoading}
+          >
+            {'Update'}
+          </LoadingButton>
           <Divider />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 350 }} aria-label="simple table">
@@ -140,7 +138,7 @@ const passwordUpdate = (): JSX.Element => {
                 </TableRow>
               </TableBody>
             </Table>
-          </TableContainer>  
+          </TableContainer>
         </Card>
       </Box>
     </>
