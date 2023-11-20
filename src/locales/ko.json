@@ -86,5 +86,5 @@
   "label.from-agent": "에이전트로부터 받은 총 금액",
   "label.to-user": "사용자에게 이체한 금액",
   "label.password-update": "비밀번호 수정",
-  "footer.admin":"관리자"
+  "footer.admin": "관리자"
 }

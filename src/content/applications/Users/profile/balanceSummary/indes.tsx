@@ -30,8 +30,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.balance" />} 
-                  helperText={<FormattedMessage id="label.current-balance" />} 
+                  label={<FormattedMessage id="label.balance" />}
+                  helperText={<FormattedMessage id="label.current-balance" />}
                   required
                   autoComplete="off"
                   value={balance?.balance ?? 0}
@@ -45,8 +45,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.admin" />} 
-                  helperText={<FormattedMessage id="label.from-admin" />} 
+                  label={<FormattedMessage id="label.admin" />}
+                  helperText={<FormattedMessage id="label.from-admin" />}
                   required
                   autoComplete="off"
                   value={balance?.['agent.add_balance'] ?? 0}
@@ -56,8 +56,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.agent" />} 
-                  helperText={<FormattedMessage id="label.from-agent" />} 
+                  label={<FormattedMessage id="label.agent" />}
+                  helperText={<FormattedMessage id="label.from-agent" />}
                   required
                   autoComplete="off"
                   value={-balance?.['user.add_balance'] ?? 0}
@@ -67,8 +67,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.user" />} 
-                  helperText={<FormattedMessage id="label.to-user" />} 
+                  label={<FormattedMessage id="label.user" />}
+                  helperText={<FormattedMessage id="label.to-user" />}
                   required
                   autoComplete="off"
                   value={-balanceAsAgent?.['user.add_balance'] ?? 0}
@@ -82,8 +82,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.win" />} 
-                  helperText={<FormattedMessage id="label.from-win" />} 
+                  label={<FormattedMessage id="label.win" />}
+                  helperText={<FormattedMessage id="label.from-win" />}
                   required
                   autoComplete="off"
                   value={balanceAsAgent?.win ?? 0}
@@ -93,8 +93,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.bet" />} 
-                  helperText={<FormattedMessage id="label.total-bet" />} 
+                  label={<FormattedMessage id="label.bet" />}
+                  helperText={<FormattedMessage id="label.total-bet" />}
                   required
                   autoComplete="off"
                   value={-balanceAsAgent?.bet ?? 0}
@@ -108,8 +108,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.total-withdraw" />} 
-                  helperText={<FormattedMessage id="label.player-withdraw" />} 
+                  label={<FormattedMessage id="label.total-withdraw" />}
+                  helperText={<FormattedMessage id="label.player-withdraw" />}
                   required
                   autoComplete="off"
                   value={balanceAsAgent?.withdraw ?? 0}
@@ -119,8 +119,8 @@ const BalanceSummary = (data: { user: UserDashboard }): JSX.Element => {
                 <TextField
                   type="number"
                   fullWidth
-                  label={<FormattedMessage id="label.total-deposit" />} 
-                  helperText={<FormattedMessage id="label.player-deposit" />} 
+                  label={<FormattedMessage id="label.total-deposit" />}
+                  helperText={<FormattedMessage id="label.player-deposit" />}
                   required
                   autoComplete="off"
                   value={-balanceAsAgent?.deposit ?? 0}

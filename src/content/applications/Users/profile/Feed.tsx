@@ -45,7 +45,7 @@ const Feed = ({
 
   return (
     <Card>
-      <CardHeader title={<FormattedMessage id="label.affiliated-agent" />}  />
+      <CardHeader title={<FormattedMessage id="label.affiliated-agent" />} />
       <Divider />
       <Box
         p={2}

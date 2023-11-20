@@ -75,7 +75,7 @@ const ProfileFormSubmit = ({ data }: { data: ProfileSetting }): JSX.Element => {
 
   return (
     <>
-      <CardHeader title={<FormattedMessage id="label.set-api" />}  />
+      <CardHeader title={<FormattedMessage id="label.set-api" />} />
       <Divider />
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

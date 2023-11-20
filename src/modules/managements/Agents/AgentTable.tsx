@@ -204,10 +204,10 @@ const UserTable = (): UserTableProps => {
         onChange={(e) => status.onChange(e.target.value)}
       >
         <MenuItem value="">
-          < FormattedMessage id="label.default" />
+          <FormattedMessage id="label.default" />
         </MenuItem>
         <MenuItem value="active">
-          < FormattedMessage id="label.active" />
+          <FormattedMessage id="label.active" />
         </MenuItem>
         <MenuItem value="disable">
           <FormattedMessage id="label.disable" />

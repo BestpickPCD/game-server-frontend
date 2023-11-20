@@ -54,6 +54,23 @@ export const UserService = createApi({
         body
       })
     }),
+    updatePassword: builder.mutation<
+      ResponseType<{
+        userId: string;
+        username: string;
+      }>,
+      {
+        oldPassword: string;
+        password: string;
+        passwordConfirm: string;
+      }
+    >({
+      query: (body) => ({
+        url: `/user`,
+        method: 'PATCH',
+        body
+      })
+    }),
     getUserById: builder.mutation<ResponseType<User>, string>({
       query: (id) => ({
         url: `/user/${id}`,
@@ -73,6 +90,7 @@ export const {
   useGetUsersQuery,
   useDeleteUserMutation,
   useUpdateUserMutation,
+  useUpdatePasswordMutation,
   useGetUserByIdMutation,
   useCreateUserMutation,
   useGetDashboardQuery,

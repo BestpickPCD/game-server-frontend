@@ -17,7 +17,8 @@ const Footer = (): JSX.Element => (
       justifyContent="space-between"
     >
       <Box>
-        <Typography variant="subtitle1">&copy;
+        <Typography variant="subtitle1">
+          &copy;
           <FormattedMessage id="footer.admin" />
         </Typography>
       </Box>

@@ -51,12 +51,8 @@ const HeaderButtons = ({ user }: { user: User }): JSX.Element => {
         <Typography>
           <FormattedMessage id="label.chat" />
         </Typography>
-
-        
-
       </Button>
 
-      
       <HeaderSearch />
       <Box sx={{ mx: 0.5 }} component="span">
         <HeaderNotifications />

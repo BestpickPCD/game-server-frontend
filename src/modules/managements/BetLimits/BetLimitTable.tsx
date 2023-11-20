@@ -106,7 +106,9 @@ const UserTable = (): UserTableProps => {
   ];
   const tableFilter = ({ type }: TableFilterProps) => [
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="isActive">{<FormattedMessage id="label.type" />}</InputLabel>
+      <InputLabel id="isActive">
+        {<FormattedMessage id="label.type" />}
+      </InputLabel>
       <Select
         labelId="isActive"
         value={type.value}
@@ -115,7 +117,7 @@ const UserTable = (): UserTableProps => {
       >
         <MenuItem value="">
           <em>
-          < FormattedMessage id="label.default" />
+            <FormattedMessage id="label.default" />
           </em>
         </MenuItem>
         <MenuItem value="all">
