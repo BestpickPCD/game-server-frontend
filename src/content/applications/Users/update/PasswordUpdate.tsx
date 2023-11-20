@@ -48,15 +48,13 @@ const passwordUpdate = (): JSX.Element => {
   });
 
   const onSubmit = async (values) => {
-    try {
-      console.log(values);
-      const response = await updatePassword(values).unwrap();
-      console.log(response);
-      // if (response.message === 'SUCCESS') {
-      //   reset();
-      //   notify({ message: 'update Successfully' });
-      //   navigate('/dashboards');
-      // }
+    try { 
+      const response = await updatePassword(values).unwrap(); 
+      if (response.message === 'SUCCESS') {
+        reset();
+        notify({ message: 'update Successfully' });
+        navigate('/dashboards');
+      }
     } catch (error) {
       if ((error.data.message as ResponseMessage) === 'NOT_FOUND') {
         return notify({
@@ -79,14 +77,6 @@ const passwordUpdate = (): JSX.Element => {
         <Card>
           <Divider />
           <CardHeader title={'Change Password'} />
-          <LoadingButton
-            type="submit"
-            variant="outlined"
-            sx={{ marginLeft: 2 }}
-            loading={isLoading}
-          >
-            {'Update'}
-          </LoadingButton>
           <Divider />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 350 }} aria-label="simple table">
@@ -134,6 +124,20 @@ const passwordUpdate = (): JSX.Element => {
                       {...register('confirmPassword')}
                       autoComplete="off"
                     />
+                  </TableCell>
+                </TableRow>
+                <TableRow
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="left">
+                    <LoadingButton
+                      type="submit"
+                      fullWidth
+                      variant="outlined" 
+                      loading={isLoading}
+                    >
+                      {'Update'}
+                    </LoadingButton>
                   </TableCell>
                 </TableRow>
               </TableBody>
