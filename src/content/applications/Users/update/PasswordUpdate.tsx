@@ -48,8 +48,8 @@ const passwordUpdate = (): JSX.Element => {
   });
 
   const onSubmit = async (values) => {
-    try { 
-      const response = await updatePassword(values).unwrap(); 
+    try {
+      const response = await updatePassword(values).unwrap();
       if (response.message === 'SUCCESS') {
         reset();
         notify({ message: 'update Successfully' });
@@ -133,7 +133,7 @@ const passwordUpdate = (): JSX.Element => {
                     <LoadingButton
                       type="submit"
                       fullWidth
-                      variant="outlined" 
+                      variant="outlined"
                       loading={isLoading}
                     >
                       {'Update'}
