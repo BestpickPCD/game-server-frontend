@@ -22,6 +22,7 @@ import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import { FormattedMessage } from 'react-intl';
 import { User } from 'src/models';
 
 const UserBoxButton = styled(Button)(
@@ -124,7 +125,7 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
             onClick={handleClose}
           >
             <AccountBoxTwoToneIcon fontSize="small" />
-            <ListItemText primary="My Profile" />
+            <ListItemText primary={<FormattedMessage id="label.profile" />} />
           </ListItem>
           {/* <ListItem
             button
@@ -144,6 +145,14 @@ const HeaderUserbox = ({ user }: UserBoxProps): JSX.Element => {
             <AccountTreeTwoToneIcon fontSize="small" />
             <ListItemText primary="Account Settings" />
           </ListItem> */}
+          <ListItem
+            to="/management/profile/update"
+            component={NavLink}
+            onClick={handleClose}
+          >
+            <AccountTreeTwoToneIcon fontSize="small" />
+            <ListItemText primary="Passowrd update" />
+          </ListItem>
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>

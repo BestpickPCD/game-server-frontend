@@ -13,7 +13,7 @@ import {
 import { useRef, useState } from 'react';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import { styled } from '@mui/material/styles';
-
+import { FormattedMessage } from 'react-intl';
 import { formatDistance, subDays } from 'date-fns';
 
 const NotificationsBadge = styled(Badge)(
@@ -55,7 +55,7 @@ const HeaderNotifications = (): JSX.Element => {
 
   return (
     <>
-      <Tooltip arrow title="Notifications">
+      <Tooltip arrow title={<FormattedMessage id="label.notification" />}>
         <IconButton color="primary" ref={ref} onClick={handleOpen}>
           <NotificationsBadge
             badgeContent={1}
@@ -87,7 +87,9 @@ const HeaderNotifications = (): JSX.Element => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Typography variant="h5">Notifications</Typography>
+          <Typography variant="h5">
+            <FormattedMessage id="label.notification" />
+          </Typography>
         </Box>
         <Divider />
         <List sx={{ p: 0 }}>
@@ -97,7 +99,7 @@ const HeaderNotifications = (): JSX.Element => {
             <Box flex="1">
               <Box display="flex" justifyContent="space-between">
                 <Typography sx={{ fontWeight: 'bold' }}>
-                  Messaging Platform
+                  <FormattedMessage id="label.messaging-platform" />
                 </Typography>
                 <Typography variant="caption" sx={{ textTransform: 'none' }}>
                   {formatDistance(subDays(new Date(), 3), new Date(), {

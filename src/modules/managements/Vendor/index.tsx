@@ -23,8 +23,12 @@ export default function Vendors(): JSX.Element {
             <TableCell>
               <FormattedMessage id="label.name" />
             </TableCell>
-            <TableCell align="left">Link</TableCell>
-            <TableCell align="center">Games</TableCell>
+            <TableCell align="left">
+              <FormattedMessage id="label.link" />
+            </TableCell>
+            <TableCell align="center">
+              <FormattedMessage id="label.game" />
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

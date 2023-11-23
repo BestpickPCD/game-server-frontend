@@ -225,13 +225,13 @@ const TransactionTable = (): TransactionTableProps => {
       {seeRequest && backDefault === false ? (
         <Container>
           <Button href={'?type=agent.add_balance'} variant="outlined">
-            {'See Requests'}
+            <FormattedMessage id="label.See-request" />
           </Button>
         </Container>
       ) : backDefault && seeRequest === true ? (
         <Container>
           <Button href={'?type='} variant="outlined" color="secondary">
-            {'See All'}
+            <FormattedMessage id="label.See-all" />
           </Button>
         </Container>
       ) : null}

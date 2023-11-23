@@ -289,7 +289,7 @@ const SidebarMenu = (): JSX.Element => {
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >
-                  {'Set Maximum Bet Limit'}
+                  <FormattedMessage id="title.bet-set" />
                 </Button>
               </ListItem>
               <ListItem>

@@ -19,6 +19,7 @@ import Chart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
 import { useGetDashboardQuery } from 'src/services/userService';
 import { useEffect, useState } from 'react';
+import { FormattedMessage } from 'react-intl';
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
@@ -140,7 +141,7 @@ const AccountBalance = (): JSX.Element => {
               }}
               variant="h4"
             >
-              Account Balance
+              <FormattedMessage id="label.account-balance" />
             </Typography>
             <Box>
               <Typography variant="h1" gutterBottom>

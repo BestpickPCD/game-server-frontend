@@ -18,6 +18,7 @@ import { UserDashboard } from '.';
 import GenerateApi from './generateApi';
 import ProfileFormSubmit from './profileFormSubmit';
 import BalanceSummary from './balanceSummary/indes';
+import { FormattedMessage } from 'react-intl';
 
 interface ProfileCoverProps {
   user: UserDashboard;
@@ -59,7 +60,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                   <TableCell align="left">
                     <TextField
                       fullWidth
-                      label="Username"
+                      label={<FormattedMessage id="label.name" />}
                       required
                       disabled
                       autoComplete="off"
@@ -69,7 +70,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                   <TableCell align="left">
                     <TextField
                       fullWidth
-                      label="Join time"
+                      label={<FormattedMessage id="label.join-time" />}
                       required
                       disabled
                       autoComplete="off"
@@ -83,7 +84,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                   <TableCell align="left">
                     <TextField
                       fullWidth
-                      label="Type"
+                      label={<FormattedMessage id="label.type" />}
                       required
                       disabled
                       autoComplete="off"
@@ -94,7 +95,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                     <TextField
                       fullWidth
                       disabled
-                      label="Upper Agent"
+                      label={<FormattedMessage id="label.parent-agent" />}
                       required
                       autoComplete="off"
                       value={

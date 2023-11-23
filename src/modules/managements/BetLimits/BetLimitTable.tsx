@@ -86,17 +86,17 @@ const UserTable = (): UserTableProps => {
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
-      title: 'Type',
+      title: 'label.type',
       name: 'type'
     },
     {
       align: 'inherit',
-      title: 'Name (id)',
+      title: 'label.name',
       name: 'name'
     },
     {
       align: 'inherit',
-      title: 'Limit',
+      title: 'label.limit',
       name: 'limit'
     },
     {
@@ -106,7 +106,9 @@ const UserTable = (): UserTableProps => {
   ];
   const tableFilter = ({ type }: TableFilterProps) => [
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="isActive">{'Type'}</InputLabel>
+      <InputLabel id="isActive">
+        {<FormattedMessage id="label.type" />}
+      </InputLabel>
       <Select
         labelId="isActive"
         value={type.value}
@@ -114,12 +116,22 @@ const UserTable = (): UserTableProps => {
         onChange={(e) => type.onChange(e.target.value)}
       >
         <MenuItem value="">
-          <em>Default</em>
+          <em>
+            <FormattedMessage id="label.default" />
+          </em>
         </MenuItem>
-        <MenuItem value="all">All</MenuItem>
-        <MenuItem value="vendor">Vendors</MenuItem>
-        <MenuItem value="game">Games</MenuItem>
-        <MenuItem value="type">Types</MenuItem>
+        <MenuItem value="all">
+          <FormattedMessage id="label.all" />
+        </MenuItem>
+        <MenuItem value="vendor">
+          <FormattedMessage id="label.vendor" />
+        </MenuItem>
+        <MenuItem value="game">
+          <FormattedMessage id="label.game" />
+        </MenuItem>
+        <MenuItem value="type">
+          <FormattedMessage id="label.type" />
+        </MenuItem>
       </Select>
     </FormControl>
   ];
