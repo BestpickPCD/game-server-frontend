@@ -83,5 +83,6 @@
   "label.to-user": "Total amount transferred to users",
   "label.profile": "My Profile",
   "label.password-update": "Password Update",
-  "footer.admin": "admin"
+  "footer.admin": "admin",
+  "label.direct.url": "Direct Url"
 }

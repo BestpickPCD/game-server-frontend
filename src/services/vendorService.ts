@@ -17,6 +17,12 @@ export const VendorService = createApi({
         url: '/game-list',
         params
       })
+    }),
+    updateDirectUrl: builder.mutation<ResponseType<any>, { id: number }>({
+      query: ({ id }) => ({
+        url: `/games/vendors/${id}`,
+        method: 'PUT'
+      })
     })
   })
 });
@@ -24,5 +30,6 @@ export const VendorService = createApi({
 export const {
   useLazyGetVendorsQuery,
   useGetVendorsQuery,
-  useGetVendorGameListsByIdQuery
+  useGetVendorGameListsByIdQuery,
+  useUpdateDirectUrlMutation
 } = VendorService;
