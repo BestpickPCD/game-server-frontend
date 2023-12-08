@@ -24,8 +24,9 @@ export default function Vendors(): JSX.Element {
   const [vendorData, setVendorData] = useState([]);
 
   useEffect(() => {
-    setVendorData(data);
-  }, [data]);
+    const { data: receivedData } = data;
+    setVendorData(receivedData);
+  }, []);
 
   const onChangeDirectUrl = async (row) => {
     try {
@@ -67,7 +68,6 @@ export default function Vendors(): JSX.Element {
                     className="cover-image"
                   />
                 </div>
-                <img src="../../game-img.png" className="character" />
                 {item?.canSee && (
                   <Box className="switch">
                     <Switch

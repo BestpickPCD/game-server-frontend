@@ -8,8 +8,9 @@ export const VendorService = createApi({
   baseQuery: baseQueryWithReAuth,
   endpoints: (builder) => ({
     getVendors: builder.query<any, any>({
-      query: () => ({
-        url: '/game-vendors'
+      query: (params) => ({
+        url: `/game-vendors`,
+        params
       })
     }),
     getVendorGameListsById: builder.query<ResponseType<any>, any>({
@@ -23,6 +24,13 @@ export const VendorService = createApi({
         url: `/games/vendors/${id}`,
         method: 'PUT'
       })
+    }),
+    addVendorToAgent: builder.mutation<any, any>({
+      query: (body) => ({
+        url: '/agent-vendor',
+        method: 'POST',
+        body
+      })
     })
   })
 });
@@ -31,5 +39,6 @@ export const {
   useLazyGetVendorsQuery,
   useGetVendorsQuery,
   useGetVendorGameListsByIdQuery,
-  useUpdateDirectUrlMutation
+  useUpdateDirectUrlMutation,
+  useAddVendorToAgentMutation
 } = VendorService;

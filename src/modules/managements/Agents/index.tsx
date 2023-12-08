@@ -12,12 +12,13 @@ import {
   useGetAgentByIdMutation,
   useGetAgentsQuery
 } from 'src/services/agentService';
-import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import AgentModal from './AgentModal';
 import UserTable from './AgentTable';
 import { FormattedMessage } from 'react-intl';
+import ModalTransaction from './ModalTransaction';
+import ModalVendor from './ModalVendor';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
@@ -48,7 +49,8 @@ const AgentsManagement = (): JSX.Element => {
     tableFilter,
     visible: visibleTransaction,
     toggle: toggleTransaction,
-    user
+    user,
+    dialogType
   } = UserTable();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,8 +73,6 @@ const AgentsManagement = (): JSX.Element => {
   const [getAgentDetail] = useGetAgentByIdMutation();
   const [deleteAgent, { isLoading: isLoadingDelete }] =
     useDeleteAgentMutation();
-  const [createTransaction, { isLoading: isLoadingCreate }] =
-    useCreateTransactionMutation({});
   const {
     data: agentData,
     isFetching,
@@ -92,18 +92,15 @@ const AgentsManagement = (): JSX.Element => {
     }
   );
 
-  const [formData, setFormData] = useState({
-    userId: '',
-    amount: 0,
-    type: 'user.add_balance',
-    note: '',
-    token: ''
-  });
-
-  useEffect(() => {
-    formData.userId = user?.id;
-    setFormData((prev) => ({ ...prev, status: 'success' }));
-  }, [user]);
+  const handleUpdateToReset = (toReset) => {
+    if (toReset === true) {
+      notify({ message: message.UPDATED });
+      toggleTransaction();
+      hide();
+      refetch();
+      reset();
+    }
+  };
 
   useEffect(() => {
     if (agentData) {
@@ -140,28 +137,6 @@ const AgentsManagement = (): JSX.Element => {
     } catch (error) {
       notify({ message: message.ERROR, type: 'error' });
     }
-  };
-
-  const handleSubmit = async () => {
-    try {
-      const response = await createTransaction({
-        ...formData,
-        currencyId: user.currencyId
-      }).unwrap();
-      if (response) {
-        toggleTransaction();
-        notify({ message: message.UPDATED });
-        refetch();
-        hide();
-        reset();
-      }
-    } catch (error) {
-      notify({ message: error?.data?.message || message.ERROR, type: 'error' });
-    }
-  };
-
-  const onInput = (value, inputName) => {
-    setFormData((prev) => ({ ...prev, [`${inputName}`]: value }));
   };
   return (
     <>
@@ -211,45 +186,14 @@ const AgentsManagement = (): JSX.Element => {
       />
       <Dialog open={visibleTransaction} onClose={toggleTransaction}>
         <Box component="form" padding={2}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography gutterBottom variant="h5" component="div">
-                <FormattedMessage id="title.add-transaction" />
-              </Typography>
-            </Grid>
-            <Box
-              justifyContent="center"
-              display="flex"
-              width={'100%'}
-              paddingLeft="18px"
-              gap="12px"
-              marginTop="8px"
-            >
-              <TextField
-                label="Insert the amount here"
-                variant="outlined"
-                fullWidth
-                onInput={(event) =>
-                  onInput(
-                    Number((event.target as HTMLInputElement).value),
-                    'amount'
-                  )
-                }
-              />
-              <LoadingButton
-                loading={isLoadingCreate}
-                onClick={handleSubmit}
-                size="large"
-                variant="contained"
-                sx={{ width: 120 }}
-              >
-                <Box>
-                  <span>+ &nbsp;</span>
-                  <span>Add</span>
-                </Box>
-              </LoadingButton>
-            </Box>
-          </Grid>
+          {dialogType === 'transaction' ? (
+            <ModalTransaction
+              user={user}
+              onUpdateToReset={handleUpdateToReset}
+            />
+          ) : (
+            <ModalVendor user={user} onUpdateToReset={handleUpdateToReset} />
+          )}
         </Box>
       </Dialog>
     </>

@@ -5,6 +5,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Stack,
   Typography
 } from '@mui/material';
 import { format, parseISO } from 'date-fns';
@@ -22,6 +23,7 @@ interface UserTableProps {
   visible: boolean;
   toggle: () => void;
   user: User;
+  dialogType: string;
 }
 interface TableFilterProps {
   status: {
@@ -42,6 +44,7 @@ const UserTable = (): UserTableProps => {
   const { visible, toggle } = useModal();
   const [user, setUser] = useState<User>();
   const [localUser, setUserLocal] = useState<User>();
+  const [dialogType, setDialogType] = useState('');
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -50,7 +53,8 @@ const UserTable = (): UserTableProps => {
     }
   }, []);
 
-  const onClickButton = (user) => {
+  const onClickButton = (user, type) => {
+    setDialogType(type);
     setUser(user);
     toggle();
   };
@@ -134,14 +138,30 @@ const UserTable = (): UserTableProps => {
       align: 'center',
       children: (
         <>
-          <Button
-            variant="outlined"
-            startIcon={<PaidOutlinedIcon />}
-            onClick={() => onClickButton(item)}
-            disabled={localUser?.level + 1 !== item.level}
+          <Stack
+            spacing={{ xs: 1, sm: 2 }}
+            direction="row"
+            useFlexGap
+            flexWrap="wrap"
           >
-            Payment
-          </Button>
+            <Button
+              variant="outlined"
+              startIcon={<PaidOutlinedIcon />}
+              onClick={() => onClickButton(item, 'transaction')}
+              disabled={localUser?.level + 1 !== item.level}
+            >
+              Payment
+            </Button>
+            <Button
+              variant="outlined"
+              color="success"
+              startIcon={<PaidOutlinedIcon />}
+              onClick={() => onClickButton(item, 'vendor')}
+              disabled={localUser?.level + 1 !== item.level}
+            >
+              Vendors
+            </Button>
+          </Stack>
         </>
       )
     }
@@ -216,7 +236,15 @@ const UserTable = (): UserTableProps => {
     </FormControl>
   ];
 
-  return { tableBody, tableHeader, tableFilter, user, toggle, visible };
+  return {
+    tableBody,
+    tableHeader,
+    tableFilter,
+    user,
+    toggle,
+    visible,
+    dialogType
+  };
 };
 
 export default UserTable;
