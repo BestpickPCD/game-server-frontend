@@ -1,21 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import * as React from 'react';
-import { Box, Button, Switch, Typography } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import { Box, Grid, Switch, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Helmet } from 'react-helmet-async';
+import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import PageTitleWrapper from 'src/components/PageTitleWrapper';
+import PageHeader from 'src/components/Table/PageHeader';
 import {
   useGetVendorsQuery,
   useUpdateDirectUrlMutation
 } from 'src/services/vendorService';
-import { useToast } from 'src/utils/hooks';
+import { useModal, useToast } from 'src/utils/hooks';
+import VendorModal from './VendorModal';
+
+const breadcrumbs = [
+  {
+    link: '/dashboards',
+    name: 'title.dashboard'
+  },
+  {
+    name: 'Vendors Management'
+  }
+];
 
 export default function Vendors(): JSX.Element {
   const { notify } = useToast();
@@ -24,9 +31,12 @@ export default function Vendors(): JSX.Element {
   const [vendorData, setVendorData] = useState([]);
 
   useEffect(() => {
-    setVendorData(data);
+    if (data) {
+      setVendorData(data?.data);
+    }
   }, [data]);
-
+  const intl = useIntl();
+  const { visible, toggle } = useModal();
   const onChangeDirectUrl = async (row) => {
     try {
       const updated = await onUpdateVendor({ id: row.id }).unwrap();
@@ -49,16 +59,29 @@ export default function Vendors(): JSX.Element {
 
   return (
     <Box>
-      <Box
-        display="grid"
-        gridTemplateColumns="1fr 1fr 1fr 1fr"
-        gap={2}
-        width="100%"
-        paddingTop={30}
-        paddingX={5}
-      >
+      <Helmet>
+        <title>{intl.formatMessage({ id: 'Vendors' })}</title>
+      </Helmet>
+      <PageTitleWrapper>
+        <PageHeader
+          headerTitle={'Vendors'}
+          headerSubtitle={''}
+          onOpenModal={toggle}
+          breadcrumbs={breadcrumbs}
+        />
+      </PageTitleWrapper>
+      <Grid container columns={{ xs: 8, sm: 12, md: 16, lg: 20 }} padding={4}>
         {vendorData?.map((item) => (
-          <Box>
+          <Grid
+            item
+            xs={4}
+            sm={4}
+            md={4}
+            lg={4}
+            height="300px"
+            marginY={1}
+            padding={1}
+          >
             <Box>
               <div className="card">
                 <div className="wrapper">
@@ -67,7 +90,7 @@ export default function Vendors(): JSX.Element {
                     className="cover-image"
                   />
                 </div>
-                <img src="../../game-img.png" className="character" />
+                <img src={`http://${item.img}`} className="character" />
                 {item?.canSee && (
                   <Box className="switch">
                     <Switch
@@ -88,9 +111,10 @@ export default function Vendors(): JSX.Element {
                 </Box>
               </div>
             </Box>
-          </Box>
+          </Grid>
         ))}
-      </Box>
+      </Grid>
+      <VendorModal open={visible} onClose={toggle} />
     </Box>
   );
 }
