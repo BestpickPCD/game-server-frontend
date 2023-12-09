@@ -16,9 +16,12 @@
     }
   }
 }
-
+html,
+body {
+  overflow-x: hidden;
+}
 :root {
-  --card-height: 200px;
+  --card-height: 300px;
   --card-width: 100%;
 }
 
@@ -42,7 +45,15 @@
   transition: all 0.5s;
   position: absolute;
   width: 100%;
+  height: 100%;
   z-index: -1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-content {
+  width: 100%;
+  height: 100%;
 }
 
 .card:hover .wrapper {
@@ -105,8 +116,8 @@
 }
 
 .character {
-  width: 120%;
-  height: 120%;
+  width: 100%;
+  height: 80%;
   opacity: 0;
   transition: all 0.5s;
   position: absolute;
@@ -125,12 +136,12 @@
 
 .switch {
   width: 120%;
-  height: 120%;
+  height: 80%;
   opacity: 1;
   transition: all 0.5s;
   position: absolute;
   left: 8px;
-  top: -100px;
+  top: 20px;
 }
 
 .card:hover .character {
@@ -162,4 +173,180 @@
     transform: scale(1.5) translate(-0, -100px);
     color: red;
   }
+}
+$color-primary-white: rgb(61, 61, 157);
+
+.game-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  .card {
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    color: $color-primary-white;
+    box-shadow: 0 10px 30px 5px rgba(0, 0, 0, 0.2);
+    img {
+      position: absolute;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0.9;
+      transition: opacity 0.2s ease-out;
+    }
+
+    .game-title {
+      position: absolute;
+      inset: auto auto 30px 30px;
+      margin: 0;
+      transition: inset 0.3s 0.3s ease-out;
+      text-transform: uppercase;
+      font-weight: 600;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      color: #0f7cab;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    p,
+    a {
+      position: absolute;
+      opacity: 0;
+      max-width: 80%;
+      transition: opacity 0.3s ease-out;
+      margin: 0;
+      padding: 16px;
+    }
+
+    p {
+      width: 100%;
+      max-width: 100%;
+      inset: auto auto 00px 00px;
+    }
+
+    a {
+      inset: auto auto 40px 30px;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    &:hover .game-title {
+      inset: auto auto 220px 30px;
+      transition: inset 0.3s ease-out;
+    }
+
+    &:hover p,
+    &:hover a {
+      opacity: 1;
+      transition: opacity 0.5s 0.1s ease-in;
+    }
+
+    &:hover img {
+      transition: opacity 0.3s ease-in;
+      opacity: 1;
+    }
+  }
+
+  .material-symbols-outlined {
+    vertical-align: middle;
+  }
+
+  &:hover .override-circle {
+    transform: scale(10);
+  }
+}
+
+.override-circle {
+  position: absolute;
+  overflow: hidden;
+  top: -75px;
+  right: -75px;
+  width: 128px;
+  height: 128px;
+  transition: transform 0.5s ease-in;
+  z-index: -1;
+  .circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+}
+
+.button-85 {
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 100%;
+  font-size: 18px;
+}
+
+.button-85:before {
+  content: '';
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-button-85 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-button-85 {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.button-85:after {
+  z-index: -1;
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
 }
