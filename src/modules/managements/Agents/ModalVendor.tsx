@@ -54,27 +54,18 @@ export default function ModalVendor({
 
   const { data, refetch } = useGetVendorsQuery({
     agentId: user.id
-  });
+  }); 
 
-  useEffect(() => {
-    if (data) {
-      console.log(data.data);
-      setVendorData(data.data);
-
-      const selected = [];
-      data.data.map((vendorData) => {
-        if (vendorData.canSee) {
-          selected.push(vendorData);
-        }
-      });
+  useEffect(() => { 
+    if(data) {
+      setVendorData(data);
+      const selected = data.filter((vendorData) => vendorData.canSee);
       setSelectedData(selected);
     }
-  }, [data]);
+  }, [data]); 
 
   const [vendorData, setVendorData] = useState([]);
-  const [selectedData, setSelectedData] = useState<
-    { name: string; id: number }[]
-  >([]);
+  const [selectedData, setSelectedData] = useState([]);
   const [addAgentToVendor] = useAddVendorToAgentMutation();
 
   const handleChange = (event: SelectChangeEvent<typeof selectedData>) => {
@@ -129,11 +120,12 @@ export default function ModalVendor({
             )}
             MenuProps={MenuProps}
           >
-            {vendorData.map((vendor) => (
+          {vendorData.map((vendor) => (
               <MenuItem key={vendor.id} value={vendor}>
                 {vendor.name}
               </MenuItem>
-            ))}
+            )
+          )}
           </Select>
         </FormControl>
       </Box>

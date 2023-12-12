@@ -148,7 +148,7 @@ const UserTable = (): UserTableProps => {
               variant="outlined"
               startIcon={<PaidOutlinedIcon />}
               onClick={() => onClickButton(item, 'transaction')}
-              disabled={localUser?.level + 1 !== item.level}
+              disabled={(localUser?.level + 1 !== item.level && localUser?.id !== item.id)}
             >
               Payment
             </Button>
@@ -157,7 +157,7 @@ const UserTable = (): UserTableProps => {
               color="success"
               startIcon={<PaidOutlinedIcon />}
               onClick={() => onClickButton(item, 'vendor')}
-              disabled={localUser?.level + 1 !== item.level}
+              disabled={(localUser?.level + 1 !== item.level)}
             >
               Vendors
             </Button>
