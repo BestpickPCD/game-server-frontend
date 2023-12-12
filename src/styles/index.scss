@@ -205,7 +205,7 @@ $color-primary-white: rgb(61, 61, 157);
 
     .game-title {
       position: absolute;
-      inset: auto auto 30px 30px;
+      inset: auto auto 24px 12px;
       margin: 0;
       transition: inset 0.3s 0.3s ease-out;
       text-transform: uppercase;
@@ -213,9 +213,11 @@ $color-primary-white: rgb(61, 61, 157);
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;
-      color: #0f7cab;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px red, 0 0 1em blue, 0 0 0.2em blue;
       font-weight: 600;
       font-size: 18px;
+      width: 80%;
     }
 
     p,

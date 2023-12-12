@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import * as React from 'react';
-import { useParams } from 'react-router-dom';
-import { useGetVendorGameListsByIdQuery } from 'src/services/vendorService';
+import { useParams, useSearchParams } from 'react-router-dom';
+import {
+  useGetVendorByIdQuery,
+  useGetVendorGameListsByIdQuery
+} from 'src/services/vendorService';
 
-import { Button, Grid, Typography } from '@mui/material';
-import { Helmet } from 'react-helmet-async';
-import { useIntl } from 'react-intl';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import PageHeader from 'src/components/Table/PageHeader';
-import { useModal } from 'src/utils/hooks';
+import { Grid } from '@mui/material';
+import VendorModal from '../VendorModal';
+import { useGetGamesQuery } from 'src/services/gameService';
 // import { TablePagination } from '@mui/material';
 
 const getColor = (index: number) => {
@@ -29,24 +29,48 @@ const getColor = (index: number) => {
 
 export default function VendorsDetails(): JSX.Element {
   const { slug } = useParams();
-  const { data } = useGetVendorGameListsByIdQuery({ vendors: 1 });
+  const [searchParams] = useSearchParams();
+  const { data } = useGetGamesQuery(
+    {
+      vendors: searchParams.get('name')
+    },
+    {
+      skip: !searchParams.get('name'),
+      refetchOnMountOrArgChange: true
+    }
+  );
+  console.log(data);
+
+  const { data: vendorDetailData, refetch } = useGetVendorByIdQuery(
+    { id: slug },
+    { skip: !slug }
+  );
 
   return (
     <>
+      {vendorDetailData && (
+        <VendorModal
+          isCreate={false}
+          vendorData={vendorDetailData}
+          refetch={refetch}
+          slug={Number(slug)}
+        />
+      )}
+
       <Grid container columns={{ xs: 8, sm: 12, md: 16, lg: 20 }}>
-        {(data?.data as any[])?.map((row, index) => (
+        {(data as any[])?.map((row, index) => (
           <Grid item xs={4} sm={4} md={4} lg={4} position="relative">
             <div style={{ padding: '10px' }}>
               <div className="game-detail">
                 <div className="card">
-                  <img src={`http://${row.img}`} alt="" />
+                  <img src={row.img} alt="" loading="lazy" />
                   <div className="card-content">
                     <span className="game-title">{row.name}</span>
-                    <p>
+                    {/* <p>
                       <button className="button-85" role="button">
                         Play
                       </button>
-                    </p>
+                    </p> */}
                   </div>
                 </div>
                 <div className="override-circle">

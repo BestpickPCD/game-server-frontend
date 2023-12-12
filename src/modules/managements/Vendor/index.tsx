@@ -32,7 +32,7 @@ export default function Vendors(): JSX.Element {
 
   useEffect(() => {
     if (data) {
-      setVendorData(data?.data);
+      setVendorData(data);
     }
   }, [data]);
   const intl = useIntl();
@@ -66,7 +66,9 @@ export default function Vendors(): JSX.Element {
         <PageHeader
           headerTitle={'Vendors'}
           headerSubtitle={''}
-          onOpenModal={toggle}
+          onOpenModal={() => {
+            toggle();
+          }}
           breadcrumbs={breadcrumbs}
         />
       </PageTitleWrapper>
@@ -104,7 +106,10 @@ export default function Vendors(): JSX.Element {
                 <Box>
                   <Typography className="title">{item.name}</Typography>
                   <Box paddingBottom="10px">
-                    <Link className="button-detail" to={`${item.name}`}>
+                    <Link
+                      className="button-detail"
+                      to={`${item.id}?name=${item.name}`}
+                    >
                       <Typography padding="6px 8px">View Detail</Typography>
                     </Link>
                   </Box>

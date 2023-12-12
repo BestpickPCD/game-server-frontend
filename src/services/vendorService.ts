@@ -31,6 +31,32 @@ export const VendorService = createApi({
         method: 'POST',
         body
       })
+    }),
+    createVendor: builder.mutation<any, any>({
+      query: (body) => ({
+        url: '/vendor',
+        method: 'POST',
+        body
+      })
+    }),
+    getVendorById: builder.query<any, any>({
+      query: ({ id }) => ({
+        url: `/vendor/${id}`
+      })
+    }),
+    updateVendor: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `/vendor/${body.id}`,
+        method: 'PATCH',
+        body
+      })
+    }),
+    deleteVendor: builder.mutation<any, any>({
+      query: (body) => ({
+        url: `/vendor/${body.id}`,
+        method: 'DELETE',
+        body
+      })
     })
   })
 });
@@ -40,5 +66,8 @@ export const {
   useGetVendorsQuery,
   useGetVendorGameListsByIdQuery,
   useUpdateDirectUrlMutation,
-  useAddVendorToAgentMutation
+  useAddVendorToAgentMutation,
+  useCreateVendorMutation,
+  useGetVendorByIdQuery,
+  useUpdateVendorMutation
 } = VendorService;
