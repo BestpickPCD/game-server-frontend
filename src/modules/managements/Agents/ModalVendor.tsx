@@ -54,15 +54,15 @@ export default function ModalVendor({
 
   const { data, refetch } = useGetVendorsQuery({
     agentId: user.id
-  }); 
+  });
 
-  useEffect(() => { 
-    if(data) {
+  useEffect(() => {
+    if (data) {
       setVendorData(data);
       const selected = data.filter((vendorData) => vendorData.canSee);
       setSelectedData(selected);
     }
-  }, [data]); 
+  }, [data]);
 
   const [vendorData, setVendorData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
@@ -120,12 +120,11 @@ export default function ModalVendor({
             )}
             MenuProps={MenuProps}
           >
-          {vendorData.map((vendor) => (
+            {vendorData.map((vendor) => (
               <MenuItem key={vendor.id} value={vendor}>
                 {vendor.name}
               </MenuItem>
-            )
-          )}
+            ))}
           </Select>
         </FormControl>
       </Box>
