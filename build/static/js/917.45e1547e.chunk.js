@@ -875,16 +875,14 @@
         j = r(4167),
         y = r(6727),
         w = r(184),
-        I = y
-          .Ry()
-          .shape({
-            name: y.Z_().required('Last name is required!'),
-            email: y.Z_().required('Email is required!'),
-            roleId: y.Rx(),
-            currencyId: y.Rx().required('Currency is required!'),
-            username: y.Z_().required('Username is required!'),
-            parentAgentId: y.Z_().nullable()
-          }),
+        I = y.Ry().shape({
+          name: y.Z_().required('Last name is required!'),
+          email: y.Z_().required('Email is required!'),
+          roleId: y.Rx(),
+          currencyId: y.Rx().required('Currency is required!'),
+          username: y.Z_().required('Username is required!'),
+          parentAgentId: y.Z_().nullable()
+        }),
         P = function (e) {
           var n = e.open,
             r = e.detail,
