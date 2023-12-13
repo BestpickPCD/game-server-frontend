@@ -1,6 +1,5 @@
-import { Card, Container, Paper, TableContainer, styled } from '@mui/material';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import TableComponent from 'src/components/Table';
+import { Card, Container, styled } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useParams } from 'react-router';
 import { useGetUserTransactionByIdQuery } from 'src/services/transactionService';
 
