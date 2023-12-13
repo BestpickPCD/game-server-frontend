@@ -19840,17 +19840,13 @@
                     })),
                     t.forEach(function (t, n) {
                       var l = t.length === i.globals.dataPoints,
-                        h = e.graphics
-                          .group()
-                          .attr({
-                            class: 'apexcharts-series',
-                            'data:longestSeries': l,
-                            seriesName: v.escapeString(
-                              i.globals.seriesNames[n]
-                            ),
-                            rel: n + 1,
-                            'data:realIndex': n
-                          });
+                        h = e.graphics.group().attr({
+                          class: 'apexcharts-series',
+                          'data:longestSeries': l,
+                          seriesName: v.escapeString(i.globals.seriesNames[n]),
+                          rel: n + 1,
+                          'data:realIndex': n
+                        });
                       (e.dataRadiusOfPercent[n] = []),
                         (e.dataRadius[n] = []),
                         (e.angleArr[n] = []),
@@ -24808,15 +24804,13 @@
             })),
             i.extend(i.Defs, {
               pattern: function (t, e, a) {
-                return this.put(new i.Pattern())
-                  .update(a)
-                  .attr({
-                    x: 0,
-                    y: 0,
-                    width: t,
-                    height: e,
-                    patternUnits: 'userSpaceOnUse'
-                  });
+                return this.put(new i.Pattern()).update(a).attr({
+                  x: 0,
+                  y: 0,
+                  width: t,
+                  height: e,
+                  patternUnits: 'userSpaceOnUse'
+                });
               }
             }),
             (i.Shape = i.invent({
