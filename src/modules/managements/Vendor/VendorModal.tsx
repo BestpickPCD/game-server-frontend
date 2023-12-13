@@ -160,7 +160,8 @@ const VendorModal = ({
     return (
       <Box
         width={`${isCreate ? '100%' : '50%'}`}
-        padding={isCreate ? 0 : 4}
+        padding={isCreate ? 0 : 2}
+        paddingBottom={0}
         margin={isCreate ? 0 : 2}
         position={'relative'}
         bgcolor={`${isLoading ? 'rgba(230, 224, 224, 0.25)' : null}`}
