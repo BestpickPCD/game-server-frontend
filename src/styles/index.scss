@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 .infinity-select {
   .MuiPaper-root {
     &.MuiMenu-paper {
@@ -108,32 +110,30 @@ body {
   width: 100%;
   transition: all 0.5s;
   text-align: center;
-  padding-bottom: 12px;
+  padding-bottom: 40px;
   color: rgb(255, 255, 255);
   font-weight: 600;
   font-size: 18px !important;
+  text-transform: uppercase;
 }
 .card:hover .title {
   display: none;
 }
 
 .character {
-  width: 100%;
-  height: 80%;
+  height: 70%;
   opacity: 0;
-  transition: all 0.5s;
+  font-size: 20px !important;
+  font-weight: 600;
   position: absolute;
-  z-index: -1;
-}
-
-.button-detail {
-  display: none !important;
-  color: #fff !important;
-  background-color: rgb(57, 99, 157) !important;
-  transition: display 0.5s ease-in, transform 10s ease-in-out;
-  padding: 0px 8px;
-  border-radius: 4px;
-  text-decoration: none;
+  margin-top: 20px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  letter-spacing: 5px;
+  text-shadow: 3px 3px 20px #ff99cc, -2px 1px 30px #ff99cc;
+  text-transform: uppercase;
 }
 
 .switch {
@@ -148,17 +148,21 @@ body {
 
 .card:hover .character {
   opacity: 1;
-  transform: translate3d(0%, -40%, 100px);
 }
 .card:hover .switch {
   opacity: 1;
   left: 0px;
-  transform: translate3d(4%, -1%, 100px);
+  transform: translate3d(8%, 2%, 100px);
 }
 
 .card:hover .button-detail {
   display: block !important;
   transform: translate3d(0%, -70%, 100px);
+}
+
+.card:hover .container {
+  transition: opacity 0.3s ease-in;
+  opacity: 1;
 }
 
 .detail {
@@ -281,71 +285,101 @@ $color-primary-white: rgb(61, 61, 157);
   }
 }
 
-.button-85 {
-  padding: 0.6em 2em;
-  border: none;
-  outline: none;
-  color: rgb(255, 255, 255);
-  background: #111;
+$hue: 277deg;
+$hue-adjust: 135deg;
+
+$hue-contrast: color.hue(color.adjust(hsl($hue, 100%, 50%), $hue: $hue-adjust));
+
+:root {
+  --page-background: #{$hue}, 55%, 12%;
+}
+
+.button-detail {
+  --text-base: #{$hue}, 55%, 40%;
+  --text-hover: #{$hue + 30}, 72%, 86%;
+
+  --shadow-start: #{$hue-contrast}, 100%, 72%;
+  --shadow-end: #{$hue + 5}, 90%, 50%;
+
+  --shadow-inner: #{$hue}, 90%, 62%;
+
+  all: unset;
+
+  color: hsla(var(--text-base), 1);
+  font: 700 1.125rem/1.2 Raleway, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+
+  padding: 6px 12px;
+  max-width: 100%;
+  display: block;
+
+  // Button styling
+  background: inherit;
+  background-clip: padding-box;
+  border: 5px solid hsla(var(--text-base), 1);
+  border-radius: 2em;
   cursor: pointer;
+
   position: relative;
-  z-index: 0;
-  border-radius: 10px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: 100%;
-  font-size: 18px;
+  transition: 0.25s ease-out;
+  background: hsla(var(--page-background), 1);
+
+  &::before,
+  &::after {
+    content: '';
+    border-radius: inherit;
+    transition: inherit;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &::before {
+    inset: -0.2em;
+    z-index: -1;
+
+    background: linear-gradient(
+      hsla(var(--shadow-start), 1),
+      hsla(var(--shadow-end), 1)
+    );
+    filter: blur(1.2em) saturate(1.2);
+
+    // Animation
+    transform-origin: bottom;
+    transform: scaleY(0.5);
+    opacity: 0;
+  }
+
+  &::after {
+    box-shadow: inset 0 0 0 1px #fff, 0 0 0 4px hsla(0deg, 0%, 100%, 0.7),
+      1px 1px 0 4px #fff;
+    mix-blend-mode: overlay;
+    opacity: 0;
+  }
+
+  &:hover,
+  &:focus {
+    color: hsla(var(--text-hover), 1);
+    border-color: transparent;
+    box-shadow: inset 0 1.4em 0 hsla(var(--shadow-inner), 0.1),
+      inset 0 0 1.4em hsla(var(--shadow-inner), 0.32),
+      0 1px 1px hsla(var(--shadow-inner), 0.32); // bottom line
+    &::before,
+    &::after {
+      transform: none;
+      opacity: 1;
+    }
+  }
 }
 
-.button-85:before {
-  content: '';
-  background: linear-gradient(
-    45deg,
-    #ff0000,
-    #ff7300,
-    #fffb00,
-    #48ff00,
-    #00ffd5,
-    #002bff,
-    #7a00ff,
-    #ff00c8,
-    #ff0000
-  );
+.container {
   position: absolute;
-  top: -2px;
-  left: -2px;
-  background-size: 400%;
-  z-index: -1;
-  filter: blur(5px);
-  -webkit-filter: blur(5px);
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  animation: glowing-button-85 20s linear infinite;
-  transition: opacity 0.3s ease-in-out;
-  border-radius: 10px;
-}
-
-@keyframes glowing-button-85 {
-  0% {
-    background-position: 0 0;
-  }
-  50% {
-    background-position: 400% 0;
-  }
-  100% {
-    background-position: 0 0;
-  }
-}
-
-.button-85:after {
-  z-index: -1;
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #222;
-  left: 0;
-  top: 0;
-  border-radius: 10px;
+  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  width: 80%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
 }

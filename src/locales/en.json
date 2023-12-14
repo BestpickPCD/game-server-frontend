@@ -85,5 +85,8 @@
   "label.profile": "My Profile",
   "label.password-update": "Password Update",
   "footer.admin": "admin",
-  "label.direct.url": "Direct Url"
+  "label.direct.url": "Direct Url",
+  "label.url": "Url",
+  "label.vendors": "Vendors",
+  "title.vendors.management": "Vendors Management"
 }

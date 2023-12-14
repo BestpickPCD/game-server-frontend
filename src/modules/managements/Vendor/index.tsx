@@ -20,13 +20,13 @@ const breadcrumbs = [
     name: 'title.dashboard'
   },
   {
-    name: 'Vendors Management'
+    name: 'title.vendors.management'
   }
 ];
 
 export default function Vendors(): JSX.Element {
   const { notify } = useToast();
-  const { data } = useGetVendorsQuery({});
+  const { data } = useGetVendorsQuery({}, { refetchOnMountOrArgChange: true });
   const [onUpdateVendor] = useUpdateDirectUrlMutation();
   const [vendorData, setVendorData] = useState([]);
 
@@ -60,11 +60,11 @@ export default function Vendors(): JSX.Element {
   return (
     <Box>
       <Helmet>
-        <title>{intl.formatMessage({ id: 'Vendors' })}</title>
+        <title>{intl.formatMessage({ id: 'label.vendors' })}</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader
-          headerTitle={'Vendors'}
+          headerTitle={'label.vendors'}
           headerSubtitle={''}
           onOpenModal={() => {
             toggle();
@@ -73,7 +73,7 @@ export default function Vendors(): JSX.Element {
         />
       </PageTitleWrapper>
       <Grid container columns={{ xs: 8, sm: 12, md: 16, lg: 20 }} padding={4}>
-        {vendorData?.map((item) => (
+        {vendorData?.map((item, index) => (
           <Grid
             item
             xs={4}
@@ -83,18 +83,17 @@ export default function Vendors(): JSX.Element {
             height="300px"
             marginY={1}
             padding={1}
+            key={`${item.img}-${index}`}
           >
             <Box>
               <div className="card">
                 <div className="wrapper">
-                  <img
-                    src="https://ggayane.github.io/css-experiments/cards/dark_rider-cover.jpg"
-                    className="cover-image"
-                  />
+                  <img src="../../../grey.jpg" className="cover-image" />
                 </div>
-                <img src={`http://${item.img}`} className="character" />
+                <Typography className="character">{item.name}</Typography>
                 {item?.canSee && (
                   <Box className="switch">
+                    <Typography color={'#fff'}>Direct Url</Typography>
                     <Switch
                       checked={item.agents[0]?.directUrl}
                       onClick={() => onChangeDirectUrl(item)}
@@ -103,14 +102,14 @@ export default function Vendors(): JSX.Element {
                     />
                   </Box>
                 )}
+                <Typography className="title">{item.name}</Typography>
                 <Box>
-                  <Typography className="title">{item.name}</Typography>
-                  <Box paddingBottom="10px">
+                  <Box paddingBottom="10px" className="container">
                     <Link
                       className="button-detail"
                       to={`${item.id}?name=${item.name}`}
                     >
-                      <Typography padding="6px 8px">View Detail</Typography>
+                      View Detail
                     </Link>
                   </Box>
                 </Box>
