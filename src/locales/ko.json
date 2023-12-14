@@ -88,5 +88,8 @@
   "label.to-user": "사용자에게 이체한 금액",
   "label.password-update": "비밀번호 수정",
   "footer.admin": "관리자",
-  "label.direct.url": "직접 URL"
+  "label.direct.url": "직접 URL",
+  "label.url": "URL",
+  "label.vendors": "판매업체",
+  "title.vendors.management": "판매업체 관리"
 }

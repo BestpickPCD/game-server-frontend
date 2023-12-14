@@ -3,10 +3,10 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useGetVendorByIdQuery } from 'src/services/vendorService';
 
-import { Box, CircularProgress, Grid } from '@mui/material';
-import VendorModal from '../VendorModal';
+import { Box, CircularProgress, Grid, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useGetGamesQuery } from 'src/services/gameService';
-import { useEffect, useRef, useState } from 'react';
+import VendorModal from '../VendorModal';
 // import { TablePagination } from '@mui/material';
 
 const getColor = (index: number) => {
@@ -27,7 +27,6 @@ const getColor = (index: number) => {
 
 export default function VendorsDetails(): JSX.Element {
   const { slug } = useParams();
-  const imgRefs = useRef<HTMLImageElement[]>([]);
   const [searchParams] = useSearchParams();
   const [isLoadingImage, setIsLoadingImage] = useState([]);
   const { data } = useGetGamesQuery(
@@ -47,26 +46,39 @@ export default function VendorsDetails(): JSX.Element {
 
   useEffect(() => {
     if (data?.length) {
-      setIsLoadingImage(Array.from({ length: data.length }).map(() => false));
-    }
-  }, [data]);
+      const promiseCheckLoad = (image) =>
+        new Promise((resolve) => {
+          const img = new Image();
+          img.src = image;
+          console.log('vao day 1');
 
-  useEffect(() => {
-    const loadImage = (img) =>
-      new Promise((resolve) => {
-        if (img.complete && img.naturalHeight !== 0) {
-          return resolve(true);
-        }
-        return resolve(false);
-      });
+          if (img.complete) {
+            return resolve(true);
+          }
+          img.onload = function () {
+            return resolve(true);
+          };
+          img.onerror = function () {
+            return resolve(false);
+          };
+        });
 
-    if (data && imgRefs && imgRefs.current && imgRefs.current.length) {
-      const promises = imgRefs.current.map((img) => loadImage(img));
-      Promise.all(promises).then((results) => {
-        setIsLoadingImage(results);
-      });
+      const promises = data.map((item) => promiseCheckLoad(item.img));
+      Promise.all(promises)
+        .then((result) => {
+          console.log('vao day 2', result);
+
+          setIsLoadingImage(result);
+        })
+        .catch((error) => {
+          setIsLoadingImage(error);
+        });
     }
-  }, [data, imgRefs]);
+    return () => {
+      setIsLoadingImage([]);
+    };
+  }, [data, searchParams]);
+  console.log(isLoadingImage);
 
   return (
     <>
@@ -85,56 +97,45 @@ export default function VendorsDetails(): JSX.Element {
         spacing={2}
         padding={3}
       >
-        {(data as any[])?.map((row, index) => (
-          <Grid item xs={4} sm={4} md={4} lg={4} position="relative">
+        {data?.map((row, index) => (
+          <Grid
+            item
+            xs={4}
+            sm={4}
+            md={4}
+            lg={4}
+            position="relative"
+            key={`${row.url}-${index}`}
+          >
             <Box height="100%" width="100%">
-              <div
-                className="game-detail"
-                style={{
-                  display: `${isLoadingImage[index] ? 'block' : 'none'}`
-                }}
-              >
+              <div className="game-detail">
                 <div className="card">
                   <img
                     src={row.img}
                     alt=""
                     loading="lazy"
-                    ref={(element) =>
-                      ((imgRefs as any).current[index] = element)
-                    }
+                    style={{
+                      display: isLoadingImage[index] ? 'block' : 'none'
+                    }}
                   />
-                  <div className="override-circle">
-                    <div
-                      className="circle"
-                      style={{ background: getColor(index) }}
-                    />
-                  </div>
-                  <div className="card-content">
-                    <span className="game-title" title={row.name}>
-                      {row.name}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="game-detail"
-                style={{
-                  position: 'relative',
-                  display: `${isLoadingImage[index] ? 'none' : 'block'}`
-                }}
-              >
-                <Box
-                  position={'absolute'}
-                  top="50%"
-                  left="50%"
-                  sx={{ transform: 'translate(-50%, -50%)' }}
-                  display="block"
-                  textAlign="center"
-                >
-                  <CircularProgress />
-                  <p>Loading...</p>
-                </Box>
-                <div className="card">
+                  <Box
+                    display={isLoadingImage[index] ? 'none' : 'block'}
+                    width="100%"
+                    height="100%"
+                  >
+                    <Box
+                      textAlign="center"
+                      position={'absolute'}
+                      top="50%"
+                      left="50%"
+                      width="100%"
+                      zIndex={100}
+                      sx={{ transform: 'translate(-50%, -50%)' }}
+                    >
+                      <CircularProgress />
+                      <Typography style={{ opacity: 1 }}>Loading...</Typography>
+                    </Box>
+                  </Box>
                   <div className="override-circle">
                     <div
                       className="circle"
