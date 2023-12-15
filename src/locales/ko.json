@@ -91,5 +91,12 @@
   "label.direct.url": "직접 URL",
   "label.url": "URL",
   "label.vendors": "판매업체",
-  "title.vendors.management": "판매업체 관리"
+  "title.vendors.management": "판매업체 관리",
+  "title.current.holding.amount": "현재 보유 금액",
+  "title.sub.agent.current.total.holding.amount": "하위 에이전트 현재 총 보유 금액",
+  "title.current.total.amount.held.by.sub.users": "하위 사용자가 보유한 현재 총 금액",
+  "title.total.number.of.subagents": "하위 에이전트 총 수",
+  "title.number.of.distribution.sub.agents": "분배 하위 에이전트 수",
+  "title.number.of.operations.sub.agents": "운영 하위 에이전트 수",
+  "title.number.of.parallel.sub.agents": "병렬 하위 에이전트 수"
 }

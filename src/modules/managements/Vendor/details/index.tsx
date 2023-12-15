@@ -50,7 +50,6 @@ export default function VendorsDetails(): JSX.Element {
         new Promise((resolve) => {
           const img = new Image();
           img.src = image;
-          console.log('vao day 1');
 
           if (img.complete) {
             return resolve(true);
@@ -66,8 +65,6 @@ export default function VendorsDetails(): JSX.Element {
       const promises = data.map((item) => promiseCheckLoad(item.img));
       Promise.all(promises)
         .then((result) => {
-          console.log('vao day 2', result);
-
           setIsLoadingImage(result);
         })
         .catch((error) => {
@@ -78,7 +75,6 @@ export default function VendorsDetails(): JSX.Element {
       setIsLoadingImage([]);
     };
   }, [data, searchParams]);
-  console.log(isLoadingImage);
 
   return (
     <>

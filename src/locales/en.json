@@ -88,5 +88,12 @@
   "label.direct.url": "Direct Url",
   "label.url": "Url",
   "label.vendors": "Vendors",
-  "title.vendors.management": "Vendors Management"
+  "title.vendors.management": "Vendors Management",
+  "title.current.holding.amount": "Current Holding Amount",
+  "title.sub.agent.current.total.holding.amount": "SubAgent Current Total Holding Amount",
+  "title.current.total.amount.held.by.sub.users": "Current Total Amount Held by Sub-Users",
+  "title.total.number.of.subagents": "Total Number of Subagents",
+  "title.number.of.distribution.sub.agents": "Number of Distribution Sub-Agents",
+  "title.number.of.operations.sub.agents": "Number of Operations Sub-Agents",
+  "title.number.of.parallel.sub.agents": "Number of Parallel Sub-Agents"
 }
