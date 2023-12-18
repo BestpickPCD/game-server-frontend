@@ -1,5 +1,6 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
+  Badge,
   Button,
   FormControl,
   InputLabel,
@@ -122,14 +123,20 @@ const UserTable = (): UserTableProps => {
       align: 'right',
       children: (
         <>
-          <Typography
-            variant="body1"
-            fontWeight="bold"
-            color="text.primary"
-            noWrap
+          <Badge
+            badgeContent={item?.isActive ? 'Active' : 'Locked'}
+            color={item?.isActive ? 'success' : 'secondary'}
+            sx={{ padding: 1 }}
           >
-            {item.username}
-          </Typography>
+            <Typography
+              variant="body1"
+              fontWeight="bold"
+              color="text.primary"
+              noWrap
+            >
+              {item.username}
+            </Typography>
+          </Badge>
         </>
       )
     },

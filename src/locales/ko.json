@@ -98,5 +98,8 @@
   "title.total.number.of.subagents": "하위 에이전트 총 수",
   "title.number.of.distribution.sub.agents": "분배 하위 에이전트 수",
   "title.number.of.operations.sub.agents": "운영 하위 에이전트 수",
-  "title.number.of.parallel.sub.agents": "병렬 하위 에이전트 수"
+  "title.number.of.parallel.sub.agents": "병렬 하위 에이전트 수",
+  "label.for.developers": "개발자용",
+  "label.created.at": "생성 일시",
+  "label.agent.username": "에이전트 사용자 이름"
 }

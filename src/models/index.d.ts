@@ -38,6 +38,7 @@ export interface User {
   email: string;
   name: string;
   username: string;
+  isActive: boolean;
   apiKey?: string;
   createdAt?: string;
   parentAgentId: string | null;
@@ -106,6 +107,7 @@ export interface Transactions {
   status: string;
   method: string;
   updatedAt: string;
+  createdAt: string;
   note?: string;
   token: string;
 }

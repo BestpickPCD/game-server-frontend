@@ -3,29 +3,30 @@ import {
   Container,
   FormControl,
   InputLabel,
-  Link,
   MenuItem,
   Select,
-  Typography,
-  styled
+  Typography
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { format, parseISO } from 'date-fns';
 import { ReactNode } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useNavigate } from 'react-router';
 import Label from 'src/components/MUIComponents/Label';
 import { TableBody, TableHeader } from 'src/components/Table/tableType';
 import { Transactions } from 'src/models';
 import { transactionTypes } from 'src/models/variables';
-import StatusButtons from './StatusButtons';
+
 interface TransactionTableProps {
   tableHeader: TableHeader[];
   tableBody: (item) => TableBody[];
-  tableFilter: ({ type, dateFrom, dateTo }) => ReactNode[];
+  tableFilter: ({ type, dateFrom, dateTo, status }) => ReactNode[];
 }
 interface TableFilterProps {
   type: {
+    value: string;
+    onChange: (value: string[]) => void;
+  };
+  status: {
     value: string;
     onChange: (value: string) => void;
   };
@@ -41,32 +42,33 @@ interface TableFilterProps {
 
 const getStatusLabel = (status: string): JSX.Element => {
   const data = {
-    failed: {
-      text: 'Failed',
-      color: 'error'
-    },
-    success: {
-      text: 'Success',
-      color: 'success'
-    },
-    ok: {
-      text: 'Ok',
+    approved: {
+      text: 'Approved',
       color: 'success'
     },
     pending: {
       text: 'Pending',
+      color: 'warning'
+    },
+    'agent.add_balance': {
+      text: 'Agent Add Balance',
       color: 'primary'
     },
-    cancelled: {
-      text: 'Cancel',
-      color: 'warning'
+    'user.add_balance': {
+      text: 'User Add Balance',
+      color: 'info'
     }
   };
-  if (data[status]) {
-    const { text, color } = data[status];
-    return <Label color={color}>{text}</Label>;
+  if (isNaN(Number(status))) {
+    if (data[status]) {
+      const { text, color } = data[status];
+      return <Label color={color}>{text}</Label>;
+    }
   }
-  return <Label>{status}</Label>;
+  if (Number(status) > 0) {
+    return <Label color="success">{String(status)}</Label>;
+  }
+  return <Label color="error">{String(status)}</Label>;
 };
 
 const TransactionTable = (): TransactionTableProps => {
@@ -83,11 +85,6 @@ const TransactionTable = (): TransactionTableProps => {
     seeRequest = true;
   }
 
-  const navigate = useNavigate();
-
-  const onRedirect = (id: number | string) => {
-    navigate(`/management/transactions/${id}`);
-  };
   const tableBody = (item: Transactions): TableBody[] => [
     {
       align: 'inherit',
@@ -100,11 +97,11 @@ const TransactionTable = (): TransactionTableProps => {
       )
     },
     {
-      align: 'right',
+      align: 'inherit',
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item.amount}
+            {item.agentUsername}
           </Typography>
         </>
       )
@@ -114,7 +111,7 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {`${item.type.slice(0, 1).toUpperCase()}${item.type.slice(1)}`}
+            {getStatusLabel(String(item.amount))}
           </Typography>
         </>
       )
@@ -124,7 +121,7 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item.method}
+            {getStatusLabel(item.type)}
           </Typography>
         </>
       )
@@ -134,31 +131,34 @@ const TransactionTable = (): TransactionTableProps => {
       children: (
         <>
           <Typography variant="body1" color="text.primary" noWrap>
-            {item?.updatedAt &&
-              format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
+            {getStatusLabel(item.status)}
           </Typography>
         </>
       )
     },
     {
-      align: 'center',
+      align: 'right',
       children: (
         <>
-          <StatusButtons
-            id={item?.id}
-            status={item?.status}
-            method={item?.method}
-            callbackId={item?.callbackId}
-          />
+          <Typography variant="body1" color="text.primary" noWrap>
+            {item?.createdAt &&
+              format(parseISO(item?.createdAt), 'dd/MM/yyyy HH:mm')}
+          </Typography>
         </>
       )
     }
   ];
+
   const tableHeader: TableHeader[] = [
     {
       align: 'inherit',
       title: 'label.username',
       name: 'username'
+    },
+    {
+      align: 'left',
+      title: 'label.agent.username',
+      name: 'agentUsername'
     },
     {
       align: 'right',
@@ -172,25 +172,21 @@ const TransactionTable = (): TransactionTableProps => {
     },
     {
       align: 'right',
-      title: 'label.method',
-      name: 'method'
-    },
-    {
-      align: 'right',
-      title: 'label.updated.at',
-      name: 'updatedAt'
-    },
-    {
-      align: 'center',
       title: 'label.status',
-      name: 'updatedAt'
+      name: 'status'
     },
     {
       align: 'right',
-      title: 'label.actions'
+      title: 'label.created.at',
+      name: 'createdAt'
     }
   ];
-  const tableFilter = ({ type, dateFrom, dateTo }: TableFilterProps) => [
+  const tableFilter = ({
+    type,
+    status,
+    dateFrom,
+    dateTo
+  }: TableFilterProps) => [
     <DatePicker
       label={<FormattedMessage id="label.from" />}
       onChange={dateFrom.onChange}
@@ -207,7 +203,10 @@ const TransactionTable = (): TransactionTableProps => {
         labelId="Type"
         value={type.value}
         label={<FormattedMessage id="label.type" />}
-        onChange={(e) => type.onChange(e.target.value)}
+        onChange={(e) => {
+          type.onChange([...e.target.value]);
+        }}
+        multiple
       >
         <MenuItem value="">
           <em>Default</em>
@@ -217,6 +216,27 @@ const TransactionTable = (): TransactionTableProps => {
             {`${item.slice(0, 1).toUpperCase()}${item.slice(1)}`}
           </MenuItem>
         ))}
+      </Select>
+    </FormControl>,
+    <FormControl sx={{ maxWidth: 140, width: 140 }}>
+      <InputLabel id="status">
+        <FormattedMessage id="label.status" />
+      </InputLabel>
+      <Select
+        labelId="status"
+        value={status.value}
+        label={<FormattedMessage id="label.status" />}
+        onChange={(e) => status.onChange(e.target.value)}
+      >
+        <MenuItem value="">
+          <em>Default</em>
+        </MenuItem>
+        <MenuItem key={1} value={'approved'}>
+          Approved
+        </MenuItem>
+        <MenuItem key={2} value={'pending'}>
+          Pending
+        </MenuItem>
       </Select>
     </FormControl>,
     <>
@@ -240,10 +260,3 @@ const TransactionTable = (): TransactionTableProps => {
 };
 
 export default TransactionTable;
-
-const CustomLink = styled(Link)(
-  ({ theme }) => `
-  color: ${theme.colors.info.dark};
-  cursor: pointer;
-`
-);

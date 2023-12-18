@@ -10,7 +10,6 @@ import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import TransactionModal from './TransactionModal';
 import UserTable from './TransactionTable';
-import { Button } from '@mui/base';
 
 interface TransactionPagination extends PaginationAndSort {
   type: string;
@@ -94,6 +93,7 @@ const TransactionManagement = (): JSX.Element => {
     show();
     setDetail(null);
   };
+
   const onUpdate = async (value: string) => {
     try {
       const response = await getTransactionDetail({

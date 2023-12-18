@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box } from '@mui/material';
+import { Box, FormControlLabel, Grid, Stack, Switch } from '@mui/material';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
@@ -26,6 +26,7 @@ const schema = yup.object().shape({
   email: yup.string().required('Email is required!'),
   roleId: yup.number(),
   currencyId: yup.number().required('Currency is required!'),
+  isActive: yup.boolean(),
   username: yup.string().required('Username is required!'),
   parentAgentId: yup.string().nullable()
 });
@@ -64,6 +65,7 @@ const UserModal = ({
       email: '',
       roleId: 2,
       username: '',
+      isActive: false,
       currencyId: 0,
       parentAgentId: ''
     }
@@ -74,6 +76,7 @@ const UserModal = ({
       setValue('name', detail.name);
       setValue('username', detail.username);
       setValue('email', detail.email);
+      setValue('isActive', detail.isActive);
       setValue('roleId', detail?.role?.id);
       setValue('currencyId', detail?.currency?.id);
       setValue('parentAgentId', detail?.parentAgentId);
@@ -87,6 +90,7 @@ const UserModal = ({
     email: string;
     type: string;
     roleId: number;
+    isActive: boolean;
     currencyId: number;
     parentAgentId: string | null;
   }) => {
@@ -98,6 +102,7 @@ const UserModal = ({
             name: values.name,
             email: values.email,
             roleId: values.roleId,
+            isActive: values.isActive,
             currencyId: values.currencyId,
             parentAgentId: values.parentAgentId
           }
@@ -110,6 +115,11 @@ const UserModal = ({
     } catch (error) {
       notify({ message: message.ERROR, type: 'error' });
     }
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked;
+    setValue('isActive', checked);
   };
 
   const roleOptions = useMemo(
@@ -143,41 +153,64 @@ const UserModal = ({
       {detail?.id ? (
         <Box component={'form'} id="form-users">
           <div className="block">
-            <TextField
-              label={<FormattedMessage id="label.username" />}
-              name="username"
-              errors={errors}
-              sx={{ my: 1 }}
-              register={register}
-              disabled={detail?.id ? true : false}
-            />
-            <TextField
-              label={<FormattedMessage id="label.name" />}
-              name="name"
-              sx={{ mt: 1 }}
-              errors={errors}
-              register={register}
-            />
-            <TextField
-              label="Email"
-              name={'email'}
-              sx={{ my: 2 }}
-              errors={errors}
-              register={register}
-            />
-            <InfinityAgent
-              control={control}
-              name="parentAgentId"
-              errors={errors}
-            />
-            <Box display={'flex'} gap="1rem" sx={{ my: 2 }}>
-              <Select
-                label="Currency"
-                name="currencyId"
-                control={control}
-                options={currencyOptions}
-              />
-            </Box>
+            <Grid container spacing={2} mt={1}>
+              <Grid item xs={8}>
+                <TextField
+                  label={<FormattedMessage id="label.username" />}
+                  name="username"
+                  errors={errors}
+                  register={register}
+                  disabled={detail?.id ? true : false}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <Stack spacing={2} justifyContent="center" alignItems="center">
+                  <FormControlLabel
+                    label="Active"
+                    control={
+                      <Switch
+                        name={'isActive'}
+                        defaultChecked={detail?.isActive ? true : false}
+                        onChange={handleChange}
+                      />
+                    }
+                  />
+                </Stack>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label={<FormattedMessage id="label.name" />}
+                  name="name"
+                  errors={errors}
+                  register={register}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Email"
+                  name={'email'}
+                  errors={errors}
+                  register={register}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <InfinityAgent
+                  control={control}
+                  name="parentAgentId"
+                  errors={errors}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Box display={'flex'} gap="1rem">
+                  <Select
+                    label="Currency"
+                    name="currencyId"
+                    control={control}
+                    options={currencyOptions}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
           </div>
         </Box>
       ) : (
