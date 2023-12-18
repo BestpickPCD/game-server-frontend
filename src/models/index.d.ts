@@ -38,6 +38,7 @@ export interface User {
   email: string;
   name: string;
   username: string;
+  isActive: boolean;
   apiKey?: string;
   createdAt?: string;
   parentAgentId: string | null;

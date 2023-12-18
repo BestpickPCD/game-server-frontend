@@ -46,6 +46,7 @@ const Header = (): JSX.Element => {
     name: '',
     username: '',
     type: '',
+    isActive: false,
     parentAgentId: '',
     agentParentName: '',
     rate: 0,
