@@ -95,5 +95,8 @@
   "title.total.number.of.subagents": "Total Number of Subagents",
   "title.number.of.distribution.sub.agents": "Number of Distribution Sub-Agents",
   "title.number.of.operations.sub.agents": "Number of Operations Sub-Agents",
-  "title.number.of.parallel.sub.agents": "Number of Parallel Sub-Agents"
+  "title.number.of.parallel.sub.agents": "Number of Parallel Sub-Agents",
+  "label.for.developers": "For Developers",
+  "label.created.at": "Created At",
+  "label.agent.username": "Agent Username"
 }

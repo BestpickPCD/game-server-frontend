@@ -154,11 +154,15 @@ const Table = ({
   };
 
   const TableHeaderMemo = useMemo(() => {
-    if (!onDelete && !onUpdate) {
+    if (
+      !onDelete &&
+      !onUpdate &&
+      tableHeader[tableHeader.length - 1].name === ''
+    ) {
       tableHeader.pop();
     }
     return tableHeader;
-  }, [onDelete, onUpdate]);
+  }, [onDelete, onUpdate, tableHeader]);
 
   const ToolTipDelete = ({
     item,

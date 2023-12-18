@@ -9,9 +9,10 @@ import {
   ListItem,
   ListSubheader,
   alpha,
-  styled
+  styled,
+  Link as MUILink
 } from '@mui/material';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { Link, NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 import ExtensionIcon from '@mui/icons-material/Extension';
@@ -22,6 +23,7 @@ import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle';
 import CurrencyExchange from '@mui/icons-material/AttachMoney';
 import TransferWithinAStationOutlined from '@mui/icons-material/CurrencyExchangeOutlined';
 import StarTwoTone from '@mui/icons-material/StarTwoTone';
+import { DeveloperMode as Developer } from '@mui/icons-material';
 import { useModal } from 'src/utils/hooks';
 import { FormattedMessage } from 'react-intl';
 const MenuWrapper = styled(Box)(
@@ -168,6 +170,10 @@ const SubMenuWrapper = styled(Box)(
 const SidebarMenu = (): JSX.Element => {
   const { closeSidebar } = useContext(SidebarContext);
   const { toggle, visible } = useModal();
+
+  const onClickDeveloper = () => {
+    closeSidebar();
+  };
   return (
     <>
       <MenuWrapper>
@@ -303,6 +309,18 @@ const SidebarMenu = (): JSX.Element => {
                   sx={{ justifyContent: 'flex-start' }}
                 >
                   <FormattedMessage id="title.roles-management" />
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  onClick={closeSidebar}
+                  startIcon={<CreditCardOffIcon />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                  href={`${process.env.REACT_APP_API_URL}/api-docs`}
+                  target="blank"
+                >
+                  <FormattedMessage id="label.for.developers" />
                 </Button>
               </ListItem>
             </CustomList>

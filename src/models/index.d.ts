@@ -107,6 +107,7 @@ export interface Transactions {
   status: string;
   method: string;
   updatedAt: string;
+  createdAt: string;
   note?: string;
   token: string;
 }
