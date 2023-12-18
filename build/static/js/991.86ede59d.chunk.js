@@ -444,16 +444,14 @@
         w = r(5243),
         P = r(4349),
         I = r(184),
-        R = w
-          .Ry()
-          .shape({
-            name: w.Z_().required('Name is required!'),
-            roleId: w.Rx().required('Role is required!'),
-            rate: w.Rx().required('Rate is required!'),
-            currencyId: w.Rx().required('Currency is required!'),
-            username: w.Z_().required('Username is required!'),
-            parentAgentId: w.Z_().nullable()
-          }),
+        R = w.Ry().shape({
+          name: w.Z_().required('Name is required!'),
+          roleId: w.Rx().required('Role is required!'),
+          rate: w.Rx().required('Rate is required!'),
+          currencyId: w.Rx().required('Currency is required!'),
+          username: w.Z_().required('Username is required!'),
+          parentAgentId: w.Z_().nullable()
+        }),
         k = function (e) {
           var n,
             r,
