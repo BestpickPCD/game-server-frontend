@@ -78,6 +78,21 @@ const UserTable = (): UserTableProps => {
       align: 'inherit',
       children: (
         <>
+          <Typography
+            variant="body1"
+            fontWeight="bold"
+            color="text.primary"
+            noWrap
+          >
+            {item.agentName}
+          </Typography>
+        </>
+      )
+    },
+    {
+      align: 'inherit',
+      children: (
+        <>
           <Button
             variant="outlined"
             startIcon={<PaidOutlinedIcon />}
@@ -171,6 +186,11 @@ const UserTable = (): UserTableProps => {
     {
       align: 'inherit',
       title: 'label.name',
+      name: 'name'
+    },
+    {
+      align: 'inherit',
+      title: 'label.affiliated-agent',
       name: 'name'
     },
     {
