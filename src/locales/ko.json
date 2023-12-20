@@ -26,6 +26,7 @@
   "label.balance": "잔액",
   "label.current-balance": "현재 잔액",
   "label.updated.at": "업데이트 일시",
+  "label.loggedin": "Last Logged In",
   "label.admin": "관리자",
   "label.user": "사용자",
   "label.username": "사용자 이름",
