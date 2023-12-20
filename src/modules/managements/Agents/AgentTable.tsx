@@ -148,9 +148,7 @@ const UserTable = (): UserTableProps => {
               variant="outlined"
               startIcon={<PaidOutlinedIcon />}
               onClick={() => onClickButton(item, 'transaction')}
-              disabled={
-                localUser?.level + 1 !== item.level && localUser?.id !== item.id
-              }
+              disabled={localUser?.level + 1 !== item.level}
             >
               Payment
             </Button>
