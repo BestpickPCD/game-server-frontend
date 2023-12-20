@@ -25,6 +25,7 @@
   "label.balance": "Balance",
   "label.current-balance": "Current balance",
   "label.updated.at": "Updated At",
+  "label.loggedin": "Last Logged In",
   "label.admin": "Admin",
   "label.user": "User",
   "label.username": "Username",

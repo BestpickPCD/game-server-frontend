@@ -165,8 +165,8 @@ const UserTable = (): UserTableProps => {
             color="text.primary"
             noWrap
           >
-            {item?.updatedAt &&
-              format(parseISO(item?.updatedAt), 'dd/MM/yyyy HH:mm')}
+            {item?.loggedIn &&
+              format(parseISO(item?.loggedIn), 'dd/MM/yyyy HH:mm')}
           </Typography>
         </>
       )
@@ -222,7 +222,7 @@ const UserTable = (): UserTableProps => {
     },
     {
       align: 'right',
-      title: 'label.updated.at',
+      title: 'label.loggedin',
       name: 'updatedAt'
     },
     {

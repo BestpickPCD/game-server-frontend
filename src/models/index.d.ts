@@ -41,6 +41,7 @@ export interface User {
   isActive: boolean;
   apiKey?: string;
   createdAt?: string;
+  loggedIn?: string;
   parentAgentId: string | null;
   agentParentName: string;
   rate: number;
