@@ -26,31 +26,34 @@ const breadcrumbs = [
 
 export default function Vendors(): JSX.Element {
   const { notify } = useToast();
-  const { data } = useGetVendorsQuery({}, { refetchOnMountOrArgChange: true });
+  const { data, refetch } = useGetVendorsQuery({}, { refetchOnMountOrArgChange: true });
   const [onUpdateVendor] = useUpdateDirectUrlMutation();
   const [vendorData, setVendorData] = useState([]);
-
   useEffect(() => {
-    if (data) {
-      setVendorData(data);
+    if (data) { 
+      const canSee = data.data.filter((datum) => datum.canSee === true); 
+      setVendorData(canSee);
     }
   }, [data]);
+
   const intl = useIntl();
   const { visible, toggle } = useModal();
+
   const onChangeDirectUrl = async (row) => {
     try {
-      const updated = await onUpdateVendor({ id: row.id }).unwrap();
+      const updated = await onUpdateVendor({ id: row.agentVendorId }).unwrap();
       setVendorData((prev) =>
         prev.map((item) => {
           if (item?.id === row.id) {
             return {
               ...item,
-              agents: [{ ...item.agents[0], directUrl: updated.data.directUrl }]
+              agents: [{ ...item, directUrl: updated.data.directUrl }]
             };
           }
           return { ...item };
         })
       );
+      refetch()
       notify({ message: updated.message });
     } catch (error) {
       notify({ message: error.data.message, type: 'error' });
@@ -72,7 +75,7 @@ export default function Vendors(): JSX.Element {
           breadcrumbs={breadcrumbs}
         />
       </PageTitleWrapper>
-      <Grid container columns={{ xs: 8, sm: 12, md: 16, lg: 20 }} padding={4}>
+      <Grid container columns={{ xs: 8, sm: 12, md: 16, lg: 20 }} padding={4}> 
         {vendorData?.map((item, index) => (
           <Grid
             item
@@ -95,9 +98,8 @@ export default function Vendors(): JSX.Element {
                   <Box className="switch">
                     <Typography color={'#fff'}>Direct Url</Typography>
                     <Switch
-                      checked={item.agents[0]?.directUrl}
+                      checked={item.directUrl ? true : false}
                       onClick={() => onChangeDirectUrl(item)}
-                      disabled={!item?.canSee}
                       color="success"
                     />
                   </Box>

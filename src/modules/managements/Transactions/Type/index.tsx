@@ -16,7 +16,9 @@ interface TransactionPagination extends PaginationAndSort {
 
 const title = 'title.transactions-management';
 const TransactionManagement = (): JSX.Element => {
+
   const { slug, type } = useParams();
+
   let typeParam;
   if (type === 'betting-history') {
     typeParam = 'bet,win,cancel';
@@ -49,7 +51,7 @@ const TransactionManagement = (): JSX.Element => {
     sortBy: -1,
     search: '',
     sortDirection: 'asc',
-    type: [],
+    type: [typeParam],
     dateFrom: '',
     dateTo: ''
   });
@@ -57,7 +59,6 @@ const TransactionManagement = (): JSX.Element => {
   const { data: transactionData, isFetching } = useGetUserTransactionByIdQuery(
     {
       id: slug,
-      type: `?type=${typeParam}`,
       ...pagination
     },
     { refetchOnMountOrArgChange: true }
