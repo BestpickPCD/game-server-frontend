@@ -1,8 +1,7 @@
-import { LoadingButton } from '@mui/lab';
-import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
+import { Box, Dialog } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { RootState } from 'src/app/store';
 import TableComponent from 'src/components/Table';
 import { PaginationAndSort } from 'src/components/Table/tableType';
@@ -16,9 +15,10 @@ import { formatToISOString, onSortTable } from 'src/utils';
 import { useModal, useToast } from 'src/utils/hooks';
 import AgentModal from './AgentModal';
 import UserTable from './AgentTable';
-import { FormattedMessage } from 'react-intl';
 import ModalTransaction from './ModalTransaction';
 import ModalVendor from './ModalVendor';
+import AffiliatedAgentModal from './AffiliatedAgent/Modal';
+import { useSearchParams } from 'react-router-dom';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
@@ -44,18 +44,21 @@ const AgentsManagement = (): JSX.Element => {
   const { reset } = useForm();
   const { notify, message } = useToast();
   const {
-    tableBody,
     tableHeader,
-    tableFilter,
     visible: visibleTransaction,
-    toggle: toggleTransaction,
     user,
-    dialogType
+    dialogType,
+    affiliatedAgentModal,
+    parentAgentIds,
+    tableBody,
+    tableFilter,
+    toggle: toggleTransaction
   } = UserTable();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<Agent[]>([]);
   const [detail, setDetail] = useState<Agent>();
+  const [topAgents, setTopAgents] = useState<Agent[]>([]);
   const [pagination, setPagination] = useState<UsersPagination>({
     page: 0,
     size: 10,
@@ -68,6 +71,7 @@ const AgentsManagement = (): JSX.Element => {
     dateFrom: '',
     dateTo: ''
   });
+  const [searchParams] = useSearchParams();
   const { permissions } = useSelector((state: RootState) => state.common);
 
   const [getAgentDetail] = useGetAgentByIdMutation();
@@ -104,15 +108,40 @@ const AgentsManagement = (): JSX.Element => {
 
   useEffect(() => {
     if (agentData) {
-      setData(() =>
-        onSortTable(
-          agentData.data.data,
-          tableHeader[pagination.sortBy]?.name,
-          pagination.sortDirection
-        )
-      );
+      const searchParamsId = searchParams.get('parentId');
+      if (searchParamsId) {
+        const filterData = agentData.data.data.filter(
+          (item) => item.parentAgentId === searchParamsId
+        );
+        setData(() =>
+          onSortTable(
+            filterData,
+            tableHeader[pagination.sortBy]?.name,
+            pagination.sortDirection
+          )
+        );
+      } else {
+        setData(() =>
+          onSortTable(
+            agentData.data.data,
+            tableHeader[pagination.sortBy]?.name,
+            pagination.sortDirection
+          )
+        );
+      }
     }
-  }, [agentData, pagination]);
+  }, [agentData, pagination, searchParams]);
+
+  useEffect(() => {
+    if (parentAgentIds.length && data.length) {
+      setTopAgents(() => {
+        const filterData = data.filter((item) =>
+          parentAgentIds.some((id) => item.id === id)
+        );
+        return filterData;
+      });
+    }
+  }, [parentAgentIds, data]);
 
   const onAdd = () => {
     show();
@@ -138,6 +167,7 @@ const AgentsManagement = (): JSX.Element => {
       notify({ message: message.ERROR, type: 'error' });
     }
   };
+
   return (
     <>
       <TableComponent
@@ -196,6 +226,11 @@ const AgentsManagement = (): JSX.Element => {
           )}
         </Box>
       </Dialog>
+      <AffiliatedAgentModal
+        onClose={affiliatedAgentModal.toggle}
+        open={affiliatedAgentModal.visible}
+        data={topAgents}
+      />
     </>
   );
 };

@@ -99,5 +99,6 @@
   "title.number.of.parallel.sub.agents": "Number of Parallel Sub-Agents",
   "label.for.developers": "For Developers",
   "label.created.at": "Created At",
-  "label.agent.username": "Agent Username"
+  "label.agent.username": "Agent Username",
+  "label.affiliated.agent": "Affiliated Agent"
 }

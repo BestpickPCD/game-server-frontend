@@ -102,5 +102,6 @@
   "title.number.of.parallel.sub.agents": "병렬 하위 에이전트 수",
   "label.for.developers": "개발자용",
   "label.created.at": "생성 일시",
-  "label.agent.username": "에이전트 사용자 이름"
+  "label.agent.username": "에이전트 사용자 이름",
+  "label.affiliated.agent": "제휴 에이전트"
 }
