@@ -62,6 +62,7 @@ export interface User {
   roleName?: string;
   type?: string;
   parent?: User;
+  agentId?: string;
 }
 
 export interface TransactionLimit {

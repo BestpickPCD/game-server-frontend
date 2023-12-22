@@ -21,7 +21,10 @@ import { UseModalProps } from 'src/utils/hooks/useModal';
 interface UserTableProps {
   tableHeader: TableHeader[];
   visible: boolean;
-  parentAgentIds: string[];
+  parentAgentIds: {
+    id: string;
+    ids: string[];
+  };
   user: User;
   dialogType: string;
   affiliatedAgentModal: UseModalProps;
@@ -51,7 +54,13 @@ const UserTable = (): UserTableProps => {
   const [user, setUser] = useState<User>();
   const [localUser, setUserLocal] = useState<User>();
   const [dialogType, setDialogType] = useState('');
-  const [parentAgentIds, setParentAgentIds] = useState<string[]>([]);
+  const [parentAgentIds, setParentAgentIds] = useState<{
+    id: string;
+    ids: string[];
+  }>({
+    id: '',
+    ids: []
+  });
   const [_, setSearchParams] = useSearchParams();
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -112,7 +121,12 @@ const UserTable = (): UserTableProps => {
         <Box display="flex" alignItems="center" gap={1}>
           <Button
             variant="outlined"
-            onClick={() => onAffiliatedAgents(item.parentAgentIds)}
+            onClick={() =>
+              onAffiliatedAgents({
+                ids: item.parentAgentIds,
+                id: item.id
+              })
+            }
           >
             <Typography whiteSpace="nowrap" fontWeight={600}>
               Top

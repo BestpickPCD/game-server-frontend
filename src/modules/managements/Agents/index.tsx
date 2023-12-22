@@ -133,13 +133,17 @@ const AgentsManagement = (): JSX.Element => {
   }, [agentData, pagination, searchParams]);
 
   useEffect(() => {
-    if (parentAgentIds.length && data.length) {
+    if (parentAgentIds?.ids.length && data.length) {
       setTopAgents(() => {
         const filterData = data.filter((item) =>
-          parentAgentIds.some((id) => item.id === id)
+          parentAgentIds.ids.some(
+            (id) => item.id === id || item.id === parentAgentIds.id
+          )
         );
         return filterData;
       });
+    } else {
+      setTopAgents([]);
     }
   }, [parentAgentIds, data]);
 

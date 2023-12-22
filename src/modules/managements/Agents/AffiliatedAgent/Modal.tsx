@@ -45,9 +45,10 @@ const AffiliatedAgentModal = ({
         >
           <Label color="success">Agents of {detail.name}</Label>
           <Button
+            disabled
             fullWidth
             sx={{
-              color: '#fff',
+              color: 'red !important',
               justifyContent: 'flex-start'
             }}
           >
@@ -55,6 +56,10 @@ const AffiliatedAgentModal = ({
           </Button>
           <Button
             fullWidth
+            onClick={() => {
+              navigate(`/management/agents?parentId=${detail.id}`);
+              setDetail({});
+            }}
             sx={{
               color: '#fff',
               justifyContent: 'flex-start'
@@ -86,8 +91,9 @@ const AffiliatedAgentModal = ({
           </Button>
           <Button
             fullWidth
+            disabled
             sx={{
-              color: '#fff',
+              color: 'red !important',
               justifyContent: 'flex-start'
             }}
           >
@@ -95,8 +101,9 @@ const AffiliatedAgentModal = ({
           </Button>
           <Button
             fullWidth
+            disabled
             sx={{
-              color: '#fff',
+              color: 'red !important',
               justifyContent: 'flex-start'
             }}
           >
@@ -113,8 +120,9 @@ const AffiliatedAgentModal = ({
           </Button>
           <Button
             fullWidth
+            disabled
             sx={{
-              color: '#fff',
+              color: 'red !important',
               justifyContent: 'flex-start'
             }}
           >
@@ -122,8 +130,9 @@ const AffiliatedAgentModal = ({
           </Button>
           <Button
             fullWidth
+            disabled
             sx={{
-              color: '#fff',
+              color: 'red !important',
               justifyContent: 'flex-start'
             }}
           >
@@ -139,9 +148,10 @@ const AffiliatedAgentModal = ({
         >
           <Label color="success">Developer</Label>
           <Button
+            disabled
             fullWidth
             sx={{
-              color: '#fff',
+              color: 'red !important',
               justifyContent: 'flex-start'
             }}
           >
@@ -157,6 +167,7 @@ const AffiliatedAgentModal = ({
         >
           <Label color="success">User</Label>
           <Button
+            onClick={() => navigate(`/management/users?parentId=${detail.id}`)}
             fullWidth
             sx={{
               color: '#fff',
@@ -166,9 +177,10 @@ const AffiliatedAgentModal = ({
             User List
           </Button>
           <Button
+            disabled
             fullWidth
             sx={{
-              color: '#fff',
+              color: 'red !important',
               justifyContent: 'flex-start'
             }}
           >
@@ -181,7 +193,14 @@ const AffiliatedAgentModal = ({
   );
 
   return (
-    <Modals title={'AffiliatedAgentModal'} open={open} onClose={onClose}>
+    <Modals
+      title={'AffiliatedAgentModal'}
+      open={open}
+      onClose={() => {
+        onClose();
+        handleTooltipClose();
+      }}
+    >
       <List>
         {data.map((item, index) => (
           <ListItem key={index} sx={{ my: 2 }}>
