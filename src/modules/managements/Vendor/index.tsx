@@ -26,12 +26,15 @@ const breadcrumbs = [
 
 export default function Vendors(): JSX.Element {
   const { notify } = useToast();
-  const { data, refetch } = useGetVendorsQuery({}, { refetchOnMountOrArgChange: true });
+  const { data, refetch } = useGetVendorsQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
   const [onUpdateVendor] = useUpdateDirectUrlMutation();
   const [vendorData, setVendorData] = useState([]);
   useEffect(() => {
-    if (data) { 
-      const canSee = data.data.filter((datum) => datum.canSee === true); 
+    if (data) {
+      const canSee = data.data.filter((datum) => datum.canSee === true);
       setVendorData(canSee);
     }
   }, [data]);
@@ -53,7 +56,7 @@ export default function Vendors(): JSX.Element {
           return { ...item };
         })
       );
-      refetch()
+      refetch();
       notify({ message: updated.message });
     } catch (error) {
       notify({ message: error.data.message, type: 'error' });
@@ -75,7 +78,7 @@ export default function Vendors(): JSX.Element {
           breadcrumbs={breadcrumbs}
         />
       </PageTitleWrapper>
-      <Grid container columns={{ xs: 8, sm: 12, md: 16, lg: 20 }} padding={4}> 
+      <Grid container columns={{ xs: 8, sm: 12, md: 16, lg: 20 }} padding={4}>
         {vendorData?.map((item, index) => (
           <Grid
             item

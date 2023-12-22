@@ -16,7 +16,6 @@ interface TransactionPagination extends PaginationAndSort {
 
 const title = 'title.transactions-management';
 const TransactionManagement = (): JSX.Element => {
-
   const { slug, type } = useParams();
 
   let typeParam;
