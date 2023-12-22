@@ -1,29 +1,37 @@
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import {
+  Box,
   Button,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Stack,
   Typography
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { format, parseISO } from 'date-fns';
-import { TableBody, TableHeader } from 'src/components/Table/tableType';
 import { ReactNode, useEffect, useState } from 'react';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import { FormattedMessage } from 'react-intl';
+import { useSearchParams } from 'react-router-dom';
+import { TableBody, TableHeader } from 'src/components/Table/tableType';
 import { User } from 'src/models';
 import { useModal } from 'src/utils/hooks';
-import { FormattedMessage } from 'react-intl';
+import { UseModalProps } from 'src/utils/hooks/useModal';
 
 interface UserTableProps {
   tableHeader: TableHeader[];
-  tableBody: (item) => TableBody[];
-  tableFilter: ({ status, dateFrom, dateTo }) => ReactNode[];
   visible: boolean;
-  toggle: () => void;
+  parentAgentIds: {
+    id: string;
+    ids: string[];
+  };
   user: User;
   dialogType: string;
+  affiliatedAgentModal: UseModalProps;
+  tableBody: (item) => TableBody[];
+  tableFilter: ({ status, dateFrom, dateTo }) => ReactNode[];
+  onAffiliatedAgents: (data) => void;
+  toggle: () => void;
 }
 interface TableFilterProps {
   status: {
@@ -42,10 +50,18 @@ interface TableFilterProps {
 
 const UserTable = (): UserTableProps => {
   const { visible, toggle } = useModal();
+  const affiliatedAgentModal = useModal();
   const [user, setUser] = useState<User>();
   const [localUser, setUserLocal] = useState<User>();
   const [dialogType, setDialogType] = useState('');
-
+  const [parentAgentIds, setParentAgentIds] = useState<{
+    id: string;
+    ids: string[];
+  }>({
+    id: '',
+    ids: []
+  });
+  const [_, setSearchParams] = useSearchParams();
   useEffect(() => {
     const user = localStorage.getItem('user');
     if (user) {
@@ -58,6 +74,16 @@ const UserTable = (): UserTableProps => {
     setUser(user);
     toggle();
   };
+
+  const onAffiliatedAgents = (ids) => {
+    setParentAgentIds(ids);
+    affiliatedAgentModal.toggle();
+  };
+
+  const onLowerPart = (id) => {
+    setSearchParams({ parentId: id });
+  };
+
   const tableBody = (item): TableBody[] => [
     {
       align: 'inherit',
@@ -87,6 +113,35 @@ const UserTable = (): UserTableProps => {
             {item?.parent?.name ?? '-'}
           </Typography>
         </>
+      )
+    },
+    {
+      align: 'inherit',
+      children: (
+        <Box display="flex" alignItems="center" gap={1}>
+          <Button
+            variant="outlined"
+            onClick={() =>
+              onAffiliatedAgents({
+                ids: item.parentAgentIds,
+                id: item.id
+              })
+            }
+          >
+            <Typography whiteSpace="nowrap" fontWeight={600}>
+              Top
+            </Typography>
+          </Button>
+          <Button
+            variant="outlined"
+            color="success"
+            onClick={() => onLowerPart(item?.id)}
+          >
+            <Typography whiteSpace="nowrap" fontWeight={600}>
+              Lower Part
+            </Typography>
+          </Button>
+        </Box>
       )
     },
     {
@@ -137,32 +192,25 @@ const UserTable = (): UserTableProps => {
     {
       align: 'center',
       children: (
-        <>
-          <Stack
-            spacing={{ xs: 1, sm: 2 }}
-            direction="row"
-            useFlexGap
-            flexWrap="wrap"
+        <Box display="flex" alignItems="center" gap={1}>
+          <Button
+            variant="outlined"
+            startIcon={<PaidOutlinedIcon />}
+            onClick={() => onClickButton(item, 'transaction')}
+            disabled={localUser?.level + 1 !== item.level}
           >
-            <Button
-              variant="outlined"
-              startIcon={<PaidOutlinedIcon />}
-              onClick={() => onClickButton(item, 'transaction')}
-              disabled={localUser?.level + 1 !== item.level}
-            >
-              Payment
-            </Button>
-            <Button
-              variant="outlined"
-              color="success"
-              startIcon={<PaidOutlinedIcon />}
-              onClick={() => onClickButton(item, 'vendor')}
-              disabled={localUser?.level + 1 !== item.level}
-            >
-              Vendors
-            </Button>
-          </Stack>
-        </>
+            Payment
+          </Button>
+          <Button
+            variant="outlined"
+            color="success"
+            startIcon={<PaidOutlinedIcon />}
+            onClick={() => onClickButton(item, 'vendor')}
+            disabled={localUser?.level + 1 !== item.level}
+          >
+            Vendors
+          </Button>
+        </Box>
       )
     }
   ];
@@ -176,6 +224,11 @@ const UserTable = (): UserTableProps => {
       align: 'inherit',
       title: 'label.parent.name',
       name: 'agentParentName'
+    },
+    {
+      align: 'inherit',
+      title: 'label.affiliated.agent',
+      name: ''
     },
     {
       align: 'inherit',
@@ -237,13 +290,16 @@ const UserTable = (): UserTableProps => {
   ];
 
   return {
-    tableBody,
     tableHeader,
-    tableFilter,
-    user,
-    toggle,
     visible,
-    dialogType
+    user,
+    dialogType,
+    parentAgentIds,
+    affiliatedAgentModal,
+    tableBody,
+    tableFilter,
+    toggle,
+    onAffiliatedAgents
   };
 };
 

@@ -58,9 +58,12 @@ export default function ModalVendor({
 
   useEffect(() => {
     if (data) {
-      setVendorData(data);
-      const selected = data.filter((vendorData) => vendorData.canSee);
-      setSelectedData(selected);
+      setVendorData(data.data);
+      const selectedData = data.data.filter(
+        (vendorData) => vendorData.selectedVendors !== null
+      );
+      console.log(selectedData);
+      setSelectedData(selectedData);
     }
   }, [data]);
 

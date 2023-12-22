@@ -156,7 +156,7 @@ const VendorModal = ({
     );
 
   const Component = useMemo(() => {
-    console.log(keys);
+    console.log();
     return (
       <Box
         width={`${isCreate ? '100%' : '50%'}`}

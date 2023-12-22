@@ -1,22 +1,23 @@
-import { useEffect, useState } from 'react';
-import TableComponent from 'src/components/Table';
-import {
-  useDeleteUserMutation,
-  useGetUserByIdMutation
-} from 'src/services/userService';
-import { useGetUsersQuery } from 'src/services/userService';
-import { useModal, useToast } from 'src/utils/hooks';
-import { useForm } from 'react-hook-form';
-import UserModal from './UserModal';
-import UserTable from './UserTable';
-import { PaginationAndSort } from 'src/components/Table/tableType';
-import { formatToISOString, onSortTable } from 'src/utils';
-import { User } from 'src/models';
-import { Box, Dialog, Grid, TextField, Typography } from '@mui/material';
-import { useCreateTransactionMutation } from 'src/services/transactionService';
 import { LoadingButton } from '@mui/lab';
+import { Box, Dialog, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/app/store';
+import TableComponent from 'src/components/Table';
+import { PaginationAndSort } from 'src/components/Table/tableType';
+import { User } from 'src/models';
+import { useCreateTransactionMutation } from 'src/services/transactionService';
+import {
+  useDeleteUserMutation,
+  useGetUserByIdMutation,
+  useGetUsersQuery
+} from 'src/services/userService';
+import { formatToISOString, onSortTable } from 'src/utils';
+import { useModal, useToast } from 'src/utils/hooks';
+import UserModal from './UserModal';
+import UserTable from './UserTable';
+import { useSearchParams } from 'react-router-dom';
 
 interface UsersPagination extends PaginationAndSort {
   status: string;
@@ -37,6 +38,7 @@ const UsersManagement = (): JSX.Element => {
       name: title
     }
   ];
+  const [searchParams] = useSearchParams();
   const { visible, hide, show } = useModal();
   const { notify, message } = useToast();
   const { reset } = useForm();
@@ -99,15 +101,29 @@ const UsersManagement = (): JSX.Element => {
 
   useEffect(() => {
     if (userData) {
-      setData(() =>
-        onSortTable(
-          userData.data.data,
-          tableHeader[pagination.sortBy]?.name,
-          pagination.sortDirection
-        )
-      );
+      const searchParamsId = searchParams.get('parentId');
+      if (searchParamsId) {
+        const filterData = userData.data.data.filter(
+          (item) => item.agentId === searchParamsId
+        );
+        setData(() =>
+          onSortTable(
+            filterData,
+            tableHeader[pagination.sortBy]?.name,
+            pagination.sortDirection
+          )
+        );
+      } else {
+        setData(() =>
+          onSortTable(
+            userData.data.data,
+            tableHeader[pagination.sortBy]?.name,
+            pagination.sortDirection
+          )
+        );
+      }
     }
-  }, [userData, pagination.sortBy, pagination.sortDirection]);
+  }, [userData, pagination.sortBy, pagination.sortDirection, searchParams]);
 
   useEffect(() => {
     user &&
