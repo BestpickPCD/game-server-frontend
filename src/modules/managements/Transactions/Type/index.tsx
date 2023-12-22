@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import TableComponent from 'src/components/Table';
 import { PaginationAndSort } from 'src/components/Table/tableType';
 import { Transactions } from 'src/models';
@@ -15,6 +15,16 @@ interface TransactionPagination extends PaginationAndSort {
 }
 
 const title = 'title.transactions-management';
+const breadcrumbs = [
+  {
+    link: '/dashboards',
+    name: 'title.dashboard'
+  },
+  {
+    name: title
+  }
+];
+
 const TransactionManagement = (): JSX.Element => {
   const { slug, type } = useParams();
 
@@ -27,16 +37,7 @@ const TransactionManagement = (): JSX.Element => {
     typeParam = '';
   }
 
-  const breadcrumbs = [
-    {
-      link: '/dashboards',
-      name: 'title.dashboard'
-    },
-    {
-      name: title
-    }
-  ];
-
+  const [searchParams] = useSearchParams();
   const { tableBody, tableHeader, tableFilter } = UserTable();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -71,6 +72,12 @@ const TransactionManagement = (): JSX.Element => {
         ...pagination,
         type: [...pagination.type],
         status: 'pending'
+      });
+    }
+    if (searchParams.get('type') === 'charging') {
+      setPagination({
+        ...pagination,
+        type: [...pagination.type, 'agent.add_balance', 'user.add_balance']
       });
     }
   }, []);
