@@ -40,9 +40,8 @@ const VendorModal = ({
   onClose
 }: VendorModalProps): JSX.Element => {
   const initKeys = {
-    keys: '',
+    key: '',
     value: '',
-    key: uuidv4()
   };
 
   const { message, notify } = useToast();
@@ -63,22 +62,27 @@ const VendorModal = ({
     }
   });
 
-  const [keys, setKeys] = useState([initKeys]);
+  const [keys, setKeys] = useState<{ key: string; value: string }[]>([initKeys]);
 
   useEffect(() => {
     if (vendorData?.data && !isCreate) {
       setValue('name', vendorData?.data.name);
       setValue('url', vendorData?.data.url);
-      setKeys(() => {
-        if (vendorData?.data?.keys?.length > 0) {
-          return vendorData?.data.keys?.map((item) => ({
-            keys: Object.keys(item)[0] as string,
-            value: Object.values(item)[0] as string,
-            key: uuidv4()
-          }));
-        }
-        return [initKeys];
-      });
+      
+      if (vendorData?.data.keys !== null && Object.keys(vendorData?.data.keys).length > 0) {
+
+        const keysArray = Object.entries(vendorData?.data.keys).map(([key, value]) => { 
+          const arranged = {
+            key: key ?? '',
+            value: typeof value === 'string' ? value : '',
+          };
+          return arranged;
+        });
+        setKeys(keysArray);
+        
+      } else {
+        setKeys([initKeys]);
+      }
     } else {
       reset();
       setKeys([initKeys]);
@@ -101,7 +105,7 @@ const VendorModal = ({
   const onCreateVendor = async (value: any) => {
     try {
       const formatKeys = keys?.map((item) => ({
-        [`${item.keys}`]: item.value
+        [`${item.key}`]: item.value
       }));
       const response = await createVendor({
         url: value.rul,
@@ -126,7 +130,7 @@ const VendorModal = ({
   const handleUpdate = async (value: any) => {
     try {
       const formatKeys = keys?.map((item) => ({
-        [`${item.keys}`]: item.value
+        [`${item.key}`]: item.value
       }));
       const response = await updateVendor({
         url: value.rul,
@@ -149,7 +153,7 @@ const VendorModal = ({
     setKeys((prev) =>
       prev?.map((item) => {
         if (item.key === key) {
-          return type === 'key' ? { ...item, keys: value } : { ...item, value };
+          return type === 'key' ? { ...item, key: value } : { ...item, value };
         }
         return { ...item };
       })
@@ -202,8 +206,8 @@ const VendorModal = ({
                 justifyContent="space-between"
                 alignItems="center"
                 gap={1}
-                key={key.key}
-              >
+                key={index}
+              > 
                 <TextField
                   key={key.key}
                   label={`Key ${index}`}
@@ -211,7 +215,7 @@ const VendorModal = ({
                   errors={errors}
                   register={register}
                   sx={{ paddingBottom: 1, flex: 1 }}
-                  value={key.keys}
+                  value={key.key}
                   onChange={(e) => onChange('key', key.key, e.target.value)}
                 />
                 <TextField
@@ -221,7 +225,7 @@ const VendorModal = ({
                   register={register}
                   sx={{ paddingBottom: 1, flex: 2.5 }}
                   value={key.value}
-                  onChange={(e) => onChange('value', key.key, e.target.value)}
+                  onChange={(e) => onChange('value', key.value, e.target.value)}
                 />
                 <Button
                   onClick={() => onAddKeys(key.key, index)}
