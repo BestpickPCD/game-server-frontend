@@ -41,7 +41,7 @@ const VendorModal = ({
 }: VendorModalProps): JSX.Element => {
   const initKeys = {
     key: '',
-    value: '',
+    value: ''
   };
 
   const { message, notify } = useToast();
@@ -62,24 +62,29 @@ const VendorModal = ({
     }
   });
 
-  const [keys, setKeys] = useState<{ key: string; value: string }[]>([initKeys]);
+  const [keys, setKeys] = useState<{ key: string; value: string }[]>([
+    initKeys
+  ]);
 
   useEffect(() => {
     if (vendorData?.data && !isCreate) {
       setValue('name', vendorData?.data.name);
       setValue('url', vendorData?.data.url);
-      
-      if (vendorData?.data.keys !== null && Object.keys(vendorData?.data.keys).length > 0) {
 
-        const keysArray = Object.entries(vendorData?.data.keys).map(([key, value]) => { 
-          const arranged = {
-            key: key ?? '',
-            value: typeof value === 'string' ? value : '',
-          };
-          return arranged;
-        });
+      if (
+        vendorData?.data.keys !== null &&
+        Object.keys(vendorData?.data.keys).length > 0
+      ) {
+        const keysArray = Object.entries(vendorData?.data.keys).map(
+          ([key, value]) => {
+            const arranged = {
+              key: key ?? '',
+              value: typeof value === 'string' ? value : ''
+            };
+            return arranged;
+          }
+        );
         setKeys(keysArray);
-        
       } else {
         setKeys([initKeys]);
       }
@@ -207,7 +212,7 @@ const VendorModal = ({
                 alignItems="center"
                 gap={1}
                 key={index}
-              > 
+              >
                 <TextField
                   key={key.key}
                   label={`Key ${index}`}
