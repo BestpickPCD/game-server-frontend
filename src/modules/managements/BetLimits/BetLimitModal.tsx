@@ -60,7 +60,7 @@ const BetLimitModal = ({
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<FormData>({
+  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       limitType: '',
