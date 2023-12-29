@@ -21,6 +21,7 @@ interface TableProps<D, P> {
   tableFilter?: ReactNode[];
   extraOptions?: ReactNode[];
   totalItems?: number;
+  isShowBulkActions?: boolean;
   onPagination?: (value) => void;
   onUpdate?: (value: string | number) => void;
   onDelete?: (value: string | number) => void;
@@ -45,6 +46,7 @@ const TableComponent = ({
   tableFilter,
   totalItems,
   extraOptions,
+  isShowBulkActions = true,
   onOpenModal,
   tableBody,
   onDelete,
@@ -87,6 +89,7 @@ TableProps<any, PaginationAndSort>): JSX.Element => {
               pagination={pagination}
               tableFilter={tableFilter}
               extraOptions={extraOptions}
+              isShowBulkActions={isShowBulkActions}
             />
           </Grid>
         </Grid>

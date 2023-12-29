@@ -107,6 +107,7 @@ const TransactionManagement = (): JSX.Element => {
         isLoading={isFetching}
         pagination={pagination}
         onPagination={setPagination}
+        isShowBulkActions={false}
         tableFilter={tableFilter({
           dateFrom: {
             value: pagination.dateFrom,
