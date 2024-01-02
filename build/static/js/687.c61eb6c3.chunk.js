@@ -565,24 +565,22 @@
               name: ''.concat(e.slice(0, 1).toUpperCase()).concat(e.slice(1))
             };
           }),
-          b
-            .Ry()
-            .shape({
-              userId: b.Z_().required('Users is required!'),
-              currencyId: b
-                .Rx()
-                .moreThan(0, 'Currency is required!')
-                .typeError('Currency is required!')
-                .required('Currency is required!'),
-              amount: b
-                .Rx()
-                .moreThan(0, 'Amount must be greater than 0')
-                .typeError('Amount must be a number')
-                .required('Amount is required!'),
-              token: b.Z_(),
-              note: b.Z_(),
-              type: b.Z_().required('Type is required!')
-            })),
+          b.Ry().shape({
+            userId: b.Z_().required('Users is required!'),
+            currencyId: b
+              .Rx()
+              .moreThan(0, 'Currency is required!')
+              .typeError('Currency is required!')
+              .required('Currency is required!'),
+            amount: b
+              .Rx()
+              .moreThan(0, 'Amount must be greater than 0')
+              .typeError('Amount must be a number')
+              .required('Amount is required!'),
+            token: b.Z_(),
+            note: b.Z_(),
+            type: b.Z_().required('Type is required!')
+          })),
         w = function (e) {
           var n = e.open,
             t = e.detail,
