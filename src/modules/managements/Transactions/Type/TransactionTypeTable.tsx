@@ -241,17 +241,22 @@ const TransactionTable = (): TransactionTableProps => {
     </FormControl>,
     <>
       {seeRequest && backDefault === false ? (
-        <Container>
-          <Button href={'?type=agent.add_balance'} variant="outlined">
-            <FormattedMessage id="label.See-request" />
-          </Button>
-        </Container>
+        <Button
+          href={'?type=agent.add_balance'}
+          variant="outlined"
+          sx={{ whiteSpace: 'nowrap', height: '53.13px' }}
+        >
+          <FormattedMessage id="label.See-request" />
+        </Button>
       ) : backDefault && seeRequest === true ? (
-        <Container>
-          <Button href={'?type='} variant="outlined" color="secondary">
-            <FormattedMessage id="label.See-all" />
-          </Button>
-        </Container>
+        <Button
+          href={'?type='}
+          variant="outlined"
+          color="secondary"
+          sx={{ whiteSpace: 'nowrap', height: '53.13px' }}
+        >
+          <FormattedMessage id="label.See-all" />
+        </Button>
       ) : null}
     </>
   ];

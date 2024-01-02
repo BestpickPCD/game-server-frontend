@@ -58,7 +58,8 @@ const GameModal = ({
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm<FormData>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       name: '',

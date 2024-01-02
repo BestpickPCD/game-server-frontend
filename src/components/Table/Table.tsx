@@ -52,6 +52,7 @@ import useDebounce from 'src/utils/hooks/useDebounce';
 import { FormattedMessage } from 'react-intl';
 interface TableProps<P> {
   className?: string;
+  isShowBulkActions?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[];
   totalItems: number;
@@ -74,6 +75,7 @@ const Table = ({
   totalItems = 0,
   tableFilter,
   extraOptions,
+  isShowBulkActions,
   tableBody,
   onDelete,
   onUpdate,
@@ -230,7 +232,7 @@ const Table = ({
 
   return (
     <Card>
-      {selectedRows?.length > 0 && (
+      {isShowBulkActions && selectedRows?.length > 0 && (
         <Box flex={1} p={2}>
           <BulkActions />
         </Box>
@@ -280,14 +282,17 @@ const Table = ({
         <MUITable>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllRows}
-                  indeterminate={selectedSomeRows}
-                  onChange={onSelectedAllRows}
-                />
-              </TableCell>
+              {isShowBulkActions && (
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    color="primary"
+                    checked={selectedAllRows}
+                    indeterminate={selectedSomeRows}
+                    onChange={onSelectedAllRows}
+                  />
+                </TableCell>
+              )}
+
               {TableHeaderMemo.map((headerItem, index) => (
                 <TableCell
                   key={uuid()}
@@ -324,16 +329,19 @@ const Table = ({
               const isItemSelected = selectedRows.includes(item.id);
               return (
                 <TableRow hover key={uuid()} selected={isItemSelected}>
-                  <TableCell padding="checkbox" key={uuid()}>
-                    <Checkbox
-                      color="primary"
-                      checked={isItemSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        onSelectedRow(event, item.id)
-                      }
-                      value={isItemSelected}
-                    />
-                  </TableCell>
+                  {isShowBulkActions && (
+                    <TableCell padding="checkbox" key={uuid()}>
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                          onSelectedRow(event, item.id)
+                        }
+                        value={isItemSelected}
+                      />
+                    </TableCell>
+                  )}
+
                   {tableBody(item)?.map((item) => (
                     <TableCell
                       align={item.align}

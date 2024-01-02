@@ -143,6 +143,7 @@ const TransactionManagement = (): JSX.Element => {
               })
           }
         })}
+        isShowBulkActions={false}
       />
       <TransactionModal
         open={visible}

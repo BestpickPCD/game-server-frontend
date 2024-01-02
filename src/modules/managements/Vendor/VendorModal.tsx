@@ -41,7 +41,8 @@ const VendorModal = ({
 }: VendorModalProps): JSX.Element => {
   const initKeys = {
     key: '',
-    value: ''
+    value: '',
+    keys: uuidv4()
   };
 
   const { message, notify } = useToast();
@@ -62,29 +63,22 @@ const VendorModal = ({
     }
   });
 
-  const [keys, setKeys] = useState<{ key: string; value: string }[]>([
-    initKeys
-  ]);
+  const [keys, setKeys] = useState<
+    { key: string; value: string; keys: string }[]
+  >([initKeys]);
 
   useEffect(() => {
     if (vendorData?.data && !isCreate) {
       setValue('name', vendorData?.data.name);
       setValue('url', vendorData?.data.url);
 
-      if (
-        vendorData?.data.keys !== null &&
-        Object.keys(vendorData?.data.keys).length > 0
-      ) {
-        const keysArray = Object.entries(vendorData?.data.keys).map(
-          ([key, value]) => {
-            const arranged = {
-              key: key ?? '',
-              value: typeof value === 'string' ? value : ''
-            };
-            return arranged;
-          }
-        );
-        setKeys(keysArray);
+      if (vendorData?.data.keys !== null && vendorData?.data.keys.length > 0) {
+        const keyArray = vendorData?.data.keys.map((item) => ({
+          key: Object.keys(item)[0] ?? '',
+          value: item[Object.keys(item)[0]] ?? '',
+          keys: uuidv4()
+        }));
+        setKeys(keyArray);
       } else {
         setKeys([initKeys]);
       }
@@ -113,7 +107,7 @@ const VendorModal = ({
         [`${item.key}`]: item.value
       }));
       const response = await createVendor({
-        url: value.rul,
+        url: value.url,
         name: value.name,
         keys: formatKeys
       }).unwrap();
@@ -134,16 +128,20 @@ const VendorModal = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUpdate = async (value: any) => {
     try {
-      const formatKeys = keys?.map((item) => ({
+      const filterKeys = keys.filter(
+        (item) => item.key !== '' && item.value !== ''
+      );
+      const formatKeys = filterKeys?.map((item) => ({
         [`${item.key}`]: item.value
       }));
       const response = await updateVendor({
-        url: value.rul,
+        url: value.url,
         name: value.name,
         keys: formatKeys,
         id: slug
       }).unwrap();
       if (response) {
+        setKeys(filterKeys);
         return notify({ message: response?.message || message.UPDATED });
       }
     } catch (error) {
@@ -154,19 +152,18 @@ const VendorModal = ({
     }
   };
 
-  const onChange = (type: string, key: string, value: string) =>
+  const onChange = (type: string, keys: string, value: string) =>
     setKeys((prev) =>
       prev?.map((item) => {
-        if (item.key === key) {
+        if (item.keys === keys) {
           return type === 'key' ? { ...item, key: value } : { ...item, value };
         }
         return { ...item };
       })
     );
 
-  const Component = useMemo(() => {
-    console.log();
-    return (
+  const Component = useMemo(
+    () => (
       <Box
         width={`${isCreate ? '100%' : '50%'}`}
         padding={isCreate ? 0 : 2}
@@ -214,23 +211,24 @@ const VendorModal = ({
                 key={index}
               >
                 <TextField
-                  key={key.key}
+                  key={`Key-${key.keys}`}
                   label={`Key ${index}`}
                   name={`key-${uuidv4()}`}
                   errors={errors}
                   register={register}
                   sx={{ paddingBottom: 1, flex: 1 }}
                   value={key.key}
-                  onChange={(e) => onChange('key', key.key, e.target.value)}
+                  onChange={(e) => onChange('key', key.keys, e.target.value)}
                 />
                 <TextField
+                  key={`value-${key.keys}`}
                   label={`Value ${index}`}
                   name={`value-${uuidv4()}`}
                   errors={errors}
                   register={register}
                   sx={{ paddingBottom: 1, flex: 2.5 }}
                   value={key.value}
-                  onChange={(e) => onChange('value', key.value, e.target.value)}
+                  onChange={(e) => onChange('value', key.keys, e.target.value)}
                 />
                 <Button
                   onClick={() => onAddKeys(key.key, index)}
@@ -251,8 +249,10 @@ const VendorModal = ({
           )}
         </Box>
       </Box>
-    );
-  }, [keys, errors, register, isCreate, isLoading]);
+    ),
+    [keys, errors, register, isCreate, isLoading]
+  );
+  console.log(keys);
 
   return (
     <>

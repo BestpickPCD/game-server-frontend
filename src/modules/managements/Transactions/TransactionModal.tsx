@@ -48,11 +48,11 @@ const schema = yup.object().shape({
 });
 
 type CreateTransactionBody = {
-  userId: number;
+  userId: string;
   type: string;
   note: string;
   token: string;
-  status: string;
+  status?: string;
   amount: number;
   currencyId: number;
 };
