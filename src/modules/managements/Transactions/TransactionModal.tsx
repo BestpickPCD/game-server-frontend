@@ -23,12 +23,7 @@ const typeOptions = transactionTypes.map((item) => ({
   id: item,
   value: item,
   name: `${item.slice(0, 1).toUpperCase()}${item.slice(1)}`
-}));
-const statusOptions = transactionStatus.map((item) => ({
-  id: item,
-  value: item,
-  name: `${item.slice(0, 1).toUpperCase()}${item.slice(1)}`
-}));
+})).filter((item) => item.id.includes('agent.add_balance'));
 
 const schema = yup.object().shape({
   userId: yup.string().required('Users is required!'),
