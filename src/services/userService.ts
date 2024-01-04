@@ -27,6 +27,12 @@ export const UserService = createApi({
         };
       }
     }),
+    getSumBalances: builder.mutation<any, any>({
+      query: ({ userIds }) => ({
+        url: `user/balances/${userIds}`,
+        method: 'GET'
+      })
+    }),
     getApiKey: builder.mutation<unknown, any>({
       query: (body) => ({
         url: '/get-api-key',
@@ -94,5 +100,6 @@ export const {
   useGetUserByIdMutation,
   useCreateUserMutation,
   useGetDashboardQuery,
-  useGetApiKeyMutation
+  useGetApiKeyMutation,
+  useGetSumBalancesMutation
 } = UserService;

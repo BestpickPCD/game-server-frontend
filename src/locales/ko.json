@@ -29,6 +29,7 @@
   "label.loggedin": "Last Logged In",
   "label.admin": "관리자",
   "label.user": "사용자",
+  "label.users": "사용자",
   "label.username": "사용자 이름",
   "label.permissions": "권한",
   "label.sender.name": "송신자 이름",

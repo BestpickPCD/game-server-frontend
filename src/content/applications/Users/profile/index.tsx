@@ -49,21 +49,37 @@ const ManagementUserProfile = (): JSX.Element => {
   const { data } = useGetDashboardQuery({ refetchOnMountOrArgChange: true });
 
   const user: UserDashboard = {
-    id: data?.userId,
-    name: data?.name,
-    username: data?.username,
-    currency: data?.currency,
-    type: data?.type,
-    accountNumber: data?.accountNumber,
-    callbackUrl: data?.callbackUrl,
-    apiCall: data?.apiCall,
-    apiKey: data?.apiKey,
-    subAgent: data?.subAgent,
-    parentAgentId: data?.parentAgentId,
-    balance: data?.balance,
-    balanceAsAgent: data?.balanceAsAgent,
+    id: data?.userId || '',
+    name: data?.name || '',
+    username: data?.username || '',
+    currency: data?.currency || { name: '', code: '' },
+    type: data?.type || '',
+    accountNumber: data?.accountNumber || '',
+    callbackUrl: data?.callbackUrl || '',
+    apiCall: data?.apiCall || '',
+    subAgent: data?.subAgent || 0,
+    apiKey: data?.apiKey || '',
+    parentAgentId: data?.parentAgentId || 0,
+    balance: data?.balance || {
+      balance: 0,
+      win: 0,
+      bet: 0,
+      deposit: 0,
+      withdraw: 0,
+      'user.add_balance': 0,
+      'agent.add_balance': 0
+    },
+    balanceAsAgent: data?.balanceAsAgent || {
+      balance: 0,
+      win: 0,
+      bet: 0,
+      deposit: 0,
+      withdraw: 0,
+      'user.add_balance': 0,
+      'agent.add_balance': 0
+    },
     avatar: '/static/images/avatars/4.jpg',
-    jobTitle: data?.type,
+    jobTitle: data?.type || '',
     coverImg: '/static/images/placeholders/covers/5.jpg'
   };
 
