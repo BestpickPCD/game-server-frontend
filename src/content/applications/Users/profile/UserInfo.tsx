@@ -98,9 +98,7 @@ const UserInfo = ({ user }: ProfileCoverProps): JSX.Element => {
                       label={<FormattedMessage id="label.parent-agent" />}
                       required
                       autoComplete="off"
-                      value={
-                        data?.Agents?.parentAgent?.username ?? 'No higher agent'
-                      }
+                      value={data?.parent?.username ?? 'No higher agent'}
                     />
                   </TableCell>
                 </TableRow>
