@@ -17,6 +17,7 @@ import { useToast } from 'src/utils/hooks';
 import * as yup from 'yup';
 import AuthLayout from '../AuthLayout';
 import { FormattedMessage } from 'react-intl';
+import { useEffect } from 'react';
 
 const schema = yup.object().shape({
   username: yup
@@ -35,9 +36,16 @@ const schema = yup.object().shape({
 });
 
 const Login = (): JSX.Element => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const tokens = localStorage.getItem('tokens');
+    if (tokens) {
+      navigate('/dashboards');
+    }
+  }, [navigate]);
+
   const [onLogin, { isLoading }] = useLoginMutation();
   const { notify, message } = useToast();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
