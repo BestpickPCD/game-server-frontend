@@ -36,7 +36,6 @@ const schema = yup.object().shape({
 });
 
 const Login = (): JSX.Element => {
-
   const navigate = useNavigate();
   useEffect(() => {
     const tokens = localStorage.getItem('tokens');
@@ -44,7 +43,7 @@ const Login = (): JSX.Element => {
       navigate('/dashboards');
     }
   }, [navigate]);
-  
+
   const [onLogin, { isLoading }] = useLoginMutation();
   const { notify, message } = useToast();
   const {
