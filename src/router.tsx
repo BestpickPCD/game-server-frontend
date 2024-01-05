@@ -23,15 +23,9 @@ const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
 const Messenger = Loader(
   lazy(() => import('src/content/applications/Messenger'))
 );
-const GamesManagement = Loader(
-  lazy(() => import('src/modules/managements/Games'))
-);
 const UsersManagement = Loader(
   lazy(() => import('src/modules/managements/Users'))
 );
-// const UsersManagement_new = Loader(
-//   lazy(() => import('src/modules/david/page/AgentUsers'))
-// );
 const CurrencyManagement = Loader(
   lazy(() => import('src/modules/managements/Currency'))
 );
