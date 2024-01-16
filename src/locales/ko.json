@@ -104,5 +104,10 @@
   "label.for.developers": "개발자용",
   "label.created.at": "생성 일시",
   "label.agent.username": "에이전트 사용자 이름",
-  "label.affiliated.agent": "제휴 에이전트"
+  "label.affiliated.agent": "제휴 에이전트",
+  "title.betting-history": "베팅 기록",
+  "label.games": "게임",
+  "label.bet.amount": "베팅 금액",
+  "label.total.amount": "총 금액",
+  "label.details": "세부사항"
 }

@@ -290,6 +290,19 @@ const SidebarMenu = (): JSX.Element => {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
+                  to="/management/betting-history"
+                  startIcon={<TransferWithinAStationOutlined />}
+                  fullWidth
+                  sx={{ justifyContent: 'flex-start' }}
+                >
+                  <FormattedMessage id="title.betting-history" />
+                </Button>
+              </ListItem>
+              <ListItem>
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
                   to="/management/bet-limit"
                   startIcon={<CreditCardOffIcon />}
                   fullWidth

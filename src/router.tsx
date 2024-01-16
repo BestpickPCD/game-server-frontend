@@ -38,6 +38,9 @@ const TransactionsManagements = Loader(
 const VendorsManagements = Loader(
   lazy(() => import('src/modules/managements/Vendor'))
 );
+const BettingManagements = Loader(
+  lazy(() => import('src/modules/managements/BettingHistory'))
+);
 const VendorsDetails = Loader(
   lazy(() => import('src/modules/managements/Vendor/details'))
 );
@@ -189,6 +192,10 @@ const routes: RouteObject[] = [
             ]
           }
         ]
+      },
+      {
+        path: 'betting-history',
+        element: <PrivateRoute element={BettingManagements} />
       },
       {
         path: 'vendors',
