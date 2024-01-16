@@ -34,6 +34,7 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.3",
     "sass": "^1.64.2",
+    "swagger-ui-react": "^5.11.0",
     "typescript": "4.7.3",
     "yup": "^1.2.0"
   },

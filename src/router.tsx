@@ -32,6 +32,9 @@ const CurrencyManagement = Loader(
 const AgentsManagement = Loader(
   lazy(() => import('src/modules/managements/Agents'))
 );
+const ForDevelopers = Loader(
+  lazy(() => import('src/modules/managements/ForDevelopers'))
+);
 const TransactionsManagements = Loader(
   lazy(() => import('src/modules/managements/Transactions'))
 );
@@ -167,6 +170,10 @@ const routes: RouteObject[] = [
       {
         path: 'agents',
         element: <PrivateRoute element={AgentsManagement} />
+      },
+      {
+        path: 'for-developers',
+        element: <PrivateRoute element={ForDevelopers} />
       },
       {
         path: 'transactions/',

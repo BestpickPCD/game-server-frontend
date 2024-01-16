@@ -1,4 +1,4 @@
-import { CssBaseline } from '@mui/material';
+// import { CssBaseline } from '@mui/material';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { IntlProvider } from 'react-intl';
@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { default as enLanguage } from 'src/locales/en.json';
 import { default as koLanguage } from 'src/locales/ko.json';
 import router from 'src/router';
-import 'src/styles/index.scss';
 import { RootState } from './app/store';
 import ThemeProvider from './theme/ThemeProvider';
 const messages = {
@@ -26,7 +25,7 @@ const App = (): JSX.Element => {
     <IntlProvider locale={lang || 'en'} messages={messages[lang || 'en']}>
       <ThemeProvider>
         <LocalizationProvider dateAdapter={AdapterMoment}>
-          <CssBaseline />
+          {/* <CssBaseline /> */}
           {content}
           <ToastContainer />
         </LocalizationProvider>

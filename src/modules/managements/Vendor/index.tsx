@@ -13,6 +13,7 @@ import {
 } from 'src/services/vendorService';
 import { useModal, useToast } from 'src/utils/hooks';
 import VendorModal from './VendorModal';
+import '../../../styles/index.scss';
 
 const breadcrumbs = [
   {
