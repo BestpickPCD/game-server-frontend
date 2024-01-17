@@ -23,6 +23,7 @@ import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle';
 import CurrencyExchange from '@mui/icons-material/AttachMoney';
 import TransferWithinAStationOutlined from '@mui/icons-material/CurrencyExchangeOutlined';
 import StarTwoTone from '@mui/icons-material/StarTwoTone';
+import LeakAddIcon from '@mui/icons-material/LeakAdd';
 import { useModal } from 'src/utils/hooks';
 import { FormattedMessage } from 'react-intl';
 const MenuWrapper = styled(Box)(
@@ -315,7 +316,7 @@ const SidebarMenu = (): JSX.Element => {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  startIcon={<CreditCardOffIcon />}
+                  startIcon={<LeakAddIcon />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                   to="/management/for-developers"

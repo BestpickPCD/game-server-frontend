@@ -1,17 +1,36 @@
 openapi: 3.0.3
 info:
-  title: Swagger Petstore - OpenAPI 3.0
+  title: APIs For Developers
   description: |-
-    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
-    Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
-    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
-    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
+    This is a page where you can test the basic API. Since it is connected to real data, please test user creation, money payment, etc. carefully.
+    CORS error
+    If an IP does not request “firewall exception” registration, a CORS error may occur.
+    Please connect to the “server IP” where the firewall exception was registered, or test it using the displayed CURL command.
+    “API call allowed IP settings” and “firewall registration” are separate processes.
+    If "방화벽 등록"we "서비스 데스크"are registering/managing it manually, 서비스 데스크please contact us through .
+    After completing the integration and testing, be sure to “Set the IP to allow API calls”
+    After completing the integration, be sure to register the IP that will call the API as a whitelist in “My Page” > “API Call Allowed IP Settings” .
 
-    _If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_
+    Required HTTP headers
+    All HTTP requests related to the use of the API must include the HTTP headers below.
+    error response
+    A normal result returns an HTTP Status Code, 200and an abnormal situation 4xxreturns an HTTP Status Code, and the parameter in which an error occurred and the error are displayed as shown in the example below.
+    All data, including all Korean characters and special characters, UTF-8 without BOMmust be used. In particular, those developing on Windows servers should check this. If EUR-KRyou request using encoding, normal service use may not be possible and may be blocked due to periodic errors.
 
-    Some useful links:
-    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
-    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+    time zone
+    The time zone of this API service uses Coordinated Universal Time (UTC), and you must add +9 hours to view it in Korean time (Asia/Seoul). Conversely, to search, you must set the time to -9 hours in Korean time.
+
+    Developer confirmation information when using AsiaGaming/DreamGaming/WM Live
+    AsiaGaming/DreamGaming/WM Live allows you to "cancel" your bet after placing your chips but before the betting time ends. Therefore, we recommend that you test the contents below before proceeding with opening.
+
+    Precautions when implementing
+    In the case of AsiaGaming/DreamGaming/WM Live, users can cancel before the end of a round, and betting is possible 10 seconds after cancellation.
+
+    Transactions are processed in the following manner, and you must check whether they are processed properly.
+    Type:promo_win
+    It is paid when you win a promotional event held by the game company.
+    You can check information about the event by leaving the transaction ID and game company information at the service desk.
+
   termsOfService: http://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
@@ -71,6 +90,265 @@ paths:
           schema:
             type: string
           example: Bestpick,PG Soft,Evolution
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  code:
+                    type: string
+                  provider:
+                    type: string
+                  type:
+                    type: string
+                  vendor:
+                    type: string
+                  img:
+                    type: string
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  /game-vendors:
+    get:
+      tags:
+        - games and vendors
+      summary: Get game Vendors
+      description: 'Get game Vendors'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  parentVendors:
+                    type: string
+                  selectedVendors:
+                    type: string
+                  directUrl:
+                    type: string
+                  agentVendorId:
+                    type: string
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  url:
+                    type: string
+                  fetchGames:
+                    type: string
+                  keys:
+                    type: string
+                  contract:
+                    type: string
+                  startDate:
+                    type: string
+                  endDate:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  deletedAt:
+                    type: string
+                  img:
+                    type: string
+                  canSee:
+                    type: boolean
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  /transactions:
+    get:
+      tags:
+        - transactions
+      summary: Get transaction list
+      description: 'Get transaction list'
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 1
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 10
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+      security:
+        - api-key:
+            - write:api-key
+            - read:api-key
+  /betting-list:
+    get:
+      tags:
+        - transactions
+      summary: Get transaction list
+      description: 'Get transaction list'
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 1
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: string
+          example: 10
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: dateFrom
+          in: query
+          schema:
+            type: string
+        - name: dateTo
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+      security:
+        - api-key:
+            - write:api-key
+            - read:api-key
+  /game-launch-link:
+    post:
+      tags:
+        - games and vendors
+      summary: To verify users
+      description: To verify users by user_ids
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenGame'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '405':
+          description: Invalid input
+      security:
+        - api-key:
+            - write:api-key
+            - read:api-key
+  /user/create:
+    post:
+      tags:
+        - users
+      summary: To verify users
+      description: To verify users by user_ids
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '405':
+          description: Invalid input
+      security:
+        - api-key:
+            - write:api-key
+            - read:api-key
+  /user/add-balance:
+    post:
+      tags:
+        - users
+      summary: To verify users
+      description: To verify users by user_ids
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddBalance'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '405':
+          description: Invalid input
+      security:
+        - api-key:
+            - write:api-key
+            - read:api-key
+  /balance:
+    post:
+      tags:
+        - users
+      summary: To verify users
+      description: To verify users by user_ids
       requestBody:
         required: true
         content:
@@ -79,18 +357,17 @@ paths:
               $ref: '#/components/schemas/UserId'
       responses:
         '200':
-          description: successful operation
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
+                $ref: '#/components/schemas/Success'
+        '405':
+          description: Invalid input
+      security:
+        - api-key:
+            - write:api-key
+            - read:api-key
 components:
   schemas:
     UserId:
@@ -100,73 +377,98 @@ components:
           type: string
           description: Put in UserId
           example: a4945bf0-616e-4e30-9ed2-4e5ebe43717c
-    Customer:
+    Success:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 100000
+        statusCode:
+          type: number
+        subMessage:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+    OpenGame:
+      type: object
+      properties:
+        gameId:
+          type: string
+          description: game_id from providors
+          example: vsiq90
+        vendor:
+          type: string
+          description: vendor name
+          example: Bestpick
+        directUrl:
+          type: boolean
+          example: true
         username:
           type: string
-          example: fehguy
-        address:
-          type: array
-          xml:
-            name: addresses
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Address'
-      xml:
-        name: customer
-    Address:
+          description: user_id
+          example: a4945bf0-616e-4e30-9ed2-4e5ebe43717c
+    CreateUser:
       type: object
       properties:
-        street:
-          type: string
-          example: 437 Lytton
-        city:
-          type: string
-          example: Palo Alto
-        state:
-          type: string
-          example: CA
-        zip:
-          type: string
-          example: '94301'
-      xml:
-        name: address
-    Category:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
         name:
           type: string
-          example: Dogs
-      xml:
-        name: category
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
+          description: name of player
+          example: player1
         username:
           type: string
-          example: theUser
-        firstName:
+          description: username of player
+          example: player1.player1
+        password:
           type: string
-          example: John
-        lastName:
+          description: password of player
+          example: player1.player1
+        confirmPassword:
           type: string
-          example: James
-        email:
+          description: username of player
+          example: player1.player1
+        type:
           type: string
-          example: john@email.com
+          example: "player"
+        roleId:
+          type: number
+          example: 3
+    AddBalance:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: a4945bf0-616e-4e30-9ed2-4e5ebe43717c
+        type:
+          type: string
+          example: 100
+        roundId:
+          type: string
+          example: 12318-FGAS-009
+        details:
+          type: object
+          properties:
+            gameId:
+              type: string
+              example: FGAS-009
+            gameName:
+              type: string
+              example: Test-A
+            gameRound:
+              type: string
+              example: 12
+            gameType:
+              type: array
+              items:
+                type: string
+              example: ["bacarett", "slot"]
+            amount:
+              type: number
+              example: 100
+            balanceBefore:
+              type: number
+              example: 99900
+            provider:
+              type: string
+              example: Bestpick
         password:
           type: string
           example: '12345'
@@ -180,66 +482,6 @@ components:
           example: 1
       xml:
         name: user
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        name:
-          type: string
-      xml:
-        name: tag
-    Pet:
-      required:
-        - name
-        - photoUrls
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
-        name:
-          type: string
-          example: doggie
-        category:
-          $ref: '#/components/schemas/Category'
-        photoUrls:
-          type: array
-          xml:
-            wrapped: true
-          items:
-            type: string
-            xml:
-              name: photoUrl
-        tags:
-          type: array
-          xml:
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Tag'
-        status:
-          type: string
-          description: pet status in the store
-          enum:
-            - available
-            - pending
-            - sold
-      xml:
-        name: pet
-    ApiResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
-      xml:
-        name: '##default'
   requestBodies:
     Pet:
       description: Pet object that needs to be added to the store
