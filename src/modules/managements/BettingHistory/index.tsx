@@ -85,6 +85,7 @@ const TransactionManagement = (): JSX.Element => {
         breadcrumbs={[]}
         isLoading={isFetching}
         pagination={pagination}
+        isShowBulkActions={false}
         onPagination={setPagination}
         // onOpenModal={onCreate}
         tableFilter={tableFilter({

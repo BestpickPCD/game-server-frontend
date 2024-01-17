@@ -24,6 +24,7 @@ import CurrencyExchange from '@mui/icons-material/AttachMoney';
 import TransferWithinAStationOutlined from '@mui/icons-material/CurrencyExchangeOutlined';
 import StarTwoTone from '@mui/icons-material/StarTwoTone';
 import LeakAddIcon from '@mui/icons-material/LeakAdd';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import { useModal } from 'src/utils/hooks';
 import { FormattedMessage } from 'react-intl';
 const MenuWrapper = styled(Box)(
@@ -259,19 +260,6 @@ const SidebarMenu = (): JSX.Element => {
                   <FormattedMessage id="title.vendors-management" />
                 </Button>
               </ListItem>
-              {/* <ListItem>
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/management/games"
-                  startIcon={<TableChartTwoToneIcon />}
-                  fullWidth
-                  sx={{ justifyContent: 'flex-start' }}
-                >
-                  Games Management
-                </Button>
-              </ListItem> */}
               <ListItem>
                 <Button
                   disableRipple
@@ -291,7 +279,7 @@ const SidebarMenu = (): JSX.Element => {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/management/betting-history"
-                  startIcon={<TransferWithinAStationOutlined />}
+                  startIcon={<AttachMoneyIcon />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
                 >

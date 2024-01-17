@@ -15,6 +15,7 @@
   "label.create": "생성",
   "label.edit": "수정",
   "label.view.edit": "보기/수정",
+  "label.transactions": "Transactions",
   "label.delete": "삭제",
   "label.OK": "확인",
   "label.cancel": "취소",
