@@ -103,5 +103,10 @@
   "label.for.developers": "For Developers",
   "label.created.at": "Created At",
   "label.agent.username": "Agent Username",
-  "label.affiliated.agent": "Affiliated Agent"
+  "label.affiliated.agent": "Affiliated Agent",
+  "title.betting-history": "Betting History",
+  "label.games": "Games",
+  "label.bet.amount": "Bet Amount",
+  "label.total.amount": "Total Amount",
+  "label.details": "Details"
 }
