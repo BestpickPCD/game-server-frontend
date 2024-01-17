@@ -23,7 +23,7 @@ import SupervisedUserCircle from '@mui/icons-material/SupervisedUserCircle';
 import CurrencyExchange from '@mui/icons-material/AttachMoney';
 import TransferWithinAStationOutlined from '@mui/icons-material/CurrencyExchangeOutlined';
 import StarTwoTone from '@mui/icons-material/StarTwoTone';
-import { DeveloperMode as Developer } from '@mui/icons-material';
+import LeakAddIcon from '@mui/icons-material/LeakAdd';
 import { useModal } from 'src/utils/hooks';
 import { FormattedMessage } from 'react-intl';
 const MenuWrapper = styled(Box)(
@@ -326,11 +326,13 @@ const SidebarMenu = (): JSX.Element => {
               </ListItem>
               <ListItem>
                 <Button
+                  disableRipple
+                  component={RouterLink}
                   onClick={closeSidebar}
-                  startIcon={<CreditCardOffIcon />}
+                  startIcon={<LeakAddIcon />}
                   fullWidth
                   sx={{ justifyContent: 'flex-start' }}
-                  href={`${process.env.REACT_APP_API_URL}/api-docs`}
+                  to="/management/for-developers"
                   target="blank"
                 >
                   <FormattedMessage id="label.for.developers" />
