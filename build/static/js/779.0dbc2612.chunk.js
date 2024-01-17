@@ -870,19 +870,17 @@
             ]))
         );
       var w = n(8007);
-      const P = w
-          .Ry()
-          .shape({
-            name: w.Z_().required('Name is required!'),
-            link: w.Z_().required('Link is required!'),
-            type: w.Z_().required('Type is required!'),
-            categoryId: w
-              .Rx()
-              .nullable()
-              .positive('Category must be positive')
-              .min(1)
-              .required('Category is required!')
-          }),
+      const P = w.Ry().shape({
+          name: w.Z_().required('Name is required!'),
+          link: w.Z_().required('Link is required!'),
+          type: w.Z_().required('Type is required!'),
+          categoryId: w
+            .Rx()
+            .nullable()
+            .positive('Category must be positive')
+            .min(1)
+            .required('Category is required!')
+        }),
         I = (e) => {
           let { open: t, detail: n, onClose: i, refetch: r, hide: s } = e;
           const { notify: g, message: m } = (0, o.p)(),

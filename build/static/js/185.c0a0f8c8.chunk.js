@@ -285,12 +285,10 @@
         j = l(7837),
         y = l(2810),
         f = l(8007);
-      const Z = f
-          .Ry()
-          .shape({
-            name: f.Z_().required('Name is required!'),
-            url: f.Z_().required('Url is required!')
-          }),
+      const Z = f.Ry().shape({
+          name: f.Z_().required('Name is required!'),
+          url: f.Z_().required('Url is required!')
+        }),
         b = (e) => {
           let {
             open: n,

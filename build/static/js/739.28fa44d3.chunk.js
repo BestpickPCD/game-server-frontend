@@ -65,13 +65,11 @@
         w = a(8007),
         P = a(9709),
         C = a(184);
-      const N = w
-          .Ry()
-          .shape({
-            oldPassword: w.Z_().required('Password is required'),
-            password: w.Z_().required('Password is required'),
-            confirmPassword: w.Z_().required('Password is required')
-          }),
+      const N = w.Ry().shape({
+          oldPassword: w.Z_().required('Password is required'),
+          password: w.Z_().required('Password is required'),
+          confirmPassword: w.Z_().required('Password is required')
+        }),
         R = () => {
           const [e, { isLoading: r }] = (0, b.a3)(),
             { notify: a, message: s } = (0, y.p)(),
