@@ -148,10 +148,6 @@ const TransactionTable = (): TransactionTableProps => {
       align: 'right',
       title: 'label.details',
       name: 'details'
-    },
-    {
-      align: 'right',
-      title: 'label.actions'
     }
   ];
 
