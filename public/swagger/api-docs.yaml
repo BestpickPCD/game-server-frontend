@@ -427,7 +427,7 @@ components:
           example: player1.player1
         type:
           type: string
-          example: "player"
+          example: 'player'
         roleId:
           type: number
           example: 3
@@ -459,7 +459,7 @@ components:
               type: array
               items:
                 type: string
-              example: ["bacarett", "slot"]
+              example: ['bacarett', 'slot']
             amount:
               type: number
               example: 100
