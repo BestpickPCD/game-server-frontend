@@ -62101,20 +62101,18 @@
                     Z.default.createElement(
                       'div',
                       { className: 'modal-ux-content' },
-                      i
-                        .valueSeq()
-                        .map((i, c) =>
-                          Z.default.createElement(a, {
-                            key: c,
-                            AST: s,
-                            definitions: i,
-                            getComponent: n,
-                            errSelectors: r,
-                            authSelectors: e,
-                            authActions: t,
-                            specSelectors: o
-                          })
-                        )
+                      i.valueSeq().map((i, c) =>
+                        Z.default.createElement(a, {
+                          key: c,
+                          AST: s,
+                          definitions: i,
+                          getComponent: n,
+                          errSelectors: r,
+                          authSelectors: e,
+                          authActions: t,
+                          specSelectors: o
+                        })
+                      )
                     )
                   )
                 )
@@ -70739,19 +70737,17 @@
                               ? Z.default.createElement(
                                   'select',
                                   { 'data-variable': t, onChange: u },
-                                  r
-                                    .get('enum')
-                                    .map((e) =>
-                                      Z.default.createElement(
-                                        'option',
-                                        {
-                                          selected: e === s(n, t),
-                                          key: e,
-                                          value: e
-                                        },
-                                        e
-                                      )
+                                  r.get('enum').map((e) =>
+                                    Z.default.createElement(
+                                      'option',
+                                      {
+                                        selected: e === s(n, t),
+                                        key: e,
+                                        value: e
+                                      },
+                                      e
                                     )
+                                  )
                                 )
                               : Z.default.createElement('input', {
                                   type: 'text',

@@ -84,16 +84,14 @@
         j = n(8007),
         b = n(4349),
         Z = n(80184);
-      const y = j
-          .Ry()
-          .shape({
-            name: j.Z_().required('Name is required!'),
-            roleId: j.Rx().required('Role is required!'),
-            rate: j.Rx().required('Rate is required!'),
-            currencyId: j.Rx().required('Currency is required!'),
-            username: j.Z_().required('Username is required!'),
-            parentAgentId: j.Z_().nullable()
-          }),
+      const y = j.Ry().shape({
+          name: j.Z_().required('Name is required!'),
+          roleId: j.Rx().required('Role is required!'),
+          rate: j.Rx().required('Rate is required!'),
+          currencyId: j.Rx().required('Currency is required!'),
+          username: j.Z_().required('Username is required!'),
+          parentAgentId: j.Z_().nullable()
+        }),
         C = (e) => {
           var t, n, a;
           let { open: s, detail: o, onClose: c, refetch: j, hide: C } = e;

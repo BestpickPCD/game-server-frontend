@@ -403,12 +403,10 @@
         Z = a(87837),
         f = a(92810),
         b = a(8007);
-      const j = b
-          .Ry()
-          .shape({
-            name: b.Z_().required('Name is required!'),
-            url: b.Z_().required('Url is required!')
-          }),
+      const j = b.Ry().shape({
+          name: b.Z_().required('Name is required!'),
+          url: b.Z_().required('Url is required!')
+        }),
         y = (e) => {
           let {
             open: t,

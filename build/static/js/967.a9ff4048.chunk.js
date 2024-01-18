@@ -803,17 +803,15 @@
         b = i(17945),
         y = i(8007),
         f = i(80184);
-      const w = y
-          .Ry()
-          .shape({
-            limitType: y.Z_().required('limitType is required!'),
-            limitTypeId: y.Z_().required('limitTypeId is required!'),
-            limit: y
-              .Rx()
-              .nullable()
-              .positive('limit must be positive')
-              .required('limit is required!')
-          }),
+      const w = y.Ry().shape({
+          limitType: y.Z_().required('limitType is required!'),
+          limitTypeId: y.Z_().required('limitTypeId is required!'),
+          limit: y
+            .Rx()
+            .nullable()
+            .positive('limit must be positive')
+            .required('limit is required!')
+        }),
         C = (e) => {
           let { open: t, detail: i, onClose: n, refetch: r, hide: l } = e;
           const { notify: s, message: c } = (0, u.p)(),
