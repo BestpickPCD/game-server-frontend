@@ -294,7 +294,11 @@ const SidebarMenu = (): JSX.Element => {
                   to="/management/bet-limit"
                   startIcon={<CreditCardOffIcon />}
                   fullWidth
-                  sx={{ justifyContent: 'flex-start' }}
+                  disabled
+                  sx={{ 
+                    justifyContent: 'flex-start',
+                    opacity:0.5
+                  }}
                 >
                   <FormattedMessage id="title.bet-set" />
                 </Button>
@@ -307,7 +311,11 @@ const SidebarMenu = (): JSX.Element => {
                   to="/management/roles"
                   startIcon={<StarTwoTone />}
                   fullWidth
-                  sx={{ justifyContent: 'flex-start' }}
+                  disabled
+                  sx={{ 
+                    justifyContent: 'flex-start',
+                    opacity:0.5
+                  }}
                 >
                   <FormattedMessage id="title.roles-management" />
                 </Button>
