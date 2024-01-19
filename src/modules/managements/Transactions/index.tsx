@@ -66,7 +66,7 @@ const TransactionManagement = (): JSX.Element => {
       status: pagination.status,
       type: pagination.type
     },
-    { refetchOnMountOrArgChange: true }
+    { refetchOnMountOrArgChange: true, pollingInterval: 5000 }
   );
 
   useEffect(() => {
