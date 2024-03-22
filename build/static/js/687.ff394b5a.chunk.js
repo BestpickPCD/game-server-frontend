@@ -1189,24 +1189,22 @@
             name: ''.concat(e.slice(0, 1).toUpperCase()).concat(e.slice(1))
           }))
           .filter((e) => e.id.includes('agent.add_balance')),
-        b = j
-          .Ry()
-          .shape({
-            userId: j.Z_().required('Users is required!'),
-            currencyId: j
-              .Rx()
-              .moreThan(0, 'Currency is required!')
-              .typeError('Currency is required!')
-              .required('Currency is required!'),
-            amount: j
-              .Rx()
-              .moreThan(0, 'Amount must be greater than 0')
-              .typeError('Amount must be a number')
-              .required('Amount is required!'),
-            token: j.Z_(),
-            note: j.Z_(),
-            type: j.Z_().required('Type is required!')
-          }),
+        b = j.Ry().shape({
+          userId: j.Z_().required('Users is required!'),
+          currencyId: j
+            .Rx()
+            .moreThan(0, 'Currency is required!')
+            .typeError('Currency is required!')
+            .required('Currency is required!'),
+          amount: j
+            .Rx()
+            .moreThan(0, 'Amount must be greater than 0')
+            .typeError('Amount must be a number')
+            .required('Amount is required!'),
+          token: j.Z_(),
+          note: j.Z_(),
+          type: j.Z_().required('Type is required!')
+        }),
         y = (e) => {
           let { open: n, detail: t, onClose: r, refetch: l } = e;
           const { notify: m, message: j } = (0, o.p)(),
