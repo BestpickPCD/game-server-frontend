@@ -23,18 +23,16 @@ import { Provider } from 'react-redux';
 //   document.getElementById('root')
 // );
 
-
-
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(
-    <Provider store={store}>
-      <HelmetProvider>
-        <SidebarProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </SidebarProvider>
-      </HelmetProvider>
-    </Provider>
+  <Provider store={store}>
+    <HelmetProvider>
+      <SidebarProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </SidebarProvider>
+    </HelmetProvider>
+  </Provider>
 );
