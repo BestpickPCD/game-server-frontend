@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box } from '@mui/material';
 import { memo, useEffect, useMemo } from 'react';

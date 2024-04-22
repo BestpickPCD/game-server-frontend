@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { SelectProps } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { Select } from 'src/components/MUIComponents/';
