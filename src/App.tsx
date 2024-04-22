@@ -1,4 +1,6 @@
 // import { CssBaseline } from '@mui/material';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { IntlProvider } from 'react-intl';

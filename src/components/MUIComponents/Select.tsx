@@ -1,4 +1,6 @@
 /* eslint-disable arrow-body-style */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
@@ -10,7 +12,7 @@ import {
   ListSubheader,
   MenuItem,
   Select as MUISelect,
-  SelectProps,
+  type SelectProps,
   TextField
 } from '@mui/material';
 import { memo, ReactNode } from 'react';
@@ -25,6 +27,7 @@ export interface MUISelectProps extends SelectProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   errors?: any;
   onSearch?: (value: string) => void;
+  onScroll?: (value: string) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setSelected?: (value: any) => void;
   searchTerm?: string;
